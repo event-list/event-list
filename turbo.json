@@ -10,6 +10,13 @@
     },
     "dev": {
       "cache": false
+    },
+    "relay": {
+      "cache": false
+    },
+    "relay:web": {
+      "cache": false,
+      "dependsOn": ["relay"]
     }
   }
 }

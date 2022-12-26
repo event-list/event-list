@@ -9,17 +9,50 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "web": "turbo run dev --scope=@event-list/web",
+    "server": "turbo run dev --scope=@event-list/server",
+    "relay": "node ./scripts/generateArtifactDirectory.js && turbo run relay:web --parallel",
+    "relay:web": "node ./scripts/generateArtifactDirectory.js && yarn workspace @event-list/web relay",
+    "schema": "yarn es ./scripts/updateSchema.ts",
+    "es": "node -r esbuild-register",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
+  "dependencies": {
+    "@fontsource/roboto": "^4.5.8",
+    "babel-jest": "^29.2.2",
+    "graphql-fields": "^2.0.3",
+    "graphql-relay": "^0.10.0",
+    "jest": "^29.3.1",
+    "jest-junit": "^15.0.0",
+    "mongodb": "^4.13.0",
+    "mongodb-memory-server-global": "^8.10.2",
+    "supertest": "^6.3.3",
+    "util": "^0.12.5"
+  },
   "devDependencies": {
-    "eslint-config-custom": "*",
-    "prettier": "latest",
-    "turbo": "latest"
+    "@next/eslint-plugin-next": "^13.1.0",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "esbuild-jest": "^0.5.0",
+    "eslint": "^8.30.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.0",
+    "jest-environment-node": "^29.3.1",
+    "jest-fetch-mock": "^3.0.3",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1",
+    "swagger-jsdoc": "^6.2.5",
+    "turbo": "latest",
+    "uuid": "^9.0.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "engines": {
+    "npm": ">=7.0.0",
     "node": ">=14.0.0"
-  },
-  "dependencies": {},
-  "packageManager": "yarn@1.22.19"
+  }
 }

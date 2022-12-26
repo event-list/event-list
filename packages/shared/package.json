@@ -1,0 +1,9 @@
+{
+  "name": "@event-list/shared",
+  "version": "0.0.0",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv-safe": "^8.2.0"
+  }
+}

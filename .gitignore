@@ -31,3 +31,9 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+__generated__
+
+.env
+
+.jest-cache
