@@ -27,6 +27,11 @@ const theme = extendTheme({
         fontFamily: 'Sifonn',
       },
     },
+    Input: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+      },
+    },
   },
   initialColorMode: 'dark',
   useSystemColorMode: false,

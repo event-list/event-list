@@ -1,4 +1,4 @@
-import { Button as ChakraButton, ButtonProps as ChakraButtonProps, Spinner } from '@chakra-ui/react'
+import { Button as ChakraButton, ButtonProps as ChakraButtonProps, Spinner, Text } from '@chakra-ui/react'
 
 type ButtonProps = {
   text: string
@@ -18,7 +18,7 @@ const Button = (props: ButtonProps) => {
       }}
       {...restProps}
     >
-      {isSubmitting ? <Spinner /> : text}
+      {isSubmitting ? <Spinner /> : <Text>{text}</Text>}
     </ChakraButton>
   )
 }

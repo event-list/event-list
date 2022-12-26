@@ -102,7 +102,7 @@ export default function Event(props: { fragmentKey: EventFragment_event$key }) {
           >
             {event.description}
           </Text>
-          <Box>
+          <Box> 
             <TextDecorated
               fontSize={{ base: '16px', lg: '18px' }}
               fontWeight={'semibold'}

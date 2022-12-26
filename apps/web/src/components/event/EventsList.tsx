@@ -101,7 +101,6 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
                     </Text>
                     <TextDecorated
                       fontSize={'2xl'}
-                      fontFamily={'body'}
                       fontWeight={'bold'}
                     >
                       {event?.node?.title}

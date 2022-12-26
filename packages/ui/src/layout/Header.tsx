@@ -46,7 +46,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Share your Event', icon: FiTrendingUp, href: '/share-your-event' },
 ];
 
-type Props = { children: React.ReactNode, user: any, onLogout: () => void };
+type Props = { children: React.ReactNode; user: any; onLogout: () => void };
 
 export default function Header(props: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -87,16 +87,6 @@ export default function Header(props: Props) {
           aria-label="open menu"
           icon={<FiMenu />}
         />
-
-        <Text
-          display={{ base: 'flex', md: 'none' }}
-          fontSize="2xl"
-          fontFamily="monospace"
-          fontWeight="bold"
-        >
-          Logo
-        </Text>
-
         <HStack spacing={{ base: '0', md: '6' }}>
           {/* <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} /> */}
           <Flex alignItems={'center'}>
@@ -129,7 +119,7 @@ export default function Header(props: Props) {
                     onClick={props.onLogout}
                     icon={<Icon w={5} h={6} as={FiLogOut} />}
                   >
-                    Sign out
+                    <Text>Sign out</Text>
                   </MenuItem>
                 </MenuList>
               </Menu>
@@ -143,14 +133,14 @@ export default function Header(props: Props) {
                   href={'/sign-in'}
                   rightIcon={<FiLogIn />}
                 >
-                  Sign In
+                  <Text>Sign In</Text>
                 </Button>
               </>
             )}
           </Flex>
         </HStack>
       </Flex>
-      <Box ml={{ base: 0, md: 60 }} p="4" minH={'100vh'} >
+      <Box ml={{ base: 0, md: 60 }} p="4" minH={'100vh'}>
         {props.children}
       </Box>
     </Box>
@@ -210,7 +200,6 @@ const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bgGradient: 'linear(to-r, red.500,pink.500)',
           color: 'white',
         }}
         {...rest}
