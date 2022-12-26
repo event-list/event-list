@@ -1,10 +1,35 @@
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react';
 
-const config: ThemeConfig = {
+const theme = extendTheme({
+  components: {
+    Text: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+      },
+    },
+    Link: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+      },
+    },
+    ListItem: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+      },
+    },
+    List: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+      },
+    },
+    StatNumber: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+      },
+    },
+  },
   initialColorMode: 'dark',
-  useSystemColorMode: false
-}
+  useSystemColorMode: false,
+});
 
-const theme = extendTheme({ config })
-
-export default theme
+export default theme;

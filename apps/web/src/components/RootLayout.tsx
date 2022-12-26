@@ -34,7 +34,7 @@ export default function RootLayout(props: LayoutProps) {
     <Layout title={props.title}>
       <Header user={user} onLogout={logout}>
         <Container maxW="full" overflow="hidden">
-          <Box as='main'>{props.children}</Box>
+          <Box as='main' mb={'5rem'}>{props.children}</Box>
           <Footer />
         </Container>
       </Header>

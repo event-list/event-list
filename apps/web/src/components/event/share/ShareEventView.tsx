@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Flex,
   FormControl,
   FormLabel,
@@ -28,6 +27,7 @@ import {
   TextDecorated,
   TextField,
   TextMask,
+  Button,
 } from '@event-list/ui';
 
 type ShareEventParams = {
@@ -139,7 +139,11 @@ export default function ShareEventView() {
       >
         <Stack spacing={8} mx={'auto'} maxW={'6xl'} px={6}>
           <Stack align={'center'}>
-            <TextDecorated fontSize={'6xl'} fontWeight={'bold'} textAlign={'center'}>
+            <TextDecorated
+              fontSize={'6xl'}
+              fontWeight={'bold'}
+              textAlign={'center'}
+            >
               Share your Event
             </TextDecorated>
             <Text fontSize={'lg'} color={'gray.500'}>
@@ -155,7 +159,7 @@ export default function ShareEventView() {
                       name="title"
                       label="Title: "
                       placeholder="Event name"
-                      labelFontSize='xl'
+                      labelFontSize="xl"
                       decorated={true}
                     />
                   </FormControl>
@@ -166,7 +170,7 @@ export default function ShareEventView() {
                       name="label"
                       label="Label: "
                       placeholder="Organizer label"
-                      labelFontSize='xl'
+                      labelFontSize="xl"
                       decorated={true}
                     />
                   </FormControl>
@@ -179,7 +183,7 @@ export default function ShareEventView() {
                       name="price"
                       label="Price: "
                       placeholder="00,00"
-                      labelFontSize='xl'
+                      labelFontSize="xl"
                       decorated={true}
                     />
                   </FormControl>
@@ -188,7 +192,7 @@ export default function ShareEventView() {
                   <FormControl id="date" isRequired>
                     <TextMask
                       type="text"
-                      labelFontSize='xl'
+                      labelFontSize="xl"
                       decorated={true}
                       label="Date: "
                       name="date"
@@ -214,7 +218,7 @@ export default function ShareEventView() {
                   <FormControl id="eventOpenAt" isRequired>
                     <TextMask
                       type="text"
-                      labelFontSize='xl'
+                      labelFontSize="xl"
                       decorated={true}
                       name="eventOpenAt"
                       label="Event Open At: "
@@ -232,7 +236,7 @@ export default function ShareEventView() {
                       label="Event End At: "
                       placeholder="04:00"
                       mask={[/[0-2]/, /[0-4]/, ':', /[0-5]/, /[0-9]/]}
-                      labelFontSize='xl'
+                      labelFontSize="xl"
                     />
                   </FormControl>
                 </Box>
@@ -247,7 +251,7 @@ export default function ShareEventView() {
                       label="List Available At: "
                       placeholder="23:00"
                       mask={[/[0-2]/, /[0-4]/, ':', /[0-5]/, /[0-9]/]}
-                      labelFontSize='xl'
+                      labelFontSize="xl"
                     />
                   </FormControl>
                 </Box>
@@ -260,7 +264,7 @@ export default function ShareEventView() {
                       label="Classification: "
                       placeholder="18+"
                       mask="99"
-                      labelFontSize='xl'
+                      labelFontSize="xl"
                     />
                   </FormControl>
                 </Box>
@@ -270,13 +274,17 @@ export default function ShareEventView() {
                   name="description"
                   label="Description: "
                   placeholder="Describe your event"
-                  labelFontSize='xl'
+                  labelFontSize="xl"
                 />
               </FormControl>
               <HStack>
                 <Box>
                   <FormControl id="flyer" isRequired>
-                    <InputFile label="Flyer: " labelFontSize='xl' onChange={handleFileChange} />
+                    <InputFile
+                      label="Flyer: "
+                      labelFontSize="xl"
+                      onChange={handleFileChange}
+                    />
                   </FormControl>
                 </Box>
                 {imageUrl && (
@@ -296,16 +304,9 @@ export default function ShareEventView() {
                   type="submit"
                   onClick={() => handleSubmit()}
                   disabled={isDisabled}
-                  bgGradient="linear(to-r, red.400,pink.400)"
-                  color={'white'}
-                  _hover={{
-                    bgGradient: 'linear(to-r, red.500,pink.500)',
-                    boxShadow: 'xl',
-                    transitionDuration: '2ms',
-                  }}
-                >
-                  Send Event
-                </Button>
+                  text={'Send Event'}
+                  isSubmitting={false}
+                />
               </Stack>
             </Stack>
           </Box>
