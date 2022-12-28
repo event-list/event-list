@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken'
 import { ParameterizedContext } from 'koa'
-
+import type { Context, Next } from 'koa';
 import {config} from './config'
-import { UserDocument, UserModel } from './modules/user/UserModel'
+import { UserDocument, UserModel } from '@event-list/modules'
+import { getDataloaders } from './loader/loaderRegistry'
 
 const AUTH_COOKIE_NAME = 'jwt'
 
@@ -25,6 +26,16 @@ async function getUser(ctx: ParameterizedContext) {
     return { user: null }
   }
 }
+
+export const getAdminAuth = async (ctx: Context, next: Next) => {
+  const dataloaders = getDataloaders();
+  const { user } = await getUser(ctx);
+
+  ctx.dataloaders = dataloaders;
+  ctx.user = user;
+
+  await next();
+};
 
 function generateToken(user: UserDocument) {
   return jwt.sign({ id: user._id }, config.JWT_SECRET)

@@ -203,7 +203,7 @@ export default function SignUpView() {
                       />
                     </FormControl>
                     <FormControl id="gender" isRequired>
-                      <TextDecorated fontWeight={'medium'}>Gender: </TextDecorated>
+                      <FormLabel as={Text}>Gender: </FormLabel>
                       <RadioGroup
                         onChange={setGender}
                         value={gender}

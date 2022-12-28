@@ -1,7 +1,6 @@
-import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql'
-import { connectionDefinitions, globalIdField } from 'graphql-relay'
-import { registerTypeLoader } from '../node/typeRegister'
-import { load } from './UserLoader'
+import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
+import { connectionDefinitions, globalIdField } from 'graphql-relay';
+import { UserLoader, registerTypeLoader } from '@event-list/modules';
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -10,24 +9,25 @@ const UserType = new GraphQLObjectType({
     id: globalIdField('User'),
     email: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: user => user.email
+      resolve: (user) => user.email,
     },
     name: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: user => user.name
+      resolve: (user) => user.name,
     },
     gender: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: user => user.gender
-    }
-  })
-})
+      resolve: (user) => user.gender,
+    },
+  }),
+});
 
-const { connectionType: UserConnection, edgeType: UserEdge } = connectionDefinitions({
-  name: 'User',
-  nodeType: UserType
-})
+const { connectionType: UserConnection, edgeType: UserEdge } =
+  connectionDefinitions({
+    name: 'User',
+    nodeType: UserType,
+  });
 
-registerTypeLoader(UserType, load)
+registerTypeLoader(UserType, UserLoader.load);
 
-export { UserConnection, UserEdge, UserType }
+export { UserConnection, UserEdge, UserType };

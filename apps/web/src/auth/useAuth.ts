@@ -8,7 +8,10 @@ const useAuthFragment = graphql`
 `;
 
 export const useAuth = (fragmentKey: useAuthFragment_user$key) => {
-  const user = useFragment<useAuthFragment_user$key>(useAuthFragment, fragmentKey);
+  const user = useFragment<useAuthFragment_user$key>(
+    useAuthFragment,
+    fragmentKey
+  );
 
   return [user];
 };

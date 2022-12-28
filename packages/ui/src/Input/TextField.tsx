@@ -62,8 +62,8 @@ const TextField = (props: TextFieldProps) => {
             {label}
           </TextDecorated>
         ) : (
-          <FormLabel color={'gray.700'}>{label}</FormLabel>
-        ))}{' '}
+          <FormLabel as={Text}>{label}</FormLabel>
+        ))}
       <Input
         mt="0.5rem"
         name={name}

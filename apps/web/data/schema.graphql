@@ -11,7 +11,7 @@ type Query {
     """The IDs of objects"""
     ids: [ID!]!
   ): [Node]!
-  user: User
+  me: User
   events(after: String, first: Int, before: String, last: Int): EventConnection!
 }
 
@@ -90,20 +90,14 @@ type Mutation {
 }
 
 type CreateEventMutationPayload {
-  eventEdge: EventEdge
+  events(after: String, first: Int, before: String, last: Int): EventConnection!
 
   """Default success field resolver."""
   success: String
-  error: FieldError
-  clientMutationId: String
-}
 
-"""
-An object containing an error message and the field the error belongs to
-"""
-type FieldError {
-  field: String
-  message: String
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
 }
 
 input CreateEventMutationInput {
@@ -121,12 +115,13 @@ input CreateEventMutationInput {
 }
 
 type UserSignUpMutationPayload {
-  user: User
-  token: String
+  me: User
 
   """Default success field resolver."""
   success: String
-  error: FieldError
+
+  """Default error field resolver."""
+  error: String
   clientMutationId: String
 }
 
@@ -139,11 +134,13 @@ input UserSignUpMutationInput {
 }
 
 type UserSignInMutationPayload {
-  user: User
+  me: User
 
   """Default success field resolver."""
   success: String
-  error: FieldError
+
+  """Default error field resolver."""
+  error: String
   clientMutationId: String
 }
 

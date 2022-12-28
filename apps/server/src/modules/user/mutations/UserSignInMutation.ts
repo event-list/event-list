@@ -1,61 +1,80 @@
-import { successField } from '@entria/graphql-mongo-helpers'
-import { GraphQLNonNull, GraphQLString } from 'graphql'
-import { mutationWithClientMutationId } from 'graphql-relay'
+import { errorField, successField } from '@entria/graphql-mongo-helpers';
+import { GraphQLNonNull, GraphQLString } from 'graphql';
+import { mutationWithClientMutationId } from 'graphql-relay';
 
-import { setAuthCookie } from '../../../auth'
-import { GraphQLContext } from '../../../graphql/context'
-import { fieldError } from '../../../utils/fieldError'
-import { FieldErrorField } from '../../field-error/FieldErrorField'
-import * as UserLoader from '../UserLoader'
-import { UserModel } from '../UserModel'
-import { UserType } from '../UserType'
+import { setAuthCookie } from '../../../auth';
+import { UserType } from '../UserType';
 
-interface UserSignInMutationArgs {
-  email: string
-  password: string
-}
+import { UserLoader, UserModel } from '@event-list/modules';
+import { meField } from '../UserFields';
+
+type UserSignInMutationArgs = {
+  email: string;
+  password: string;
+};
 
 const UserSignInMutation = mutationWithClientMutationId({
   name: 'UserSignInMutation',
   inputFields: {
     email: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
     },
     password: {
-      type: new GraphQLNonNull(GraphQLString)
-    }
+      type: new GraphQLNonNull(GraphQLString),
+    },
   },
-  mutateAndGetPayload: async (args: UserSignInMutationArgs, ctx: GraphQLContext) => {
+  mutateAndGetPayload: async (args: UserSignInMutationArgs, context) => {
+    const { t } = context;
+
     const { email, password } = {
       password: args.password.trim(),
-      email: args.email.trim().toLowerCase()
+      email: args.email.trim().toLowerCase(),
+    };
+
+    if (!email || !password) {
+      return {
+        user: null,
+        success: null,
+        error: t('Fill all the fields'),
+      };
     }
 
-    const user = await UserModel.findOne({ email })
+    const user = await UserModel.findOne({
+      email,
+      removedAt: null,
+    });
 
-    if (!user) return fieldError('email', 'User not found')
+    if (!user) {
+      return {
+        user: null,
+        success: null,
+        error: t('User not found'),
+      };
+    }
 
-    const isPasswordCorrect = user.authenticate(password)
+    const passwordMatch = user.authenticate(password);
 
-    if (!isPasswordCorrect) return fieldError('password', 'Wrong password')
+    if (!passwordMatch) {
+      return {
+        user: null,
+        success: null,
+        error: t('Email or password wrong'),
+      };
+    }
 
-    setAuthCookie(ctx.ctx, user)
+    setAuthCookie(context.ctx, user!);
 
     return {
-      id: user._id,
-      success: 'User successfully signed in'
-    }
+      user: user._id,
+      success: t('Logged in successfully'),
+      error: null,
+    };
   },
   outputFields: {
-    user: {
-      type: UserType,
-      resolve: ({ id }, _, ctx) => {
-        return UserLoader.load(ctx, id)
-      }
-    },
+    ...meField(),
     ...successField,
-    ...FieldErrorField
-  }
-})
+    ...errorField,
+  },
+});
 
-export { UserSignInMutation }
+export { UserSignInMutation };

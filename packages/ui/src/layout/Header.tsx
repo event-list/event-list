@@ -21,6 +21,8 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
+  Button as ButtonChakra,
+  useColorMode,
 } from '@chakra-ui/react';
 import { ReactText } from 'react';
 import { IconType } from 'react-icons';
@@ -33,6 +35,7 @@ import {
   FiTrendingUp,
   FiUser,
 } from 'react-icons/fi';
+import { HiMoon, HiSun } from 'react-icons/hi';
 import { Logo } from '@event-list/assets';
 
 type LinkItemProps = {
@@ -49,10 +52,11 @@ const LinkItems: Array<LinkItemProps> = [
 type Props = { children: React.ReactNode; user: any; onLogout: () => void };
 
 export default function Header(props: Props) {
+  const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="100vh">
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -75,7 +79,7 @@ export default function Header(props: Props) {
         px={{ base: 4, md: 4 }}
         height="20"
         alignItems="center"
-        bg={useColorModeValue('white', 'gray.900')}
+        bg={useColorModeValue('gray.50', 'gray.900')}
         borderBottomWidth="1px"
         borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
         justifyContent={{ base: 'space-between', md: 'flex-end' }}
@@ -92,6 +96,9 @@ export default function Header(props: Props) {
           <Flex alignItems={'center'}>
             {props.user?.name ? (
               <Menu>
+                <ButtonChakra onClick={toggleColorMode} mr={'1rem'}>
+                  {colorMode === 'light' ? <HiMoon /> : <HiSun />}
+                </ButtonChakra>
                 <MenuButton
                   py={2}
                   transition="all 0.3s"
@@ -112,7 +119,8 @@ export default function Header(props: Props) {
                     </Box>
                   </HStack>
                 </MenuButton>
-                <MenuList zIndex={10} bg="gray.900" borderColor="gray.700">
+                {/* eslint-disable-next-line react-hooks/rules-of-hooks */}
+                <MenuList zIndex={10} bgColor={useColorModeValue('gray.50', 'gray.900')} borderColor="gray.700">
                   {/* <MenuItem>Profile</MenuItem> */}
                   {/* <MenuDivider /> */}
                   <MenuItem
@@ -154,7 +162,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     <>
       <Box
         transition="3s ease"
-        bg={useColorModeValue('white', 'gray.900')}
+        bg={useColorModeValue('gray.50', 'gray.900')}
         borderRight="1px"
         borderRightColor={useColorModeValue('gray.200', 'gray.700')}
         w={{ base: 'full', md: 60 }}
@@ -199,18 +207,12 @@ const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
         borderRadius="lg"
         role="group"
         cursor="pointer"
-        _hover={{
-          color: 'white',
-        }}
         {...rest}
       >
         {icon && (
           <Icon
             mr="4"
             fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
             as={icon}
           />
         )}

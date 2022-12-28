@@ -1,12 +1,7 @@
-import { connectionArgs } from '@entria/graphql-mongo-helpers'
-import { GraphQLNonNull, GraphQLObjectType } from 'graphql'
-import { GraphQLContext } from '../graphql/context'
-
-import * as EventLoader from '../modules/event/EventLoader'
-import { EventConnection } from '../modules/event/EventType'
-import { nodeField, nodesField } from '../modules/node/typeRegister'
-import * as UserLoader from '../modules/user/UserLoader'
-import { UserType } from '../modules/user/UserType'
+import { GraphQLObjectType, GraphQLString } from 'graphql';
+import { nodeField, nodesField } from '@event-list/modules';
+import { meField } from '../modules/user/UserFields';
+import { eventField } from '../modules/event/EventFields';
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',
@@ -14,16 +9,9 @@ const QueryType = new GraphQLObjectType({
   fields: () => ({
     node: nodeField,
     nodes: nodesField,
-    user: {
-      type: UserType,
-      resolve: async (_, args, ctx: GraphQLContext) => await UserLoader.load(ctx, ctx.user?.id)
-    },
-    events: {
-      type: new GraphQLNonNull(EventConnection),
-      args: { ...connectionArgs },
-      resolve: async (_, args, ctx: GraphQLContext) => await EventLoader.loadAll(ctx, args)
-    }
-  })
-})
+    ...meField(),
+    ...eventField(),
+  }),
+});
 
-export { QueryType }
+export { QueryType };

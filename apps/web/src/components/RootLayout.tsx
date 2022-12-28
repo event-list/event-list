@@ -9,7 +9,7 @@ import { Box, Container } from '@chakra-ui/react';
 
 const LayoutQuery = graphql`
   query RootLayoutQuery {
-    user {
+    me {
       ...useAuthFragment_user
     }
   }
@@ -22,7 +22,7 @@ type LayoutProps = {
 };
 
 export default function RootLayout(props: LayoutProps) {
-  const { user: userPreloaded } = usePreloadedQuery(
+  const { me: userPreloaded } = usePreloadedQuery(
     LayoutQuery,
     props.preloadedQuery
   );
@@ -34,7 +34,9 @@ export default function RootLayout(props: LayoutProps) {
     <Layout title={props.title}>
       <Header user={user} onLogout={logout}>
         <Container maxW="full" overflow="hidden">
-          <Box as='main' mb={'5rem'}>{props.children}</Box>
+          <Box as="main" mb={'5rem'}>
+            {props.children}
+          </Box>
           <Footer />
         </Container>
       </Header>

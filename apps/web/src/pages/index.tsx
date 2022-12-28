@@ -29,7 +29,13 @@ export async function getServerSideProps(ctx) {
     props: {
       preloadedQueries: {
         RootLayout: await getPreloadedQuery(RootLayoutGenerated, {}, ctx),
-        EventsViewQuery: await getPreloadedQuery(EventsViewQuery, {}, ctx),
+        EventsViewQuery: await getPreloadedQuery(
+          EventsViewQuery,
+          {
+            published: true,
+          },
+          ctx
+        ),
       },
     },
   };

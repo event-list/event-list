@@ -1,31 +1,30 @@
-import { graphql } from 'relay-runtime'
+import { graphql } from 'relay-runtime';
 
 export const ShareEvent = graphql`
   mutation ShareEventMutation($input: CreateEventMutationInput!) {
     CreateEventMutation(input: $input) {
-      eventEdge {
-        node {
-          id
-          title
-          description
-          slug
-          flyer
-          label
-          published
-          date
-          eventOpenAt
-          eventEndAt
-          listAvailableAt
-          classification
-          price
+      events {
+        edges {
+          node {
+            id
+            title
+            description
+            slug
+            flyer
+            label
+            published
+            date
+            eventOpenAt
+            eventEndAt
+            listAvailableAt
+            classification
+            price
+          }
+          cursor
         }
-        cursor
       }
       success
-      error {
-        field
-        message
-      }
+      error
     }
   }
-`
+`;
