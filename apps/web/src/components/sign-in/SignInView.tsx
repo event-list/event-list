@@ -64,7 +64,7 @@ export default function SignInView() {
         }
 
         if (UserSignInMutation?.error) {
-          enqueueSnackbar(UserSignInMutation.error.message);
+          enqueueSnackbar(UserSignInMutation.error);
           return;
         }
 

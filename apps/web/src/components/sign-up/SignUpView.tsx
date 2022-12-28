@@ -75,7 +75,7 @@ export default function SignUpView() {
         }
 
         if (UserSignUpMutation?.error) {
-          enqueueSnackbar(UserSignUpMutation.error.message);
+          enqueueSnackbar(UserSignUpMutation.error);
           return;
         }
 
