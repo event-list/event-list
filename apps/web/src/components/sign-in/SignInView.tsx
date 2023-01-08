@@ -132,7 +132,7 @@ export default function SignInView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading
-                  color={'gray.800'}
+                  color={'gray.700'}
                   lineHeight={1.1}
                   fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
                 >

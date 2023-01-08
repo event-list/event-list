@@ -26,7 +26,7 @@ const EventCard = ({ event }) => {
           maxW={'330px'}
           w={'full'}
           // eslint-disable-next-line react-hooks/rules-of-hooks
-          bg={useColorModeValue('gray.50', 'gray.900')}
+          bg={useColorModeValue('gray.100', 'gray.900')}
           boxShadow={'2xl'}
           rounded={'lg'}
           pos={'relative'}

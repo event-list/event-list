@@ -78,7 +78,7 @@ export default function Event(props: { fragmentKey: EventFragment_event$key }) {
             {event.title}
           </TextDecorated>
           <Text
-            color={useColorModeValue('gray.500', 'gray.200')}
+            color={useColorModeValue('gray.700', 'gray.200')}
             fontWeight={300}
             fontSize={'2xl'}
           >
@@ -102,7 +102,7 @@ export default function Event(props: { fragmentKey: EventFragment_event$key }) {
           >
             {event.description}
           </Text>
-          <Box> 
+          <Box>
             <TextDecorated
               fontSize={{ base: '16px', lg: '18px' }}
               fontWeight={'semibold'}
@@ -113,7 +113,9 @@ export default function Event(props: { fragmentKey: EventFragment_event$key }) {
             </TextDecorated>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
               <List spacing={2}>
-                <ListItem><Text>wip</Text></ListItem>
+                <ListItem>
+                  <Text>wip</Text>
+                </ListItem>
               </List>
             </SimpleGrid>
           </Box>
@@ -196,18 +198,19 @@ function StatsCard(props: StatsCardProps) {
       }}
     >
       <Flex
-        justifyContent={'space-around'}
+        justifyContent={'space-between'}
         alignContent="center"
         alignItems={'center'}
+        px={'1'}
       >
         <Box>
           <TextDecorated fontWeight={'base'}>{title}</TextDecorated>
-          <StatNumber>
-            <Text fontSize={'md'} fontWeight={'medium'}>{stat}</Text>
+          <StatNumber as={Text} fontSize={'md'} fontWeight={'medium'} color={useColorModeValue('gray.700', 'gray.200')}>
+            {stat}
           </StatNumber>
         </Box>
         <Box
-          color={useColorModeValue('gray.800', 'gray.200')}
+          color={useColorModeValue('gray.700', 'gray.200')}
           alignContent={'center'}
         >
           {icon}
