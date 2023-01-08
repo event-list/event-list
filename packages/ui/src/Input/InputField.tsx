@@ -1,14 +1,15 @@
-import { FormLabel, Input, InputProps, Text } from '@chakra-ui/react';
+import { FormLabel, Input, Text } from '@chakra-ui/react';
+import type { FormLabelProps, InputProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 import TextDecorated from '../Text/TextDecorated';
+import TextFormLabel from '../Text/TextFormLabel';
 
-type TextFieldProps = {
+type InputFieldProps = {
   label?: string;
-  labelFontSize?: string;
-  decorated?: boolean;
+  labelProps?: FormLabelProps & { decorated?: boolean };
 } & InputProps;
 
-const TextField = (props: TextFieldProps) => {
+const InputField = (props: InputFieldProps) => {
   const { name = '', label = null, ...restProps } = props;
   const [field, meta, helpers] = useField(name);
 
@@ -53,19 +54,8 @@ const TextField = (props: TextFieldProps) => {
 
   return (
     <>
-      {label &&
-        (props.decorated ? (
-          <TextDecorated
-            fontWeight={'bold'}
-            fontSize={props.labelFontSize ?? 'md'}
-          >
-            {label}
-          </TextDecorated>
-        ) : (
-          <FormLabel as={Text}>{label}</FormLabel>
-        ))}
+      {label && <TextFormLabel label={label} {...props.labelProps} />}
       <Input
-        mt="0.5rem"
         name={name}
         onChange={handleChange}
         value={field.value}
@@ -81,4 +71,4 @@ const TextField = (props: TextFieldProps) => {
   );
 };
 
-export default TextField;
+export default InputField;
