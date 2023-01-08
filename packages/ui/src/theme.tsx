@@ -34,7 +34,7 @@ const theme = extendTheme({
     },
   },
   initialColorMode: 'dark',
-  useSystemColorMode: false,
+  useSystemColorMode: true,
 });
 
 export default theme;
