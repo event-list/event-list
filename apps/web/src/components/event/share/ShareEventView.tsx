@@ -23,10 +23,10 @@ import {
 } from '../../../../__generated__/ShareEventMutation.graphql';
 import {
   InputFile,
-  TextArea,
+  InputArea,
   TextDecorated,
-  TextField,
-  TextMask,
+  InputField,
+  InputMask,
   Button,
 } from '@event-list/ui';
 
@@ -95,7 +95,7 @@ export default function ShareEventView() {
         }
 
         if (CreateEventMutation?.error) {
-          enqueueSnackbar(CreateEventMutation.error.message);
+          enqueueSnackbar(CreateEventMutation.error);
           return;
         }
 
@@ -155,23 +155,21 @@ export default function ShareEventView() {
               <HStack>
                 <Box w="full">
                   <FormControl id="title" isRequired>
-                    <TextField
+                    <InputField
                       name="title"
-                      label="Title: "
+                      label="Title:"
                       placeholder="Event name"
-                      labelFontSize="xl"
-                      decorated={true}
+                      labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="label" isRequired>
-                    <TextField
+                    <InputField
                       name="label"
-                      label="Label: "
+                      label="Label:"
                       placeholder="Organizer label"
-                      labelFontSize="xl"
-                      decorated={true}
+                      labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
                 </Box>
@@ -179,22 +177,20 @@ export default function ShareEventView() {
               <HStack>
                 <Box w="full">
                   <FormControl id="price" isRequired>
-                    <TextField
+                    <InputField
                       name="price"
-                      label="Price: "
+                      label="Price:"
                       placeholder="00,00"
-                      labelFontSize="xl"
-                      decorated={true}
+                      labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="date" isRequired>
-                    <TextMask
+                    <InputMask
                       type="text"
-                      labelFontSize="xl"
-                      decorated={true}
-                      label="Date: "
+                      labelProps={{ fontSize: 'xl' }}
+                      label="Date:"
                       name="date"
                       placeholder="YYYY/MM/DD"
                       mask={[
@@ -216,12 +212,11 @@ export default function ShareEventView() {
               <HStack>
                 <Box w="full">
                   <FormControl id="eventOpenAt" isRequired>
-                    <TextMask
+                    <InputMask
                       type="text"
-                      labelFontSize="xl"
-                      decorated={true}
+                      labelProps={{ fontSize: 'xl' }}
                       name="eventOpenAt"
-                      label="Event Open At: "
+                      label="Event Open At:"
                       placeholder="20:00"
                       mask={[/[0-2]/, /[0-4]/, ':', /[0-5]/, /[0-9]/]}
                     />
@@ -229,14 +224,13 @@ export default function ShareEventView() {
                 </Box>
                 <Box w="full">
                   <FormControl id="eventEndAt" isRequired>
-                    <TextMask
+                    <InputMask
                       type="text"
-                      decorated={true}
                       name="eventEndAt"
-                      label="Event End At: "
+                      label="Event End At:"
                       placeholder="04:00"
                       mask={[/[0-2]/, /[0-4]/, ':', /[0-5]/, /[0-9]/]}
-                      labelFontSize="xl"
+                      labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
                 </Box>
@@ -244,45 +238,44 @@ export default function ShareEventView() {
               <HStack>
                 <Box w="full">
                   <FormControl id="listAvailableAt" isRequired>
-                    <TextMask
+                    <InputMask
                       type="text"
-                      decorated={true}
                       name="listAvailableAt"
-                      label="List Available At: "
+                      label="List Available At:"
                       placeholder="23:00"
                       mask={[/[0-2]/, /[0-4]/, ':', /[0-5]/, /[0-9]/]}
-                      labelFontSize="xl"
+                      labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="classification" isRequired>
-                    <TextMask
+                    <InputMask
                       type="text"
-                      decorated={true}
                       name="classification"
-                      label="Classification: "
+                      label="Classification:"
                       placeholder="18+"
                       mask="99"
-                      labelFontSize="xl"
+                      labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
                 </Box>
               </HStack>
               <FormControl id="description" isRequired>
-                <TextArea
+                <InputArea
                   name="description"
-                  label="Description: "
+                  label="Description:"
                   placeholder="Describe your event"
-                  labelFontSize="xl"
+                  labelProps={{ fontSize: 'xl' }}
                 />
               </FormControl>
               <HStack>
                 <Box>
                   <FormControl id="flyer" isRequired>
                     <InputFile
-                      label="Flyer: "
-                      labelFontSize="xl"
+                      name="flyer"
+                      label="Flyer:"
+                      labelProps={{ fontSize: 'xl' }}
                       onChange={handleFileChange}
                     />
                   </FormControl>

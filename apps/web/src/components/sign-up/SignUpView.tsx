@@ -31,7 +31,7 @@ import {
   SignUpMutation,
   SignUpMutation$data,
 } from '../../../__generated__/SignUpMutation.graphql';
-import { Button, TextDecorated, TextField } from '@event-list/ui';
+import { Button, TextDecorated, InputField } from '@event-list/ui';
 
 type SignUpParams = {
   email: string;
@@ -162,7 +162,8 @@ export default function SignUpView() {
               <Box as={'form'} mt={10}>
                 <Stack spacing={4}>
                   <FormControl id="email" isRequired>
-                    <TextField
+                    <InputField
+                      labelProps={{ color: 'gray.700' }}
                       name="email"
                       label="Email: "
                       placeholder="user@email.com"
@@ -175,7 +176,8 @@ export default function SignUpView() {
                     />
                   </FormControl>
                   <FormControl id="password" isRequired>
-                    <TextField
+                    <InputField
+                      labelProps={{ color: 'gray.700' }}
                       type="password"
                       name="password"
                       label="Password: "
@@ -190,7 +192,8 @@ export default function SignUpView() {
                   </FormControl>
                   <HStack>
                     <FormControl id="name" isRequired>
-                      <TextField
+                      <InputField
+                        labelProps={{ color: 'gray.700' }}
                         bg={'gray.100'}
                         label={'Name: '}
                         border={0}
@@ -203,7 +206,9 @@ export default function SignUpView() {
                       />
                     </FormControl>
                     <FormControl id="gender" isRequired>
-                      <FormLabel as={Text}>Gender: </FormLabel>
+                      <FormLabel as={Text} color={'gray.700'}>
+                        Gender:{' '}
+                      </FormLabel>
                       <RadioGroup
                         onChange={setGender}
                         value={gender}
@@ -242,7 +247,7 @@ export default function SignUpView() {
                 />
               </Box>
             </Stack>
-            <Center pt="2px">
+            <Center pt={'3'}>
               <Link
                 color={'gray.700'}
                 href={'/sign-in'}

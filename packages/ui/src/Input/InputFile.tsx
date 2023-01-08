@@ -1,16 +1,26 @@
-import { Input, InputProps, FormLabel } from '@chakra-ui/react';
+import { Input } from '@chakra-ui/react';
+import type { InputProps, FormLabelProps } from '@chakra-ui/react';
 import TextDecorated from '../Text/TextDecorated';
+import TextFormLabel from '../Text/TextFormLabel';
 
 type InputFileProps = {
   label?: string;
-  labelFontSize?: string;
+  labelProps?: FormLabelProps & { decorated?: boolean };
 } & InputProps;
 
 export default function InputFile(props: InputFileProps) {
+  const { label = '' } = props;
+
   return (
     <>
-      {props.label && <TextDecorated mb='0.5rem' fontWeight={'bold'} fontSize={props.labelFontSize ?? 'md'}>{props.label}</TextDecorated>}{' '}
-      <Input mt={'0.5rem'} type="file" accept="image/*" {...props} border="none" />
+      {label && <TextFormLabel label={label} {...props.labelProps} />}
+      <Input
+        mt={'0.5rem'}
+        type="file"
+        accept="image/*"
+        {...props}
+        border="none"
+      />
     </>
   );
 }

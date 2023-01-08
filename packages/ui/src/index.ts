@@ -8,12 +8,13 @@ export { default as Layout } from './layout/Layout';
 
 // input
 export { default as InputFile } from './Input/InputFile';
-export { default as TextMask } from './Input/InputMask/TextMask';
-export { default as TextArea } from './Input/TextArea';
-export { default as TextField } from './Input/TextField';
+export { default as InputMask } from './Input/InputMask/InputMask';
+export { default as InputArea } from './Input/InputArea';
+export { default as InputField } from './Input/InputField';
 
 // button
 export { default as Button } from './Button/Button';
 
 // text
 export { default as TextDecorated } from './Text/TextDecorated';
+export { default as TextFormLabel } from './Text/TextFormLabel';

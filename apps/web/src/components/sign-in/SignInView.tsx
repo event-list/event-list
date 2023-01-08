@@ -27,7 +27,7 @@ import {
   SignInMutation,
   SignInMutation$data,
 } from '../../../__generated__/SignInMutation.graphql';
-import { Button, TextField } from '@event-list/ui';
+import { Button, InputField } from '@event-list/ui';
 
 type SignInParams = {
   email: string;
@@ -149,7 +149,8 @@ export default function SignInView() {
               <Box as={'form'} mt={10}>
                 <Stack spacing={4}>
                   <FormControl id="email" isRequired>
-                    <TextField
+                    <InputField
+                      labelProps={{ color: 'gray.700' }}
                       name="email"
                       label="Email: "
                       placeholder="user@email.com"
@@ -162,7 +163,8 @@ export default function SignInView() {
                     />
                   </FormControl>
                   <FormControl id="password" isRequired>
-                    <TextField
+                    <InputField
+                      labelProps={{ color: 'gray.700' }}
                       type="password"
                       name="password"
                       label="Password: "
@@ -188,7 +190,7 @@ export default function SignInView() {
                 />
               </Box>
             </Stack>
-            <Center pt="2px">
+            <Center pt={'3'}>
               <Link
                 color={'gray.700'}
                 href={'/sign-up'}
