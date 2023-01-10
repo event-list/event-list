@@ -3,8 +3,13 @@ const jestTransformer = () => {
     !process.env?.JEST_TRANSFORMER ||
     process.env.JEST_TRANSFORMER === 'babel-jest'
   ) {
-    console.log('customBabelTransformer path', require('path').resolve('./customBabelTransformer'));
+    console.log(
+      'customBabelTransformer path',
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      require('path').resolve('./customBabelTransformer'),
+    );
     return {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       '^.+\\.(js|ts|tsx)?$': require('path').resolve(
         './customBabelTransformer',
       ),
@@ -37,12 +42,7 @@ const jestTransformer = () => {
 };
 
 module.exports = {
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    './dist',
-    './scripts',
-    '__generated__',
-  ],
+  testPathIgnorePatterns: ['/node_modules/', './dist', './scripts'],
   transformIgnorePatterns: ['node_modules/(?!d3-random)'],
   coverageReporters: ['lcov', 'html'],
   reporters: ['default', 'jest-junit'],
@@ -56,6 +56,5 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src'],
   cacheDirectory: '.jest-cache',
   rootDir: './',
-  cacheDirectory: '.jest-cache',
-  // setupFiles: ['<rootDir>/../testutils/test/setupFilesWeb.js'],
+  // setupFiles: ['./test/setupFiles.js'],
 };

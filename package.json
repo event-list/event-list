@@ -6,6 +6,15 @@
     "apps/*",
     "packages/*"
   ],
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "yarn prettier",
+      "eslint --fix"
+    ],
+    "*.yml": [
+      "prettier --write --single-quote"
+    ]
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
@@ -16,7 +25,10 @@
     "schema": "yarn es ./scripts/updateSchema.ts",
     "es": "node -r esbuild-register",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "lint:staged": "turbo run lint-staged",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prettier": "prettier \"**/*.{ts,tsx,md}\" --write --single-quote true --trailing-comma all --print-width 120",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.5.8",
@@ -32,23 +44,31 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.1.0",
-    "@types/supertest": "^2.0.12",
-    "@typescript-eslint/eslint-plugin": "^5.47.0",
-    "@typescript-eslint/parser": "^5.47.0",
-    "esbuild-jest": "^0.5.0",
-    "eslint": "^8.30.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^8.0.0",
     "jest-environment-node": "^29.3.1",
     "jest-fetch-mock": "^3.0.3",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.1",
     "swagger-jsdoc": "^6.2.5",
-    "turbo": "latest",
     "uuid": "^9.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^29.2.4",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "esbuild-jest": "^0.5.0",
+    "eslint": "^8.31.0",
+    "eslint-config-custom": "*",
+    "husky": "^8.0.0",
+    "jest-environment-jsdom": "^29.3.1",
+    "jest-matchmedia-mock": "^1.1.0",
+    "prettier": "latest",
+    "turbo": "latest",
+    "typescript": "^4.9.4",
     "webpack-node-externals": "^3.0.0"
   },
   "engines": {

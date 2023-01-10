@@ -8,6 +8,16 @@
     "lint": {
       "outputs": []
     },
+    "lint-staged": {
+      "*.{js,ts,tsx}": [
+        "yarn prettier",
+        "eslint --cache --fix",
+        "yarn i18n:scan"
+      ],
+      "*.yml": [
+        "prettier --write"
+      ]
+    },
     "dev": {
       "cache": false
     },

@@ -1,6 +1,6 @@
-import { FormLabel, Text } from '@chakra-ui/react';
-import type { FormLabelProps } from '@chakra-ui/react';
-import TextDecorated from './TextDecorated';
+import { FormLabel, Text } from "@chakra-ui/react";
+import type { FormLabelProps } from "@chakra-ui/react";
+import TextDecorated from "./TextDecorated";
 
 type TextDecoratedProps = {
   label: string;
@@ -11,7 +11,7 @@ const TextFormLabel = (props: TextDecoratedProps) => {
   const { label, decorated, ...restProps } = props;
 
   return (
-    <FormLabel as={Text} {...restProps}>
+    <FormLabel {...restProps}>
       {decorated ? <TextDecorated>{label}</TextDecorated> : label}
     </FormLabel>
   );
