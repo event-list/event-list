@@ -31,7 +31,7 @@ module.exports = {
 
         pathGroups: [
           {
-            pattern: '@hs-integrador/**',
+            pattern: '@event-list/**',
             group: 'internal',
             position: 'after',
           },

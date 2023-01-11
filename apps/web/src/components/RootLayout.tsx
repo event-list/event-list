@@ -1,11 +1,14 @@
 /* eslint-disable no-constant-condition */
-import { PreloadedQuery, usePreloadedQuery } from 'react-relay';
-import { graphql } from 'relay-runtime';
-import { Footer, Header, Layout } from '@event-list/ui';
-import { useLogout } from '../auth/useLogout';
-import { RootLayoutQuery } from '../../__generated__/RootLayoutQuery.graphql';
-import { useAuth } from '../auth/useAuth';
 import { Box, Container } from '@chakra-ui/react';
+import type { PreloadedQuery } from 'react-relay';
+import { usePreloadedQuery } from 'react-relay';
+import { graphql } from 'relay-runtime';
+
+import { Footer, Header, Layout } from '@event-list/ui';
+
+import type { RootLayoutQuery } from '../../__generated__/RootLayoutQuery.graphql';
+import { useAuth } from '../auth/useAuth';
+import { useLogout } from '../auth/useLogout';
 
 const LayoutQuery = graphql`
   query RootLayoutQuery {
@@ -24,7 +27,7 @@ type LayoutProps = {
 export default function RootLayout(props: LayoutProps) {
   const { me: userPreloaded } = usePreloadedQuery(
     LayoutQuery,
-    props.preloadedQuery
+    props.preloadedQuery,
   );
 
   const [logout] = useLogout();

@@ -1,14 +1,13 @@
 'use client';
 
+import type { BoxProps, FlexProps } from '@chakra-ui/react';
 import {
   Box,
-  BoxProps,
   Button,
   CloseButton,
   Drawer,
   DrawerContent,
   Flex,
-  FlexProps,
   HStack,
   Icon,
   IconButton,
@@ -24,8 +23,9 @@ import {
   Button as ButtonChakra,
   useColorMode,
 } from '@chakra-ui/react';
-import { ReactText } from 'react';
-import { IconType } from 'react-icons';
+import Image from 'next/image';
+import type { ReactText } from 'react';
+import type { IconType } from 'react-icons';
 import {
   FiChevronDown,
   FiHome,
@@ -36,7 +36,9 @@ import {
   FiUser,
 } from 'react-icons/fi';
 import { HiMoon, HiSun } from 'react-icons/hi';
-import { Logo } from '@event-list/assets';
+
+//@ts-expect-error it not have type
+import Logo from '../../public/logo250.svg';
 
 type LinkItemProps = {
   name: string;
@@ -62,7 +64,6 @@ export default function Header(props: Props) {
         display={{ base: 'none', md: 'block' }}
       />
       <Drawer
-        autoFocus={false}
         isOpen={isOpen}
         placement="left"
         onClose={onClose}
@@ -119,8 +120,12 @@ export default function Header(props: Props) {
                     </Box>
                   </HStack>
                 </MenuButton>
-                {/* eslint-disable-next-line react-hooks/rules-of-hooks */}
-                <MenuList zIndex={10} bgColor={useColorModeValue('gray.50', 'gray.900')} borderColor="gray.700">
+                <MenuList
+                  zIndex={10}
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  bgColor={useColorModeValue('gray.50', 'gray.900')}
+                  borderColor="gray.700"
+                >
                   {/* <MenuItem>Profile</MenuItem> */}
                   {/* <MenuDivider /> */}
                   <MenuItem
@@ -171,7 +176,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         {...rest}
       >
         <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-          <Logo />
+          <Image src={Logo} alt={'Small and red Event List logo'} />
           <CloseButton
             display={{ base: 'flex', md: 'none' }}
             onClick={onClose}
@@ -209,13 +214,7 @@ const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
         cursor="pointer"
         {...rest}
       >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            as={icon}
-          />
-        )}
+        {icon && <Icon mr="4" fontSize="16" as={icon} />}
         {children}
       </Flex>
     </Link>

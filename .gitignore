@@ -37,3 +37,4 @@ __generated__
 .env
 
 .jest-cache
+junit.xml

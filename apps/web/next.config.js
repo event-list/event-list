@@ -2,11 +2,15 @@
 const relay = require('./relay.config.js');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires,import/order
-const withTM = require('next-transpile-modules')(['@finn/relay', '@finn/ui'], {
-  resolveSymlinks: true,
-});
+const withTM = require('next-transpile-modules')(
+  ['@event-list/relay', '@event-list/ui'],
+  {
+    resolveSymlinks: true,
+  },
+);
 
 const nextConfig = {
+  swcMinify: true,
   compiler: {
     relay: {
       src: relay.src,
@@ -18,6 +22,10 @@ const nextConfig = {
   experimental: {
     runtime: 'nodejs',
     concurrentFeatures: true,
+  },
+  images: {
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   serverRuntimeConfig: {
     projectRoot: __dirname,

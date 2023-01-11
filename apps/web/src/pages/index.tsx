@@ -1,8 +1,10 @@
 import { graphql, usePreloadedQuery } from 'react-relay';
-import EventsList from '../components/event/EventsList';
+
 import { getPreloadedQuery } from '@event-list/relay';
-import { pagesEventsViewQuery } from '../../__generated__/pagesEventsViewQuery.graphql';
+
+import type { pagesEventsViewQuery } from '../../__generated__/pagesEventsViewQuery.graphql';
 import RootLayoutGenerated from '../../__generated__/RootLayoutQuery.graphql';
+import EventsList from '../components/event/EventsList';
 import RootLayout from '../components/RootLayout';
 
 const EventsViewQuery = graphql`
@@ -14,7 +16,7 @@ const EventsViewQuery = graphql`
 export default function Page(props) {
   const data = usePreloadedQuery<pagesEventsViewQuery>(
     EventsViewQuery,
-    props.queryRefs.EventsViewQuery
+    props.queryRefs.EventsViewQuery,
   );
 
   return (
@@ -30,11 +32,12 @@ export async function getServerSideProps(ctx) {
       preloadedQueries: {
         RootLayout: await getPreloadedQuery(RootLayoutGenerated, {}, ctx),
         EventsViewQuery: await getPreloadedQuery(
+          //@ts-expect-error todo
           EventsViewQuery,
           {
             published: true,
           },
-          ctx
+          ctx,
         ),
       },
     },

@@ -7,9 +7,12 @@ import {
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import Image from 'next/image';
+import type { ReactNode } from 'react';
 import { FaGithub, FaInstagram } from 'react-icons/fa';
-import { Logo } from '@event-list/assets';
+
+//@ts-expect-error it not have type
+import Logo from '../../public/logo250.svg';
 
 const SocialButton = ({
   children,
@@ -68,7 +71,7 @@ export default function Footer() {
         align={{ base: 'center', md: 'center' }}
       >
         <Box h="10">
-          <Logo />
+          <Image src={Logo} alt={'Small and purple Event List logo'} />
         </Box>
         <Text>© 2022 Event List. All rights reserved</Text>
         <Stack direction={'row'} spacing={6}>

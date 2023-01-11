@@ -13,7 +13,7 @@ module.exports = {
   verbose: true,
   roots: ['<rootDir>'],
   transform: {
-    '^.+\\.(js|ts|tsx)?$': [
+    '^.+\\.(js|ts|tsx|svg)?$': [
       'babel-jest',
       { configFile: './apps/web/test/.babelrc' },
     ],

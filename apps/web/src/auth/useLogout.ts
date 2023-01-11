@@ -1,25 +1,25 @@
-import { useRouter } from 'next/navigation'
-import { useCallback } from 'react'
-import { useMutation, UseMutationConfig } from 'react-relay'
-import { SignOut } from '../components/sign-out/SignOutMutation'
-import { SignOutMutation } from '../../__generated__/SignOutMutation.graphql'
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+import { useMutation, UseMutationConfig } from 'react-relay';
+import { SignOut } from '../components/sign-out/SignOutMutation';
+import { SignOutMutation } from '../../__generated__/SignOutMutation.graphql';
 
 export const useLogout = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [handleLogout] = useMutation<SignOutMutation>(SignOut)
+  const [handleLogout] = useMutation<SignOutMutation>(SignOut);
 
   const logout = useCallback(() => {
     const config: UseMutationConfig<SignOutMutation> = {
       variables: {
-        input: {}
-      }
-    }
+        input: {},
+      },
+    };
 
-    handleLogout(config)
+    handleLogout(config);
 
-    router.push('/sign-in')
-  }, [router])
+    router.push('/sign-in');
+  }, [router]);
 
-  return [logout]
-}
+  return [logout];
+};

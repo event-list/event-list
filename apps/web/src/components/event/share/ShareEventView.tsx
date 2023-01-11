@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import { useS3Upload } from 'next-s3-upload';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useMutation } from 'react-relay';

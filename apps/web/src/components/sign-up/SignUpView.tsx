@@ -1,5 +1,6 @@
 'use client';
 
+import type { IconProps } from '@chakra-ui/react';
 import {
   Box,
   Center,
@@ -10,7 +11,6 @@ import {
   Heading,
   HStack,
   Icon,
-  IconProps,
   Link,
   Radio,
   RadioGroup,
@@ -20,18 +20,21 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
-import { Logo } from '@event-list/assets/src/getLogo';
-import { SignUp } from './SignUpMutation';
-import {
+
+import { Button, TextDecorated, InputField } from '@event-list/ui';
+
+import type {
   SignUpMutation,
   SignUpMutation$data,
 } from '../../../__generated__/SignUpMutation.graphql';
-import { Button, TextDecorated, InputField } from '@event-list/ui';
+import Logo from '../../../public/logo1000.svg';
+import { SignUp } from './SignUpMutation';
 
 type SignUpParams = {
   email: string;
@@ -115,7 +118,7 @@ export default function SignUpView() {
         >
           <Stack spacing={{ base: 10, md: 20 }}>
             <Stack direction={'row'} spacing={4} align={'center'}>
-              <Logo />
+              <Image src={Logo} alt={'Small and red Event List logo'} />
             </Stack>
             <Box pl="1rem">
               <Heading

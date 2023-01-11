@@ -2,6 +2,6 @@
 const babelJest = require('babel-jest');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires,import/order
-const { configWeb } = require('@woovi/babel');
+const { configJest } = require('@event-list/babel');
 
-module.exports = babelJest.createTransformer(configWeb);
+module.exports = babelJest.createTransformer(configJest);

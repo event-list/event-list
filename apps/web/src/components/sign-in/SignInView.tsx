@@ -1,15 +1,12 @@
-'use client';
-
+import type { IconProps } from '@chakra-ui/react';
 import {
   Box,
   Center,
   Container,
   Flex,
   FormControl,
-  FormLabel,
   Heading,
   Icon,
-  IconProps,
   Link,
   SimpleGrid,
   Stack,
@@ -17,17 +14,20 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
-import { Logo } from '@event-list/assets/src/getLogo';
-import { SignIn } from './SignInMutation';
-import {
+
+import { Button, InputField } from '@event-list/ui';
+
+import type {
   SignInMutation,
   SignInMutation$data,
 } from '../../../__generated__/SignInMutation.graphql';
-import { Button, InputField } from '@event-list/ui';
+import Logo from '../../../public/logo1000.svg';
+import { SignIn } from './SignInMutation';
 
 type SignInParams = {
   email: string;
@@ -102,7 +102,7 @@ export default function SignInView() {
         >
           <Stack spacing={{ base: 10, md: 20 }}>
             <Stack direction={'row'} spacing={4} align={'center'}>
-              <Logo />
+              <Image src={Logo} alt={'Small and red Event List logo'} />
             </Stack>
             <Box pl="1rem">
               <Heading
