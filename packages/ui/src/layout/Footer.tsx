@@ -12,7 +12,7 @@ import type { ReactNode } from 'react';
 import { FaGithub, FaInstagram } from 'react-icons/fa';
 
 //@ts-expect-error it not have type
-import Logo from '../../public/logo250.svg';
+import Logo from '../logo.svg';
 
 const SocialButton = ({
   children,

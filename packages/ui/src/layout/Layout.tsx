@@ -12,7 +12,7 @@ export default function Layout(props: {
         </title>
         <link href="https://fonts.cdnfonts.com/css/sifonn" rel="stylesheet" />
       </Head>
-      <body>{props.children}</body>
+      {props.children}
     </>
   );
 }

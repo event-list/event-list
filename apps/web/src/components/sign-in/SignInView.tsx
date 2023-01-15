@@ -26,7 +26,7 @@ import type {
   SignInMutation,
   SignInMutation$data,
 } from '../../../__generated__/SignInMutation.graphql';
-import Logo from '../../../public/logo1000.svg';
+import Logo from '../../../data/logo.svg';
 import { SignIn } from './SignInMutation';
 
 type SignInParams = {
@@ -86,9 +86,9 @@ export default function SignInView() {
     onSubmit,
   });
 
-  const { handleSubmit, isValid } = formik;
+  const { handleSubmit, isValid, dirty } = formik;
 
-  const isDisabled = !isValid || isPending;
+  const isDisabled = !isValid || isPending || !dirty;
 
   return (
     <FormikProvider value={formik}>

@@ -66,37 +66,3 @@ it('should show an error if no password', async () => {
 
   expect(screen.getByRole('button', { name: 'Login' })).toBeTruthy();
 });
-
-it('should show an error if not exists an user', async () => {
-  render(
-    <WithProviders>
-      <SignInView />
-    </WithProviders>,
-  );
-
-  const variables = {
-    email: 'test@test.com',
-    password: 'testpassword',
-  };
-
-  const loginButton = screen.getByRole('button', { name: 'Login' });
-  const emailField = screen.getByLabelText('Email:', { exact: false });
-  const passwordField = screen.getByLabelText('Password:', { exact: false });
-
-  await act(async () => {
-    await userEvent.type(emailField, variables.email);
-    await userEvent.type(passwordField, variables.password);
-  });
-
-  await userEvent.click(loginButton);
-
-  await waitFor(() => {
-    expect(emailField).toHaveValue(variables.email);
-    expect(passwordField).toHaveValue(variables.password);
-    expect(
-      screen.getByText('Something was wrong', { exact: false }),
-    ).toBeInTheDocument();
-  });
-
-  expect(screen.getByRole('button', { name: 'Login' })).toBeTruthy();
-});

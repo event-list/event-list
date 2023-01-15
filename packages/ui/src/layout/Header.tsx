@@ -38,7 +38,7 @@ import {
 import { HiMoon, HiSun } from 'react-icons/hi';
 
 //@ts-expect-error it not have type
-import Logo from '../../public/logo250.svg';
+import Logo from '../logo.svg';
 
 type LinkItemProps = {
   name: string;

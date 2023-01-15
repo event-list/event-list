@@ -59,6 +59,5 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src'],
   cacheDirectory: '.jest-cache',
   rootDir: './',
-  cacheDirectory: '.jest-cache',
   // setupFiles: ['<rootDir>/../testutils/test/setupFilesWeb.js'],
 };

@@ -1,7 +1,9 @@
-import { Container } from '@chakra-ui/react'
-import SignInView from '../../components/sign-in/SignInView'
-import Layout from '@event-list/ui/src/layout/Layout'
-import getToken from '../../auth/getToken'
+import { Container } from '@chakra-ui/react';
+
+import Layout from '@event-list/ui/src/layout/Layout';
+
+import getToken from '../../auth/getToken';
+import SignInView from '../../components/sign-in/SignInView';
 
 export default function SignIn() {
   return (
@@ -10,23 +12,23 @@ export default function SignIn() {
         <SignInView />
       </Container>
     </Layout>
-  )
+  );
 }
 
 export async function getServerSideProps(ctx) {
-  const token = getToken({ req: ctx.req, res: ctx.res })
+  const token = getToken({ req: ctx.req, res: ctx.res });
 
   if (token) {
     return {
       redirect: {
         permanent: false,
-        destination: '/'
+        destination: '/',
       },
-      props: {}
-    }
+      props: {},
+    };
   }
 
   return {
-    props: {}
-  }
+    props: {},
+  };
 }

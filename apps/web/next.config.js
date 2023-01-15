@@ -23,10 +23,6 @@ const nextConfig = {
     runtime: 'nodejs',
     concurrentFeatures: true,
   },
-  images: {
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
   serverRuntimeConfig: {
     projectRoot: __dirname,
   },
