@@ -1,11 +1,13 @@
 import { Text } from '@chakra-ui/react';
 import { usePreloadedQuery } from 'react-relay';
 import { graphql } from 'relay-runtime';
-import Event from '../../components/event/Event';
+
 import { getPreloadedQuery } from '@event-list/relay';
-import RootLayout from '../../components/RootLayout';
-import { IdEventViewQuery } from '../../../__generated__/IdEventViewQuery.graphql';
+
+import type { IdEventViewQuery } from '../../../__generated__/IdEventViewQuery.graphql';
 import RootLayoutGenerated from '../../../__generated__/RootLayoutQuery.graphql';
+import Event from '../../components/event/Event';
+import RootLayout from '../../components/RootLayout';
 
 const EventViewQuery = graphql`
   query IdEventViewQuery($id: ID!) @preloadable {
@@ -16,10 +18,7 @@ const EventViewQuery = graphql`
 `;
 
 export default function Page(props) {
-  const { event } = usePreloadedQuery<IdEventViewQuery>(
-    EventViewQuery,
-    props.queryRefs.EventViewQuery
-  );
+  const { event } = usePreloadedQuery<IdEventViewQuery>(EventViewQuery, props.queryRefs.EventViewQuery);
 
   if (!event) {
     return (
@@ -46,7 +45,7 @@ export async function getServerSideProps(ctx) {
           {
             id: ctx.params.id,
           },
-          ctx
+          ctx,
         ),
       },
     },

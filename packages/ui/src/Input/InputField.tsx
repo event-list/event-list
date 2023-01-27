@@ -1,7 +1,7 @@
-import { FormLabel, Input, Text } from '@chakra-ui/react';
+import { Input, Text } from '@chakra-ui/react';
 import type { FormLabelProps, InputProps } from '@chakra-ui/react';
 import { useField } from 'formik';
-import TextDecorated from '../Text/TextDecorated';
+
 import TextFormLabel from '../Text/TextFormLabel';
 
 type InputFieldProps = {
@@ -31,8 +31,7 @@ const InputField = (props: InputFieldProps) => {
     return {};
   };
 
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    // @ts-expect-error
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     helpers.setValue(value);
@@ -54,16 +53,17 @@ const InputField = (props: InputFieldProps) => {
 
   return (
     <>
-      {label && <TextFormLabel label={label} {...props.labelProps} />}
+      {label && <TextFormLabel label={label} fontSize={{ base: '13px', md: 'sm' }} {...props.labelProps} />}
       <Input
         name={name}
+        fontSize={{ base: '13px', md: 'sm' }}
         onChange={handleChange}
         value={field.value}
         onBlur={handleBlur}
         {...textInputProps}
       />
       {meta?.error && meta?.touched ? (
-        <Text color="red.600" fontSize={'sm'}>
+        <Text color="red.600" fontSize={{ base: 'smaller' }} position={'absolute'}>
           {meta.error}
         </Text>
       ) : null}

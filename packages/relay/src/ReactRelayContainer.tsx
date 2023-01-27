@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { NextComponentType, NextPageContext } from 'next'
-import { Suspense, useMemo } from 'react'
-import { RelayEnvironmentProvider, useRelayEnvironment } from 'react-relay'
+import type { NextComponentType, NextPageContext } from 'next';
+import { Suspense, useMemo } from 'react';
+import { RelayEnvironmentProvider, useRelayEnvironment } from 'react-relay';
 
-import { createEnvironment } from './relayEnvironment'
+import { createEnvironment } from './relayEnvironment';
 
 export function ReactRelayContainer({
   Component,
-  props
+  props,
 }: {
-  Component: NextComponentType<NextPageContext, any, any>
-  props: any
+  Component: NextComponentType<NextPageContext, any, any>;
+  props: any;
 }) {
-  const environment = useMemo(() => createEnvironment(), [])
+  const environment = useMemo(() => createEnvironment(), []);
 
   return (
     <RelayEnvironmentProvider environment={environment}>
@@ -20,26 +20,26 @@ export function ReactRelayContainer({
         <Hyderate Component={Component} props={props} />
       </Suspense>
     </RelayEnvironmentProvider>
-  )
+  );
 }
 
 function Hyderate({ Component, props }: { Component: NextComponentType<NextPageContext, any, any>; props: any }) {
-  const environment = useRelayEnvironment()
+  const environment = useRelayEnvironment();
 
   const transformedProps = useMemo(() => {
     if (props == null) {
-      return props
+      return props;
     }
-    const { preloadedQueries, ...otherProps } = props
+    const { preloadedQueries, ...otherProps } = props;
     if (preloadedQueries == null) {
-      return props
+      return props;
     }
 
-    const queryRefs: any = {}
+    const queryRefs: any = {};
     for (const [queryName, { params, variables, response }] of Object.entries(preloadedQueries) as any) {
-      const queryId = params.id || params.text
+      const queryId = params.id || params.text;
 
-      environment.getNetwork().responseCache.set(queryId, variables, response)
+      environment.getNetwork().responseCache.set(queryId, variables, response);
       queryRefs[queryName] = {
         environment,
         fetchKey: queryId,
@@ -47,12 +47,12 @@ function Hyderate({ Component, props }: { Component: NextComponentType<NextPageC
         isDisposed: false,
         name: params.name,
         kind: 'PreloadedQuery',
-        variables
-      }
+        variables,
+      };
     }
 
-    return { ...otherProps, queryRefs }
-  }, [props])
+    return { ...otherProps, queryRefs };
+  }, [props]);
 
-  return <Component {...transformedProps} />
+  return <Component {...transformedProps} />;
 }

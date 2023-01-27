@@ -1,7 +1,9 @@
 import { createServer } from 'http';
 
+import { config } from '@event-list/shared';
+
 import app from './app';
-import { connectDatabase } from './mongo';
+import { connectDatabase } from './mongo/mongo';
 (async () => {
   try {
     console.log('connecting to database...');
@@ -13,5 +15,5 @@ import { connectDatabase } from './mongo';
 
   const server = createServer(app.callback());
 
-  server.listen(process.env.API_PORT, () => console.log('server is running'));
+  server.listen(config.API_PORT, () => console.log('server is running'));
 })();

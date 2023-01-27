@@ -72,6 +72,7 @@ type Event implements Node {
   slug: String
   flyer: String
   label: String
+  place: String
   published: Boolean
   date: String
   eventOpenAt: String
@@ -104,6 +105,7 @@ input CreateEventMutationInput {
   title: String!
   description: String!
   label: String!
+  place: String!
   flyer: String!
   date: String!
   eventOpenAt: String!

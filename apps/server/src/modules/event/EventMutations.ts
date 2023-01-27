@@ -1,5 +1,5 @@
-import { CreateEventMutation } from './mutations/CreateEventMutation'
+import { EventCreateMutation } from './mutations/EventCreateMutation';
 
 export const EventMutations = {
-  CreateEventMutation
-}
+  CreateEventMutation: EventCreateMutation,
+};

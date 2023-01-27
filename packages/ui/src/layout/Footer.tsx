@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  Button,
-  Stack,
-  Text,
-  useColorModeValue,
-  VisuallyHidden,
-} from '@chakra-ui/react';
+import { Box, Container, Button, Stack, Text, useColorModeValue, VisuallyHidden } from '@chakra-ui/react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { FaGithub, FaInstagram } from 'react-icons/fa';
@@ -14,15 +6,7 @@ import { FaGithub, FaInstagram } from 'react-icons/fa';
 //@ts-expect-error it not have type
 import Logo from '../logo.svg';
 
-const SocialButton = ({
-  children,
-  label,
-  href,
-}: {
-  children: ReactNode;
-  label: string;
-  href: string;
-}) => {
+const SocialButton = ({ children, label, href }: { children: ReactNode; label: string; href: string }) => {
   return (
     <Button
       bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
@@ -70,18 +54,15 @@ export default function Footer() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Box h="10">
-          <Image src={Logo} alt={'Small and purple Event List logo'} />
+        <Box w={'48'}>
+          <Image src={Logo} alt={'Small and red Event List logo'} />
         </Box>
         <Text>© 2022 Event List. All rights reserved</Text>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'GitHub'} href={'https://github.com/event-list'}>
             <FaGithub />
           </SocialButton>
-          <SocialButton
-            label={'Instagram'}
-            href={'https://www.instagram.com/eventlist.ev/'}
-          >
+          <SocialButton label={'Instagram'} href={'https://www.instagram.com/eventlist.ev/'}>
             <FaInstagram />
           </SocialButton>
         </Stack>

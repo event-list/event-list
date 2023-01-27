@@ -1,11 +1,11 @@
-import { UserSignInMutation } from './mutations/UserSignInMutation'
-import { UserSignOutMutation } from './mutations/UserSignOutMutation'
-import { UserSignUpMutation } from './mutations/UserSignUpMutation'
+import { UserSignInMutation } from './mutations/UserSignInMutation';
+import { UserSignOutMutation } from './mutations/UserSignOutMutation';
+import { UserSignUpMutation } from './mutations/UserSignUpMutation';
 
 const UserMutations = {
   UserSignUpMutation,
   UserSignInMutation,
-  UserSignOutMutation
-}
+  UserSignOutMutation,
+};
 
-export { UserMutations }
+export { UserMutations };

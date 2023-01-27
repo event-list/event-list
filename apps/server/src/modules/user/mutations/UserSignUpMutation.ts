@@ -2,16 +2,16 @@ import { errorField, successField } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 
-import { UserType } from '../UserType';
+import type { CreateUserParams } from '@event-list/modules';
 import {
-  HandleCreateUserPayload,
-  UserLoader,
-  handleUserCreate,
+  generateUserToken,
+  handleCreateUser,
+  setSessionTokenCookie,
+  USER_SESSION_COOKIE,
+  USER_TOKEN_SCOPES,
 } from '@event-list/modules';
-import { setAuthCookie } from '../../../auth';
-import { meField } from '../UserFields';
 
-type UserSignUpMutationArgs = {} & HandleCreateUserPayload;
+import { meField } from '../UserFields';
 
 const UserSignUpMutation = mutationWithClientMutationId({
   name: 'UserSignUpMutation',
@@ -29,17 +29,19 @@ const UserSignUpMutation = mutationWithClientMutationId({
       type: new GraphQLNonNull(GraphQLString),
     },
   },
-  mutateAndGetPayload: async (args: UserSignUpMutationArgs, context) => {
+  mutateAndGetPayload: async (args: CreateUserParams, context) => {
     const payload = { ...args };
 
-    const { user, error } = await handleUserCreate({
+    const { user, error } = await handleCreateUser({
       payload,
       context,
     });
 
     if (error) return { id: null, success: null, error };
 
-    setAuthCookie(context.ctx, user!);
+    const userToken = generateUserToken(user!, USER_TOKEN_SCOPES.SESSION);
+
+    await setSessionTokenCookie(context, USER_SESSION_COOKIE, `JWT ${userToken}`);
 
     return {
       id: user!._id,

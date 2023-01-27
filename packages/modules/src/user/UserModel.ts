@@ -1,5 +1,6 @@
 import { compareSync, hashSync } from 'bcryptjs';
-import { Document, model, Schema, Types } from 'mongoose';
+import type { Document, Types } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 interface IUser {
   _id: Types.ObjectId;
@@ -43,7 +44,7 @@ const UserSchema = new Schema<UserDocument>(
       createdAt: 'createdAt',
       updatedAt: 'updatedAt',
     },
-  }
+  },
 );
 
 UserSchema.methods = {

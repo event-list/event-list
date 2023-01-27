@@ -1,25 +1,28 @@
 // loaders
-import * as UserLoader from './user/UserLoader';
 import * as EventLoader from './event/EventLoader';
+import * as UserLoader from './user/UserLoader';
 
 export { UserLoader, EventLoader };
 
+// core
+export { GRAPHQL_TYPE } from './core/GRAPHQL_TYPE';
+
 // node
+export { nodeField, registerTypeLoader, nodeInterface, nodesField } from './node/typeRegister';
+
+// session
 export {
-  nodeField,
-  registerTypeLoader,
-  nodeInterface,
-  nodesField,
-} from './node/typeRegister';
+  ADMIN_USER_SESSION_COOKIE,
+  ADMIN_USER_TOKEN_SCOPES,
+  USER_SESSION_COOKIE,
+  USER_TOKEN_SCOPES,
+} from './session/sessionTokenScopes';
+export { setSessionTokenCookie, generateUserToken } from './session/managementSession';
 
 // user
 export { default as UserModel } from './user/UserModel';
 export type { UserDocument } from './user/UserModel';
-export {
-  handleUserCreate,
-  validateAndSanitizeCreateUser,
-} from './user/create/handleCreateUser';
-export type { HandleCreateUserPayload } from './user/create/handleCreateUser';
+export { handleCreateUser, validateAndSanitizeCreateUser } from './user/create/handleCreateUser';
 
 // event
 export { default as EventModel } from './event/EventModel';

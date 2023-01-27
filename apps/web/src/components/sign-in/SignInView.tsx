@@ -22,10 +22,7 @@ import * as yup from 'yup';
 
 import { Button, InputField } from '@event-list/ui';
 
-import type {
-  SignInMutation,
-  SignInMutation$data,
-} from '../../../__generated__/SignInMutation.graphql';
+import type { SignInMutation, SignInMutation$data } from '../../../__generated__/SignInMutation.graphql';
 import Logo from '../../../data/logo.svg';
 import { SignIn } from './SignInMutation';
 
@@ -105,16 +102,9 @@ export default function SignInView() {
               <Image src={Logo} alt={'Small and red Event List logo'} />
             </Stack>
             <Box pl="1rem">
-              <Heading
-                lineHeight={1.1}
-                fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
-              >
+              <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
                 Ensure your presence in the best events{' '}
-                <Text
-                  as={'span'}
-                  bgGradient="linear(to-r, red.400,pink.400)"
-                  bgClip="text"
-                >
+                <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                   &
                 </Text>{' '}
                 Share them
@@ -131,17 +121,9 @@ export default function SignInView() {
           >
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
-                <Heading
-                  color={'gray.700'}
-                  lineHeight={1.1}
-                  fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
-                >
+                <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
                   Sign in your account{' '}
-                  <Text
-                    as={'span'}
-                    bgGradient="linear(to-r, red.400,pink.400)"
-                    bgClip="text"
-                  >
+                  <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
                 </Heading>
@@ -191,22 +173,13 @@ export default function SignInView() {
               </Box>
             </Stack>
             <Center pt={'3'}>
-              <Link
-                color={'gray.700'}
-                href={'/sign-up'}
-                fontSize={{ base: 'sm', lg: 'md' }}
-              >
+              <Link color={'gray.700'} href={'/sign-up'} fontSize={{ base: 'sm', lg: 'md' }}>
                 Does not have an account? Sign Up
               </Link>
             </Center>
           </Flex>
         </Container>
-        <Blur
-          position={'absolute'}
-          top={-10}
-          left={-10}
-          style={{ filter: 'blur(70px)' }}
-        />
+        <Blur position={'absolute'} top={-10} left={-10} style={{ filter: 'blur(70px)' }} />
       </Box>
     </FormikProvider>
   );

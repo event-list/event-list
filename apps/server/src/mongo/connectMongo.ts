@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import type { ConnectOptions } from 'mongoose';
-import { config } from './config';
+
+import { config } from '@event-list/shared';
 
 export const connectMongo = (options: ConnectOptions) =>
   new Promise<void>((resolve, reject) => {

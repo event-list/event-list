@@ -1,34 +1,35 @@
-import { CacheConfig, Network, QueryResponseCache, RequestParameters, Variables } from 'relay-runtime'
+import type { CacheConfig, RequestParameters, Variables } from 'relay-runtime';
+import { Network, QueryResponseCache } from 'relay-runtime';
 
-const ONE_MINUTE_IN_MS = 60 * 1000
+const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export function createNetwork() {
   const responseCache = new QueryResponseCache({
     size: 100,
-    ttl: ONE_MINUTE_IN_MS
-  })
+    ttl: ONE_MINUTE_IN_MS,
+  });
 
   async function fetchResponse(operation: RequestParameters, variables: Variables, cacheConfig: CacheConfig) {
-    const { id, text } = operation
+    const { id, text } = operation;
 
-    const queryID = id || text
+    const queryID = id || text;
 
-    const isQuery = operation.operationKind === 'query'
-    const forceFetch = cacheConfig && cacheConfig.force
+    const isQuery = operation.operationKind === 'query';
+    const forceFetch = cacheConfig && cacheConfig.force;
     if (isQuery && !forceFetch) {
-      const fromCache = responseCache.get(queryID, variables)
+      const fromCache = responseCache.get(queryID, variables);
       if (fromCache != null) {
-        return Promise.resolve(fromCache)
+        return Promise.resolve(fromCache);
       }
     }
 
-    return networkFetch(operation, variables)
+    return networkFetch(operation, variables);
   }
 
-  const network = Network.create(fetchResponse)
+  const network = Network.create(fetchResponse);
 
-  network.responseCache = responseCache
-  return network
+  network.responseCache = responseCache;
+  return network;
 }
 
 export async function networkFetch(params: RequestParameters, variables: Variables, headers = {}) {
@@ -37,16 +38,16 @@ export async function networkFetch(params: RequestParameters, variables: Variabl
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      ...headers
+      ...headers,
     },
     body: JSON.stringify({
       query: params.text,
       variables,
-      operationName: params.name
+      operationName: params.name,
     }),
     // credentials: 'same-origin',
-    credentials: 'include'
-  })
+    credentials: 'include',
+  });
 
-  return response.json()
+  return response.json();
 }

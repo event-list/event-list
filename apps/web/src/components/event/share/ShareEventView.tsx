@@ -1,14 +1,4 @@
-import {
-  Box,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  HStack,
-  Image,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Flex, FormControl, HStack, Image, Stack, Text } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import { useS3Upload } from 'next-s3-upload';
 import { useRouter } from 'next/router';
@@ -16,50 +6,44 @@ import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
-import { ShareEvent } from './ShareEventMutation';
-import {
-  ShareEventMutation,
-  ShareEventMutation$data,
-} from '../../../../__generated__/ShareEventMutation.graphql';
+
 import {
   InputFile,
   InputArea,
   TextDecorated,
   InputField,
-  InputMask,
   Button,
+  InputMaps,
+  InputDate,
+  InputHours,
+  InputAge,
 } from '@event-list/ui';
 
-type ShareEventParams = {
-  title: string;
-  description: string;
-  label: string;
-  date: string;
-  eventOpenAt: string;
-  eventEndAt: string;
-  listAvailableAt: string;
-  classification: string;
-  price: string;
-};
+import type { ShareEventMutation, ShareEventMutation$data } from '../../../../__generated__/ShareEventMutation.graphql';
+import { ShareEvent } from './ShareEventMutation';
 
-const ShareEventSchema = yup.object().shape({
+type ShareEventParams = yup.InferType<typeof ShareEventSchema>;
+
+const ShareEventSchema = yup.object({
   title: yup.string().required('Title is required'),
   description: yup.string().required('Password is required'),
   label: yup.string().required('Label is required'),
+  place: yup.string().required('Place is required'),
   date: yup.string().required('Date is required'),
   eventOpenAt: yup.string().required('Event open at is required'),
   eventEndAt: yup.string().required('Event end at is required'),
   listAvailableAt: yup.string().required('List available at is required'),
   classification: yup.string().required('Classification is required'),
   price: yup.string().required('Price is required'),
+  flyer: yup.string().required('Flyer is required'),
 });
 
+const googleMapsApiToken = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
 export default function ShareEventView() {
-  const [imageUrl, setImageUrl] = useState<string>('');
   const { uploadToS3 } = useS3Upload();
 
-  const [EventShareEvent, isPending] =
-    useMutation<ShareEventMutation>(ShareEvent);
+  const [EventShareEvent, isPending] = useMutation<ShareEventMutation>(ShareEvent);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -69,7 +53,7 @@ export default function ShareEventView() {
     const file = event.target.files[0];
     const { url } = await uploadToS3(file);
 
-    setImageUrl(url);
+    values.flyer = url;
   };
 
   const onSubmit = (values: ShareEventParams) => {
@@ -80,12 +64,13 @@ export default function ShareEventView() {
           description: values.description,
           label: values.label,
           date: values.date,
+          place: values.place,
           eventOpenAt: values.eventOpenAt,
           eventEndAt: values.eventEndAt,
           listAvailableAt: values.listAvailableAt,
           classification: values.classification,
           price: values.price,
-          flyer: imageUrl,
+          flyer: values.flyer,
         },
       },
       onCompleted: ({ CreateEventMutation }: ShareEventMutation$data) => {
@@ -115,6 +100,7 @@ export default function ShareEventView() {
       description: '',
       label: '',
       date: '',
+      place: '',
       eventOpenAt: '',
       eventEndAt: '',
       listAvailableAt: '',
@@ -126,24 +112,16 @@ export default function ShareEventView() {
     onSubmit,
   });
 
-  const { handleSubmit, isValid } = formik;
+  const { handleSubmit, isValid, dirty, values } = formik;
 
-  const isDisabled = !isValid || isPending;
+  const isDisabled = !isValid || isPending || !dirty;
 
   return (
     <FormikProvider value={formik}>
-      <Flex
-        rounded={'xl'}
-        p={{ base: 4, sm: 6, md: 8 }}
-        justifyContent="center"
-      >
+      <Flex rounded={'xl'} p={{ base: 4, sm: 6, md: 8 }} justifyContent="center">
         <Stack spacing={8} mx={'auto'} maxW={'6xl'} px={6}>
           <Stack align={'center'}>
-            <TextDecorated
-              fontSize={'6xl'}
-              fontWeight={'bold'}
-              textAlign={'center'}
-            >
+            <TextDecorated fontSize={'6xl'} fontWeight={'bold'} textAlign={'center'}>
               Share your Event
             </TextDecorated>
             <Text fontSize={'lg'} color={'gray.500'}>
@@ -155,12 +133,7 @@ export default function ShareEventView() {
               <HStack>
                 <Box w="full">
                   <FormControl id="title" isRequired>
-                    <InputField
-                      name="title"
-                      label="Title:"
-                      placeholder="Event name"
-                      labelProps={{ fontSize: 'xl' }}
-                    />
+                    <InputField name="title" label="Title:" placeholder="Event name" labelProps={{ fontSize: 'xl' }} />
                   </FormControl>
                 </Box>
                 <Box w="full">
@@ -177,60 +150,33 @@ export default function ShareEventView() {
               <HStack>
                 <Box w="full">
                   <FormControl id="price" isRequired>
-                    <InputField
-                      name="price"
-                      label="Price:"
-                      placeholder="00,00"
-                      labelProps={{ fontSize: 'xl' }}
-                    />
+                    <InputField name="price" label="Price:" placeholder="00,00" labelProps={{ fontSize: 'xl' }} />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="date" isRequired>
-                    <InputMask
-                      type="text"
-                      labelProps={{ fontSize: 'xl' }}
-                      label="Date:"
-                      name="date"
-                      placeholder="YYYY/MM/DD"
-                      mask={[
-                        /[2]/,
-                        /[0]/,
-                        /[2-3]/,
-                        /[2-9]/,
-                        '-',
-                        /[0-1]/,
-                        /[0-9]/,
-                        '-',
-                        /[0-3]/,
-                        /[0-9]/,
-                      ]}
-                    />
+                    <InputDate labelProps={{ fontSize: 'xl' }} label="Date:" name="date" />
                   </FormControl>
                 </Box>
               </HStack>
               <HStack>
                 <Box w="full">
                   <FormControl id="eventOpenAt" isRequired>
-                    <InputMask
-                      type="text"
+                    <InputHours
                       labelProps={{ fontSize: 'xl' }}
                       name="eventOpenAt"
                       label="Event Open At:"
                       placeholder="20:00"
-                      mask={[/[0-2]/, /[0-4]/, ':', /[0-5]/, /[0-9]/]}
                     />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="eventEndAt" isRequired>
-                    <InputMask
-                      type="text"
+                    <InputHours
+                      labelProps={{ fontSize: 'xl' }}
                       name="eventEndAt"
                       label="Event End At:"
                       placeholder="04:00"
-                      mask={[/[0-2]/, /[0-4]/, ':', /[0-5]/, /[0-9]/]}
-                      labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
                 </Box>
@@ -238,24 +184,28 @@ export default function ShareEventView() {
               <HStack>
                 <Box w="full">
                   <FormControl id="listAvailableAt" isRequired>
-                    <InputMask
-                      type="text"
+                    <InputHours
+                      labelProps={{ fontSize: 'xl' }}
                       name="listAvailableAt"
                       label="List Available At:"
                       placeholder="23:00"
-                      mask={[/[0-2]/, /[0-4]/, ':', /[0-5]/, /[0-9]/]}
-                      labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="classification" isRequired>
-                    <InputMask
-                      type="text"
-                      name="classification"
-                      label="Classification:"
-                      placeholder="18+"
-                      mask="99"
+                    <InputAge labelProps={{ fontSize: 'xl' }} name="classification" label="Classification:" />
+                  </FormControl>
+                </Box>
+              </HStack>
+              <HStack>
+                <Box w="full">
+                  <FormControl id="place" isRequired>
+                    <InputMaps
+                      name="place"
+                      apiKey={googleMapsApiToken}
+                      label="Place:"
+                      placeholder="Event place"
                       labelProps={{ fontSize: 'xl' }}
                     />
                   </FormControl>
@@ -280,13 +230,9 @@ export default function ShareEventView() {
                     />
                   </FormControl>
                 </Box>
-                {imageUrl && (
+                {values.flyer && (
                   <Box maxW="100px">
-                    <Image
-                      src={imageUrl}
-                      alt="flyer-preview"
-                      borderRadius="10px"
-                    />
+                    <Image src={values.flyer} alt="flyer-preview" borderRadius="10px" />
                   </Box>
                 )}
               </HStack>
@@ -298,7 +244,7 @@ export default function ShareEventView() {
                   onClick={() => handleSubmit()}
                   disabled={isDisabled}
                   text={'Send Event'}
-                  isSubmitting={false}
+                  isSubmitting={isPending}
                 />
               </Stack>
             </Stack>

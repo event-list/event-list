@@ -1,5 +1,7 @@
 import type { Document } from 'mongoose';
 
+// @ts-expect-error idk
+// eslint-disable-next-line import/no-unresolved
 import * as M from '../src/models';
 
 // rethink this approach
@@ -46,6 +48,5 @@ export const createFromMongoDriver = async <T extends Record<string, unknown>>(
 };
 
 export const createRowWithoutDefaults =
-  (createRow: () => Promise<Document>, overrides: { [key: string]: any }) =>
-  async (args) =>
+  (createRow: () => Promise<Document>, overrides: { [key: string]: any }) => async (args) =>
     await createFromMongoDriver(createRow, overrides, args);

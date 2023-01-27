@@ -25,10 +25,7 @@ type LayoutProps = {
 };
 
 export default function RootLayout(props: LayoutProps) {
-  const { me: userPreloaded } = usePreloadedQuery(
-    LayoutQuery,
-    props.preloadedQuery,
-  );
+  const { me: userPreloaded } = usePreloadedQuery(LayoutQuery, props.preloadedQuery);
 
   const [logout] = useLogout();
   const [user] = useAuth(userPreloaded!);

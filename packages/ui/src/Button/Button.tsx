@@ -1,15 +1,16 @@
-import { Button as ChakraButton, ButtonProps as ChakraButtonProps, Spinner, Text } from '@chakra-ui/react'
+import type { ButtonProps as ChakraButtonProps } from '@chakra-ui/react';
+import { Button as ChakraButton, Spinner, Text } from '@chakra-ui/react';
 
 type ButtonProps = {
-  text: string
-  isSubmitting: boolean
-} & ChakraButtonProps
+  text: string;
+  isSubmitting: boolean;
+} & ChakraButtonProps;
 
 const Button = (props: ButtonProps) => {
-  const { text = '', isSubmitting, ...restProps } = props
+  const { text = '', isSubmitting, ...restProps } = props;
   return (
     <ChakraButton
-      bgGradient='linear(to-r, red.500,pink.600)'
+      bgGradient="linear(to-r, red.500,pink.600)"
       color={'white'}
       _hover={{
         bgGradient: 'linear(to-r, red.600,pink.700)',
@@ -20,7 +21,7 @@ const Button = (props: ButtonProps) => {
     >
       {isSubmitting ? <Spinner /> : <Text>{text}</Text>}
     </ChakraButton>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

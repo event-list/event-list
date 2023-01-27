@@ -1,6 +1,7 @@
 import { Textarea, Text } from '@chakra-ui/react';
 import type { TextareaProps, FormLabelProps } from '@chakra-ui/react';
 import { useField } from 'formik';
+
 import TextFormLabel from '../Text/TextFormLabel';
 
 type InputAreaProps = {
@@ -30,8 +31,7 @@ const InputArea = (props: InputAreaProps) => {
     return {};
   };
 
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    //@ts-expect-error
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
 
     helpers.setValue(value);
@@ -53,18 +53,17 @@ const InputArea = (props: InputAreaProps) => {
 
   return (
     <>
-      {label && <TextFormLabel label={label} {...props.labelProps} />}
+      {label && <TextFormLabel label={label} fontSize={{ base: '13px', md: 'sm' }} {...props.labelProps} />}
       <Textarea
-        mt="0.5rem"
+        fontSize={{ base: '13px', md: 'sm' }}
         name={name}
-        //@ts-expect-error
         onChange={handleChange}
         value={field.value}
         onBlur={handleBlur}
         {...textInputProps}
       />
       {meta?.error && meta?.touched ? (
-        <Text color="red.600" fontSize={'sm'}>
+        <Text color="red.600" fontSize={{ base: 'smaller' }} position={'absolute'}>
           {meta.error}
         </Text>
       ) : null}

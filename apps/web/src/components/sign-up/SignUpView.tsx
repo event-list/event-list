@@ -1,5 +1,3 @@
-'use client';
-
 import type { IconProps } from '@chakra-ui/react';
 import {
   Box,
@@ -27,12 +25,9 @@ import { useState } from 'react';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
-import { Button, TextDecorated, InputField } from '@event-list/ui';
+import { Button, InputField } from '@event-list/ui';
 
-import type {
-  SignUpMutation,
-  SignUpMutation$data,
-} from '../../../__generated__/SignUpMutation.graphql';
+import type { SignUpMutation, SignUpMutation$data } from '../../../__generated__/SignUpMutation.graphql';
 import Logo from '../../../data/logo.svg';
 import { SignUp } from './SignUpMutation';
 
@@ -121,16 +116,9 @@ export default function SignUpView() {
               <Image src={Logo} alt={'Small and red Event List logo'} />
             </Stack>
             <Box pl="1rem">
-              <Heading
-                lineHeight={1.1}
-                fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
-              >
+              <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
                 Ensure your presence in the best events{' '}
-                <Text
-                  as={'span'}
-                  bgGradient="linear(to-r, red.400,pink.400)"
-                  bgClip="text"
-                >
+                <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                   &
                 </Text>{' '}
                 Share them
@@ -147,17 +135,9 @@ export default function SignUpView() {
           >
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
-                <Heading
-                  color={'gray.700'}
-                  lineHeight={1.1}
-                  fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
-                >
+                <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
                   Sign up your account{' '}
-                  <Text
-                    as={'span'}
-                    bgGradient="linear(to-r, red.400,pink.400)"
-                    bgClip="text"
-                  >
+                  <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
                 </Heading>
@@ -212,25 +192,12 @@ export default function SignUpView() {
                       <FormLabel as={Text} color={'gray.700'}>
                         Gender:{' '}
                       </FormLabel>
-                      <RadioGroup
-                        onChange={setGender}
-                        value={gender}
-                        color={'gray.700'}
-                        mt="0.5rem"
-                      >
+                      <RadioGroup onChange={setGender} value={gender} color={'gray.700'} mt="0.5rem">
                         <Stack direction="row">
-                          <Radio
-                            value="m"
-                            colorScheme="red"
-                            borderColor="gray.400"
-                          >
+                          <Radio value="m" colorScheme="red" borderColor="gray.400">
                             Male
                           </Radio>
-                          <Radio
-                            value="f"
-                            colorScheme="red"
-                            borderColor="gray.400"
-                          >
+                          <Radio value="f" colorScheme="red" borderColor="gray.400">
                             Female
                           </Radio>
                         </Stack>
@@ -251,22 +218,13 @@ export default function SignUpView() {
               </Box>
             </Stack>
             <Center pt={'3'}>
-              <Link
-                color={'gray.700'}
-                href={'/sign-in'}
-                fontSize={{ base: 'sm', lg: 'md' }}
-              >
+              <Link color={'gray.700'} href={'/sign-in'} fontSize={{ base: 'sm', lg: 'md' }}>
                 Already have an account? Sign In
               </Link>
             </Center>
           </Flex>
         </Container>
-        <Blur
-          position={'absolute'}
-          top={-10}
-          left={-10}
-          style={{ filter: 'blur(70px)' }}
-        />
+        <Blur position={'absolute'} top={-10} left={-10} style={{ filter: 'blur(70px)' }} />
       </Box>
     </FormikProvider>
   );

@@ -1,5 +1,5 @@
-import validator from 'validator';
-import UserModel, { UserDocument } from '../UserModel';
+import type { UserDocument } from '../UserModel';
+import UserModel from '../UserModel';
 
 type HandleCreateUserPayload = {
   email: string;
@@ -17,10 +17,7 @@ function validateGender(gender: string) {
   return gender.toLowerCase() === 'f' || gender.toLowerCase() === 'm';
 }
 
-async function validateAndSanitizeCreateUser({
-  payload,
-  context,
-}: HandleCreateUserArgs) {
+async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateUserArgs) {
   const { t } = context;
   const { email, name, password, gender } = payload;
 
@@ -73,12 +70,10 @@ async function validateAndSanitizeCreateUser({
   };
 }
 
-const handleUserCreate = async ({
+const handleCreateUser = async ({
   payload,
   context,
-}: HandleCreateUserArgs): Promise<
-  { error?: null; user: UserDocument } | { error: string; user?: null }
-> => {
+}: HandleCreateUserArgs): Promise<{ error?: null; user: UserDocument } | { error: string; user?: null }> => {
   const {
     email,
     name,
@@ -106,5 +101,4 @@ const handleUserCreate = async ({
   };
 };
 
-export type { HandleCreateUserPayload };
-export { validateAndSanitizeCreateUser, handleUserCreate };
+export { validateAndSanitizeCreateUser, handleCreateUser };

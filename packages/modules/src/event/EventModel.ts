@@ -1,4 +1,5 @@
-import { Date, Document, model, Schema, Types } from 'mongoose';
+import type { Document, Types } from 'mongoose';
+import { Date, model, Schema } from 'mongoose';
 
 type IEvent = {
   _id: Types.ObjectId;
@@ -7,6 +8,7 @@ type IEvent = {
   slug: string;
   flyer: string;
   label: string;
+  place: string;
   published: boolean;
   date: Date;
   eventOpenAt: string;
@@ -18,7 +20,7 @@ type IEvent = {
   updatedAt: Date;
 };
 
-type EventDocument = IEvent & Document;
+type EventDocument = Document & IEvent;
 
 const EventSchema = new Schema<EventDocument>(
   {
@@ -39,6 +41,10 @@ const EventSchema = new Schema<EventDocument>(
       required: true,
     },
     label: {
+      type: String,
+      required: true,
+    },
+    place: {
       type: String,
       required: true,
     },
@@ -77,7 +83,7 @@ const EventSchema = new Schema<EventDocument>(
       createdAt: 'createdAt',
       updatedAt: 'updatedAt',
     },
-  }
+  },
 );
 
 const EventModel = model<EventDocument>('Event', EventSchema);

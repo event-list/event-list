@@ -12,14 +12,7 @@ type InputMaskProps = {
 
 const InputMask = (props: InputMaskProps) => {
   const { labelProps, ...restProps } = props;
-  return (
-    <InputField
-      as={InputMaskPackage}
-      maskPlaceholder={null}
-      {...restProps}
-      labelProps={labelProps}
-    />
-  );
+  return <InputField as={InputMaskPackage} maskPlaceholder={null} {...restProps} labelProps={labelProps} />;
 };
 
 export default InputMask;

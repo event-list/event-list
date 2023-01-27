@@ -4,14 +4,7 @@ import mongoose from 'mongoose';
 const { ObjectId } = mongoose.Types;
 
 // https://github.com/Microsoft/TypeScript/issues/3496#issuecomment-128553540
-type Value =
-  | string
-  | boolean
-  | null
-  | undefined
-  | IValueObject
-  | IValueArray
-  | object;
+type Value = string | boolean | null | undefined | IValueObject | IValueArray | object;
 interface IValueObject {
   [x: string]: Value;
 }
@@ -62,10 +55,7 @@ export const sanitizeValue = (
     const cleanValue = value.toString().replace(/[^a-z0-9]/gi, '');
 
     // Check if it's a valid `ObjectId`, if so, replace it with a static value
-    if (
-      ObjectId.isValid(cleanValue) &&
-      value.toString().indexOf(cleanValue) !== -1
-    ) {
+    if (ObjectId.isValid(cleanValue) && value.toString().indexOf(cleanValue) !== -1) {
       return value.toString().replace(cleanValue, 'ObjectId');
     }
 

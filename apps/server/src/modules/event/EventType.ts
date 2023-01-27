@@ -1,6 +1,7 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { connectionDefinitions, globalIdField } from 'graphql-relay';
 import { GraphQLBoolean } from 'graphql/type';
+
 import { EventLoader, nodeInterface, registerTypeLoader } from '@event-list/modules';
 
 const EventType = new GraphQLObjectType({
@@ -27,6 +28,10 @@ const EventType = new GraphQLObjectType({
     label: {
       type: GraphQLString,
       resolve: (event) => event.label,
+    },
+    place: {
+      type: GraphQLString,
+      resolve: (event) => event.place,
     },
     published: {
       type: GraphQLBoolean,
@@ -62,10 +67,9 @@ const EventType = new GraphQLObjectType({
 
 registerTypeLoader(EventType, EventLoader.load);
 
-const { connectionType: EventConnection, edgeType: EventEdge } =
-  connectionDefinitions({
-    name: 'Event',
-    nodeType: EventType,
-  });
+const { connectionType: EventConnection, edgeType: EventEdge } = connectionDefinitions({
+  name: 'Event',
+  nodeType: EventType,
+});
 
 export { EventConnection, EventEdge, EventType };

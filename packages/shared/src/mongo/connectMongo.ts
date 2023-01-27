@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import type { ConnectOptions } from 'mongoose';
 
-import { MONGO_URI } from '../config';
+import { MONGO_URL } from '../config';
 
 export const connectMongo = (options: ConnectOptions) =>
   new Promise((resolve, reject) => {
@@ -31,5 +31,5 @@ export const connectMongo = (options: ConnectOptions) =>
         resolve();
       });
 
-    mongoose.connect(MONGO_URI, options);
+    mongoose.connect(MONGO_URL, options);
   });

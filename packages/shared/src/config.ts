@@ -1,10 +1,5 @@
-import path from 'path';
-
 import dotenvSafe from 'dotenv-safe';
-
-import { version } from '../package.json';
-
-export const PACKAGE_VERSION = version;
+import path from 'path';
 
 const cwd = process.cwd();
 
@@ -15,10 +10,8 @@ dotenvSafe.config({
   sample: root('.env.example'),
 });
 
-export const {
-  MONGO_URI,
-  JWT_SECRET
-} = process.env;
+export const { MONGO_URL, NODE_ENV, JWT_SECRET } = process.env;
 
-export const EVENTLIST_ENV = process.env.EVENTLIST_ENV || 'development';
-export const API_PORT = process.env.API_PORT || 9003;
+export const EVENT_LIST_ENV = process.env.EVENT_LIST_ENV || 'development';
+
+export const API_PORT = process.env.API_PORT || 4000;

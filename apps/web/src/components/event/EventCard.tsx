@@ -1,16 +1,8 @@
-import {
-  Box,
-  Center,
-  Flex,
-  Image,
-  Stack,
-  Text,
-  VStack,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { TextDecorated } from '@event-list/ui';
-import Link from 'next/link';
+import { Box, Center, Flex, Image, Stack, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import timestampToDate from 'timestamp-to-date';
+
+import { TextDecorated } from '@event-list/ui';
 
 const EventCard = ({ event }) => {
   if (!event?.node) {
@@ -18,8 +10,8 @@ const EventCard = ({ event }) => {
   }
 
   return (
-    <Link href={`/event/${event?.node?.id}`}>
-      <Center py={12}>
+    <NextLink href={`/event/${event?.node?.id}`}>
+      <Center py={12} cursor={'pointer'}>
         <Box
           role={'group'}
           p={6}
@@ -65,11 +57,7 @@ const EventCard = ({ event }) => {
             />
           </Box>
           <Stack pt={10} align={'center'}>
-            <Text
-              color={'gray.500'}
-              fontSize={'sm'}
-              textTransform={'uppercase'}
-            >
+            <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
               {event?.node?.label}
             </Text>
             <TextDecorated fontSize={'2xl'} fontWeight={'bold'}>
@@ -105,7 +93,7 @@ const EventCard = ({ event }) => {
           </Stack>
         </Box>
       </Center>
-    </Link>
+    </NextLink>
   );
 };
 

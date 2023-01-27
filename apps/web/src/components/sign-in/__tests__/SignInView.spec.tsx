@@ -26,9 +26,7 @@ it('should render the login form', async () => {
   );
 
   expect(screen.getByLabelText('Email:', { exact: false })).toBeInTheDocument();
-  expect(
-    screen.getByLabelText('Password:', { exact: false }),
-  ).toBeInTheDocument();
+  expect(screen.getByLabelText('Password:', { exact: false })).toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
 });
 
@@ -59,9 +57,7 @@ it('should show an error if no password', async () => {
   await waitFor(() => {
     expect(emailField).toHaveValue(variables.email);
     expect(passwordField).toHaveValue('');
-    expect(
-      screen.getByText('Password is required', { exact: false }),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Password is required', { exact: false })).toBeInTheDocument();
   });
 
   expect(screen.getByRole('button', { name: 'Login' })).toBeTruthy();

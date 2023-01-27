@@ -1,5 +1,5 @@
-import { getCookie } from 'cookies-next'
+import { getCookie } from 'cookies-next';
 
 export default function getToken({ req, res }) {
-  return getCookie('jwt', { req, res })
+  return getCookie('userToken', { req, res });
 }

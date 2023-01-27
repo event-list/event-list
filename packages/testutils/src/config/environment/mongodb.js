@@ -1,7 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs');
-const path = require('path');
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { TestEnvironment } = require('jest-environment-node');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { v4: uuidv4 } = require('uuid');
 
 const cwd = process.cwd();
@@ -9,8 +12,8 @@ const cwd = process.cwd();
 const globalConfigPath = path.join(cwd, 'globalConfig.json');
 
 class MongoDbEnvironment extends TestEnvironment {
-  constructor({globalConfig, projectConfig}, context) {
-    super({globalConfig, projectConfig}, context);
+  constructor({ globalConfig, projectConfig }, context) {
+    super({ globalConfig, projectConfig }, context);
     const config = projectConfig;
   }
 
@@ -19,7 +22,7 @@ class MongoDbEnvironment extends TestEnvironment {
 
     const globalConfig = JSON.parse(fs.readFileSync(globalConfigPath, 'utf-8'));
 
-    this.global.__MONGO_URI__ = globalConfig.mongoUri;
+    this.global.__MONGO_URL__ = globalConfig.mongoUri;
     this.global.__MONGO_DB_NAME__ = uuidv4();
 
     this.global.__COUNTERS__ = {

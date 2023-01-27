@@ -13,20 +13,18 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
-import {
-  BsDoorClosedFill,
-  BsDoorOpenFill,
-  BsFillCalendarDateFill,
-} from 'react-icons/bs';
+import type { ReactNode } from 'react';
+import { BsDoorClosedFill, BsDoorOpenFill, BsFillCalendarDateFill } from 'react-icons/bs';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { MdFactCheck } from 'react-icons/md';
 import { SiAdblock } from 'react-icons/si';
 import { useFragment } from 'react-relay';
 import { graphql } from 'relay-runtime';
 import timestampToDate from 'timestamp-to-date';
-import { EventFragment_event$key } from '../../../__generated__/EventFragment_event.graphql';
+
 import { Button, TextDecorated } from '@event-list/ui';
+
+import type { EventFragment_event$key } from '../../../__generated__/EventFragment_event.graphql';
 
 const EventFragment = graphql`
   fragment EventFragment_event on Event {
@@ -43,45 +41,26 @@ const EventFragment = graphql`
     listAvailableAt
     classification
     price
+    place
   }
 `;
 
 export default function Event(props: { fragmentKey: EventFragment_event$key }) {
-  const event = useFragment<EventFragment_event$key>(
-    EventFragment,
-    props.fragmentKey
-  );
+  const event = useFragment<EventFragment_event$key>(EventFragment, props.fragmentKey);
 
   return (
-    <SimpleGrid
-      columns={{ base: 1, lg: 2 }}
-      spacing={{ base: 8, md: 10 }}
-      py={{ base: 1, md: 7 }}
-    >
+    <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }} py={{ base: 1, md: 7 }}>
       <Center>
         <Box rounded={'lg'} pos={'relative'}>
-          <Image
-            rounded={'lg'}
-            width={632}
-            objectFit={'cover'}
-            src={event?.flyer ?? ''}
-          />
+          <Image rounded={'lg'} width={632} objectFit={'cover'} src={event?.flyer ?? ''} />
         </Box>
       </Center>
       <Stack spacing={{ base: 1, md: 5 }}>
         <Box as={'header'}>
-          <TextDecorated
-            lineHeight={1.1}
-            fontWeight={'bold'}
-            fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
-          >
+          <TextDecorated lineHeight={1.1} fontWeight={'bold'} fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
             {event.title}
           </TextDecorated>
-          <Text
-            color={useColorModeValue('gray.700', 'gray.200')}
-            fontWeight={300}
-            fontSize={'2xl'}
-          >
+          <Text color={useColorModeValue('gray.700', 'gray.200')} fontWeight={300} fontSize={'2xl'}>
             {event.label}
           </Text>
         </Box>
@@ -89,17 +68,9 @@ export default function Event(props: { fragmentKey: EventFragment_event$key }) {
         <Stack
           spacing={{ base: 2, sm: 4 }}
           direction={'column'}
-          divider={
-            <StackDivider
-              borderColor={useColorModeValue('gray.200', 'gray.600')}
-            />
-          }
+          divider={<StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />}
         >
-          <Text
-            textAlign="left"
-            color={useColorModeValue('gray.500', 'gray.400')}
-            fontSize={'lg'}
-          >
+          <Text textAlign="left" color={useColorModeValue('gray.500', 'gray.400')} fontSize={'lg'}>
             {event.description}
           </Text>
           <Box>
@@ -114,17 +85,14 @@ export default function Event(props: { fragmentKey: EventFragment_event$key }) {
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
               <List spacing={2}>
                 <ListItem>
-                  <Text>wip</Text>
+                  <Text>{event.place}</Text>
                 </ListItem>
               </List>
             </SimpleGrid>
           </Box>
 
           <Box>
-            <SimpleGrid
-              columns={{ base: 2, md: 3 }}
-              spacing={{ base: 5, lg: 8 }}
-            >
+            <SimpleGrid columns={{ base: 2, md: 3 }} spacing={{ base: 5, lg: 8 }}>
               <StatsCard
                 title={'Price'}
                 stat={`R$${event.price},00` ?? '00,00'}
@@ -197,22 +165,14 @@ function StatsCard(props: StatsCardProps) {
         transitionDuration: '20ms',
       }}
     >
-      <Flex
-        justifyContent={'space-between'}
-        alignContent="center"
-        alignItems={'center'}
-        px={'1'}
-      >
+      <Flex justifyContent={'space-between'} alignContent="center" alignItems={'center'} px={'1'}>
         <Box>
           <TextDecorated fontWeight={'base'}>{title}</TextDecorated>
           <StatNumber as={Text} fontSize={'md'} fontWeight={'medium'} color={useColorModeValue('gray.700', 'gray.200')}>
             {stat}
           </StatNumber>
         </Box>
-        <Box
-          color={useColorModeValue('gray.700', 'gray.200')}
-          alignContent={'center'}
-        >
+        <Box color={useColorModeValue('gray.700', 'gray.200')} alignContent={'center'}>
           {icon}
         </Box>
       </Flex>

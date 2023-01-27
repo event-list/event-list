@@ -1,15 +1,13 @@
 import { SimpleGrid, Text } from '@chakra-ui/react';
 import { graphql, usePaginationFragment } from 'react-relay';
-import { EventsListFragment_query$key } from '../../../__generated__/EventsListFragment_query.graphql';
-import { EventsListPagination_query } from '../../../__generated__/EventsListPagination_query.graphql';
+
+import type { EventsListFragment_query$key } from '../../../__generated__/EventsListFragment_query.graphql';
+import type { EventsListPagination_query } from '../../../__generated__/EventsListPagination_query.graphql';
 import { EventCard } from './EventCard';
 
 const EventsListFragment = graphql`
   fragment EventsListFragment_query on Query
-  @argumentDefinitions(
-    first: { type: Int, defaultValue: 20 }
-    after: { type: String }
-  )
+  @argumentDefinitions(first: { type: Int, defaultValue: 20 }, after: { type: String })
   @refetchable(queryName: "EventsListPagination_query") {
     events(first: $first, after: $after) @connection(key: "Events_events") {
       edges {
@@ -37,13 +35,11 @@ const EventsListFragment = graphql`
   }
 `;
 
-export default function EventsList(props: {
-  fragmentKey: EventsListFragment_query$key;
-}) {
-  const { data, loadNext } = usePaginationFragment<
-    EventsListPagination_query,
-    EventsListFragment_query$key
-  >(EventsListFragment, props.fragmentKey);
+export default function EventsList(props: { fragmentKey: EventsListFragment_query$key }) {
+  const { data, loadNext } = usePaginationFragment<EventsListPagination_query, EventsListFragment_query$key>(
+    EventsListFragment,
+    props.fragmentKey,
+  );
 
   const events = data.events;
 
@@ -57,8 +53,8 @@ export default function EventsList(props: {
 
   return (
     <SimpleGrid minChildWidth="350px" spacing="20px">
-      {events.edges.map((event) => (
-        <EventCard event={event} />
+      {events.edges.map((event, index) => (
+        <EventCard key={index} event={event} />
       ))}
     </SimpleGrid>
   );

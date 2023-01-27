@@ -1,6 +1,7 @@
-import { GraphQLObjectType, GraphQLTypeResolver } from 'graphql';
+import type { GraphQLObjectType, GraphQLTypeResolver } from 'graphql';
 import { fromGlobalId, nodeDefinitions } from 'graphql-relay';
-import { GraphQLContext, Load } from '@event-list/types';
+
+import type { GraphQLContext, Load } from '@event-list/types';
 
 type TypeLoaders = {
   [key: string]: {
@@ -35,7 +36,7 @@ const getTypeRegister = () => {
       const { type } = typesLoaders[obj.constructor.name] || { type: null };
 
       return type.name;
-    }
+    },
   );
 
   return {
@@ -47,7 +48,6 @@ const getTypeRegister = () => {
   };
 };
 
-const { registerTypeLoader, nodeInterface, nodeField, nodesField } =
-  getTypeRegister();
+const { registerTypeLoader, nodeInterface, nodeField, nodesField } = getTypeRegister();
 
 export { registerTypeLoader, nodeInterface, nodeField, nodesField };

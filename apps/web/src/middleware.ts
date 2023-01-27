@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
 function isLoggedIn(request) {
-  const token = request.cookies.get('jwt');;
+  const token = request.cookies.get('userToken');
 
   return Boolean(token);
 }
@@ -9,7 +10,7 @@ function isLoggedIn(request) {
 export default async function middleware(request: NextRequest) {
   const nextPage = NextResponse.next();
 
-  if (!isLoggedIn(request) && request.nextUrl.pathname === '/') {
+  if (!isLoggedIn(request)) {
     const loginURL = new URL('/sign-in', request.url);
 
     return NextResponse.redirect(loginURL);
@@ -19,5 +20,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/'],
+  matcher: ['/((?!_next|sign-in|sign-up).*)'],
 };

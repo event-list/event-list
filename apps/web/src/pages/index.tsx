@@ -14,10 +14,7 @@ const EventsViewQuery = graphql`
 `;
 
 export default function Page(props) {
-  const data = usePreloadedQuery<pagesEventsViewQuery>(
-    EventsViewQuery,
-    props.queryRefs.EventsViewQuery,
-  );
+  const data = usePreloadedQuery<pagesEventsViewQuery>(EventsViewQuery, props.queryRefs.EventsViewQuery);
 
   return (
     <RootLayout preloadedQuery={props.queryRefs.RootLayout}>

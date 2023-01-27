@@ -1,4 +1,4 @@
-import { graphql } from 'react-relay'
+import { graphql } from 'react-relay';
 
 export const SignOut = graphql`
   mutation SignOutMutation($input: UserSignOutMutationInput!) {
@@ -7,4 +7,4 @@ export const SignOut = graphql`
       success
     }
   }
-`
+`;

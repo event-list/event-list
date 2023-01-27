@@ -1,7 +1,8 @@
 import cors from '@koa/cors';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
-import { router } from './router';
+
+import { router } from './graphql/router';
 
 const app = new Koa();
 

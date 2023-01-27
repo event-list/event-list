@@ -1,16 +1,18 @@
 import { errorField, successField } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
-import * as EventLoader from '@event-list/modules/src/event/EventLoader';
-import { EventEdge } from '../EventType';
-import { GraphQLContext } from '@event-list/types';
+
 import { EventModel } from '@event-list/modules';
+import type { GraphQLContext } from '@event-list/types';
+
 import { eventField } from '../EventFields';
+import { EventEdge } from '../EventType';
 
 interface EventCreateArgs {
   title: string;
   description: string;
   label: string;
+  place: string;
   flyer: string;
   date: string;
   eventOpenAt: string;
@@ -20,7 +22,7 @@ interface EventCreateArgs {
   price: string;
 }
 
-export const CreateEventMutation = mutationWithClientMutationId({
+export const EventCreateMutation = mutationWithClientMutationId({
   name: 'CreateEventMutation',
   inputFields: {
     title: {
@@ -30,6 +32,9 @@ export const CreateEventMutation = mutationWithClientMutationId({
       type: new GraphQLNonNull(GraphQLString),
     },
     label: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    place: {
       type: new GraphQLNonNull(GraphQLString),
     },
     flyer: {
@@ -58,7 +63,9 @@ export const CreateEventMutation = mutationWithClientMutationId({
     if (!ctx.user) throw new Error('Unauthorized');
 
     const titleAndLabel = `${args.title}-${args.label}`;
+
     const eventSlug = titleAndLabel.replace(' ', '-').toLowerCase();
+
     const rest = {
       published: true,
       slug: eventSlug,

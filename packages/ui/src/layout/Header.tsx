@@ -26,15 +26,7 @@ import {
 import Image from 'next/image';
 import type { ReactText } from 'react';
 import type { IconType } from 'react-icons';
-import {
-  FiChevronDown,
-  FiHome,
-  FiLogIn,
-  FiLogOut,
-  FiMenu,
-  FiTrendingUp,
-  FiUser,
-} from 'react-icons/fi';
+import { FiChevronDown, FiHome, FiLogIn, FiLogOut, FiMenu, FiTrendingUp, FiUser } from 'react-icons/fi';
 import { HiMoon, HiSun } from 'react-icons/hi';
 
 //@ts-expect-error it not have type
@@ -59,10 +51,7 @@ export default function Header(props: Props) {
 
   return (
     <Box minH="100vh">
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
-      />
+      <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
       <Drawer
         isOpen={isOpen}
         placement="left"
@@ -100,19 +89,10 @@ export default function Header(props: Props) {
                 <ButtonChakra onClick={toggleColorMode} mr={'1rem'}>
                   {colorMode === 'light' ? <HiMoon /> : <HiSun />}
                 </ButtonChakra>
-                <MenuButton
-                  py={2}
-                  transition="all 0.3s"
-                  _focus={{ boxShadow: 'none' }}
-                >
+                <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
                   <HStack>
                     <FiUser />
-                    <VStack
-                      display={{ base: 'none', md: 'flex' }}
-                      alignItems="flex-start"
-                      spacing="1px"
-                      ml="2"
-                    >
+                    <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                       <Text fontSize="base">{props.user?.name}</Text>
                     </VStack>
                     <Box display={{ base: 'none', md: 'flex' }}>
@@ -128,10 +108,7 @@ export default function Header(props: Props) {
                 >
                   {/* <MenuItem>Profile</MenuItem> */}
                   {/* <MenuDivider /> */}
-                  <MenuItem
-                    onClick={props.onLogout}
-                    icon={<Icon w={5} h={6} as={FiLogOut} />}
-                  >
+                  <MenuItem onClick={props.onLogout} icon={<Icon w={5} h={6} as={FiLogOut} />}>
                     <Text>Sign out</Text>
                   </MenuItem>
                 </MenuList>
@@ -177,10 +154,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       >
         <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
           <Image src={Logo} alt={'Small and red Event List logo'} />
-          <CloseButton
-            display={{ base: 'flex', md: 'none' }}
-            onClick={onClose}
-          />
+          <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
         {LinkItems.map((link) => (
           <NavItem key={link.name} icon={link.icon} href={link.href}>
@@ -200,20 +174,8 @@ type NavItemProps = FlexProps & {
 
 const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
   return (
-    <Link
-      href={href}
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        {...rest}
-      >
+    <Link href={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+      <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
         {icon && <Icon mr="4" fontSize="16" as={icon} />}
         {children}
       </Flex>

@@ -19,18 +19,12 @@ interface Props {
   router?: NextRouter;
 }
 
-export const WithProviders = ({
-  children,
-  relayEnvironment = Environment,
-  router = createMockRouter({}),
-}: Props) => {
+export const WithProviders = ({ children, relayEnvironment = Environment, router = createMockRouter({}) }: Props) => {
   return (
     <RouterContext.Provider value={router}>
       <SnackbarProvider>
         <ChakraProvider>
-          <RelayEnvironmentProvider environment={relayEnvironment}>
-            {children}
-          </RelayEnvironmentProvider>
+          <RelayEnvironmentProvider environment={relayEnvironment}>{children}</RelayEnvironmentProvider>
         </ChakraProvider>
       </SnackbarProvider>
     </RouterContext.Provider>

@@ -1,4 +1,5 @@
 import { createLoader } from '@entria/graphql-mongo-helpers';
+
 import EventModel from './EventModel';
 
 const {

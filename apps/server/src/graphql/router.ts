@@ -1,15 +1,13 @@
-import koa from 'koa';
 import Router from '@koa/router';
+import { getGraphQLParameters, processRequest, renderGraphiQL, shouldRenderGraphiQL } from 'graphql-helix';
 import { koaPlayground } from 'graphql-playground-middleware';
-import { schema } from './schema';
-import {
-  getGraphQLParameters,
-  processRequest,
-  renderGraphiQL,
-  shouldRenderGraphiQL,
-} from 'graphql-helix';
-import { getDataloaders } from './loader/loaderRegistry';
-import { getAdminAuth, getUser } from './auth';
+import type koa from 'koa';
+
+import { GRAPHQL_TYPE } from '@event-list/modules';
+
+import { getDataloaders } from '../loader/loaderRegistry';
+import { schema } from '../schema';
+import { getAdminAuth } from './getAuth';
 
 export const serverHelix = async (ctx: koa.Context, next: koa.Next) => {
   const request = ctx.request;
@@ -23,7 +21,9 @@ export const serverHelix = async (ctx: koa.Context, next: koa.Next) => {
 
   const context = {
     dataloaders,
+    graphql: GRAPHQL_TYPE.SERVER,
     ctx,
+    merchant: ctx.merchant,
     user: ctx.user,
     t: (key: string) => key,
   };
@@ -67,7 +67,7 @@ router.all(
   '/graphql/playground',
   koaPlayground({
     endpoint: '/graphql',
-  })
+  }),
 );
 
 router.all('/graphql', serverHelix);

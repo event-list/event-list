@@ -38,14 +38,11 @@ export const getEmailFromSes = (): SesCall[] => {
   return emails;
 };
 
-export const getEmailDestinationEmails = (email: SesCall): string[] =>
-  email.Destination.ToAddresses;
+export const getEmailDestinationEmails = (email: SesCall): string[] => email.Destination.ToAddresses;
 
-export const getEmailReplyTo = (email: SesCall): string[] =>
-  email.ReplyToAddresses;
+export const getEmailReplyTo = (email: SesCall): string[] => email.ReplyToAddresses;
 
-export const getEmailSubject = (email: SesCall): string =>
-  email.Message.Subject.Data;
+export const getEmailSubject = (email: SesCall): string => email.Message.Subject.Data;
 
 export const getEmailSource = (email: SesCall): string => email.Source;
 
@@ -64,13 +61,9 @@ export const getRawEmailFromSes = (): SesCall[] => {
   return emails;
 };
 
-export const getRawEmailDestinationEmails = (email: SesCall): string[] =>
-  email.Destinations;
+export const getRawEmailDestinationEmails = (email: SesCall): string[] => email.Destinations;
 
-export const frozenEmailPaths = [
-  'Message.Body.Html.Data',
-  'Message.Body.Text.Data',
-];
+export const frozenEmailPaths = ['Message.Body.Html.Data', 'Message.Body.Text.Data'];
 
 export const getEmailBody = (email: SesCall) => email.Message.Body.Html.Data;
 
@@ -106,20 +99,10 @@ export const getUserEmail = (user: IUser) => {
   return user.email;
 };
 
-export const checkEmails = ({
-  targets,
-  url,
-}: {
-  targets: { user: IUser; hasAction: boolean }[];
-  url: string;
-}) => {
+export const checkEmails = ({ targets, url }: { targets: { user: IUser; hasAction: boolean }[]; url: string }) => {
   const emails = getEmailFromSes(SES) || [];
-  const sortedEmails = emails.sort(
-    (a, b) => getEmailDestinationEmails(a)[0] < getEmailDestinationEmails(b)[0],
-  );
-  const sortedTargets = targets.sort(
-    (a, b) => getUserEmail(a.user) < getUserEmail(b.user),
-  );
+  const sortedEmails = emails.sort((a, b) => getEmailDestinationEmails(a)[0] < getEmailDestinationEmails(b)[0]);
+  const sortedTargets = targets.sort((a, b) => getUserEmail(a.user) < getUserEmail(b.user));
 
   expect(emails.length).toBe(targets.length);
 
@@ -132,20 +115,13 @@ export const checkEmails = ({
 
 export const assertEventListEmail = (email: SesCall) => {
   expect(getEmailReplyTo(email)[0]).toBe('naoresponda@eventlist.com.br');
-  expect(getEmailSource(email).includes('naoresponda@eventlist.com.br')).toBe(
-      true,
-  );
-  expect(getEmailSource(email).includes('naoresponda@eventlist.com.br')).toBe(
-      true,
-  );
+  expect(getEmailSource(email).includes('naoresponda@eventlist.com.br')).toBe(true);
+  expect(getEmailSource(email).includes('naoresponda@eventlist.com.br')).toBe(true);
 
   expect(getEmailSubject(email).includes('Event List')).toBe(true);
 };
 
-export const getWholeUrlFromEmail = (
-  email: SesCall,
-  aTagPosition: number,
-): string => {
+export const getWholeUrlFromEmail = (email: SesCall, aTagPosition: number): string => {
   const emailBody = getEmailBody(email);
 
   const emailBodyHtml = parse(emailBody);
@@ -165,10 +141,7 @@ export const getWholeUrlFromEmail = (
   return urlComplete;
 };
 
-export const getUrlFromEmail = (
-  email: SesCall,
-  aTagPosition: number,
-): string | null => {
+export const getUrlFromEmail = (email: SesCall, aTagPosition: number): string | null => {
   const urlComplete = getWholeUrlFromEmail(email, aTagPosition);
   if (!urlComplete) {
     return '';
@@ -179,11 +152,7 @@ export const getUrlFromEmail = (
   return url;
 };
 
-export const getParamSearchUrlFromEmail = (
-  email: SesCall,
-  param: string,
-  aTagPosition: number,
-): string | null => {
+export const getParamSearchUrlFromEmail = (email: SesCall, param: string, aTagPosition: number): string | null => {
   const urlComplete = getWholeUrlFromEmail(email, aTagPosition);
 
   if (!urlComplete) {
@@ -199,11 +168,7 @@ export const getParamSearchUrlFromEmail = (
   return paramFromUrl;
 };
 
-export const getUrlAndParamSearchFromEmail = (
-  email: SesCall,
-  param: string,
-  aTagPosition: number,
-) => {
+export const getUrlAndParamSearchFromEmail = (email: SesCall, param: string, aTagPosition: number) => {
   const url = getUrlFromEmail(email, aTagPosition);
   const paramFromUrl = getParamSearchUrlFromEmail(email, param, aTagPosition);
 

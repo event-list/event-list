@@ -1,5 +1,6 @@
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
 import { connectionDefinitions, globalIdField } from 'graphql-relay';
+
 import { UserLoader, registerTypeLoader } from '@event-list/modules';
 
 const UserType = new GraphQLObjectType({
@@ -22,11 +23,10 @@ const UserType = new GraphQLObjectType({
   }),
 });
 
-const { connectionType: UserConnection, edgeType: UserEdge } =
-  connectionDefinitions({
-    name: 'User',
-    nodeType: UserType,
-  });
+const { connectionType: UserConnection, edgeType: UserEdge } = connectionDefinitions({
+  name: 'User',
+  nodeType: UserType,
+});
 
 registerTypeLoader(UserType, UserLoader.load);
 

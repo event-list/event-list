@@ -24,6 +24,7 @@
     "relay:web": "node ./scripts/generateArtifactDirectory.js && yarn workspace @event-list/web relay",
     "schema": "yarn es ./scripts/updateSchema.ts",
     "es": "node -r esbuild-register",
+    "w": "yarn es webpackx.ts",
     "lint": "turbo run lint",
     "lint:staged": "turbo run lint-staged",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -40,7 +41,8 @@
     "mongodb": "^4.13.0",
     "mongodb-memory-server-global": "^8.10.2",
     "supertest": "^6.3.3",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.1.0",
