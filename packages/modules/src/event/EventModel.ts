@@ -1,5 +1,7 @@
 import type { Document, Types } from 'mongoose';
-import { Date, model, Schema } from 'mongoose';
+import mongoose, { Date, model, Schema } from 'mongoose';
+
+const { ObjectId } = mongoose.Schema.Types;
 
 type IEvent = {
   _id: Types.ObjectId;
@@ -7,7 +9,7 @@ type IEvent = {
   description: string;
   slug: string;
   flyer: string;
-  label: string;
+  label: Types.ObjectId;
   place: string;
   published: boolean;
   date: Date;
@@ -41,7 +43,8 @@ const EventSchema = new Schema<EventDocument>(
       required: true,
     },
     label: {
-      type: String,
+      type: ObjectId,
+      ref: 'Merchant',
       required: true,
     },
     place: {

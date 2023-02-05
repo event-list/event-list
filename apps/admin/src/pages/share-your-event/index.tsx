@@ -1,8 +1,7 @@
-import { getPreloadedQuery } from '@event-list/relay';
-
 import RootLayoutGenerated from '../../../__generated__/RootLayoutQuery.graphql';
 import ShareEventView from '../../components/event/share/ShareEventView';
 import RootLayout from '../../components/RootLayout';
+import getPreloadedQuery from '../../relay/getPreloadedQuery';
 
 export default function Page(props) {
   return (

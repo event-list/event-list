@@ -1,9 +1,7 @@
-import { Box, Flex, FormControl, HStack, Image, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, FormControl, HStack, Image, Stack, useToast } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import { useS3Upload } from 'next-s3-upload';
 import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
-import { useState } from 'react';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -27,7 +25,6 @@ type ShareEventParams = yup.InferType<typeof ShareEventSchema>;
 const ShareEventSchema = yup.object({
   title: yup.string().required('Title is required'),
   description: yup.string().required('Password is required'),
-  label: yup.string().required('Label is required'),
   place: yup.string().required('Place is required'),
   date: yup.string().required('Date is required'),
   eventOpenAt: yup.string().required('Event open at is required'),
@@ -45,9 +42,9 @@ export default function ShareEventView() {
 
   const [EventShareEvent, isPending] = useMutation<ShareEventMutation>(ShareEvent);
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
   const router = useRouter();
+
+  const toast = useToast();
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -62,7 +59,6 @@ export default function ShareEventView() {
         input: {
           title: values.title,
           description: values.description,
-          label: values.label,
           date: values.date,
           place: values.place,
           eventOpenAt: values.eventOpenAt,
@@ -75,19 +71,33 @@ export default function ShareEventView() {
       },
       onCompleted: ({ CreateEventMutation }: ShareEventMutation$data) => {
         if (typeof CreateEventMutation === 'undefined') {
-          enqueueSnackbar('Something was wrong');
+          toast({
+            title: 'Something was wrong',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
           return;
         }
 
         if (CreateEventMutation?.error) {
-          enqueueSnackbar(CreateEventMutation.error);
+          toast({
+            title: CreateEventMutation?.error,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
           return;
         }
 
-        enqueueSnackbar(CreateEventMutation?.success);
+        toast({
+          title: CreateEventMutation?.success,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
 
         router.push('/');
-        closeSnackbar();
       },
     };
 
@@ -98,7 +108,6 @@ export default function ShareEventView() {
     initialValues: {
       title: '',
       description: '',
-      label: '',
       date: '',
       place: '',
       eventOpenAt: '',
@@ -118,116 +127,66 @@ export default function ShareEventView() {
 
   return (
     <FormikProvider value={formik}>
-      <Flex rounded={'xl'} p={{ base: 4, sm: 6, md: 8 }} justifyContent="center">
-        <Stack spacing={8} mx={'auto'} maxW={'6xl'} px={6}>
+      <Flex rounded={'xl'} p={{ base: 4, sm: 6, md: 8 }}>
+        <Stack spacing={8} mx={'auto'} w={'100%'} px={20}>
           <Stack align={'center'}>
             <TextDecorated fontSize={'6xl'} fontWeight={'bold'} textAlign={'center'}>
-              Share your Event
+              Share my Event
             </TextDecorated>
-            <Text fontSize={'lg'} color={'gray.500'}>
-              to propagate your cool events ✌️
-            </Text>
           </Stack>
           <Box as={'form'} rounded={'lg'}>
-            <Stack spacing={4}>
-              <HStack>
+            <Stack spacing={8}>
+              <HStack spacing={8}>
                 <Box w="full">
                   <FormControl id="title" isRequired>
-                    <InputField name="title" label="Title:" placeholder="Event name" labelProps={{ fontSize: 'xl' }} />
+                    <InputField name="title" label="Title:" placeholder="Event name" />
                   </FormControl>
                 </Box>
                 <Box w="full">
-                  <FormControl id="label" isRequired>
-                    <InputField
-                      name="label"
-                      label="Label:"
-                      placeholder="Organizer label"
-                      labelProps={{ fontSize: 'xl' }}
-                    />
+                  <FormControl id="place" isRequired>
+                    <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
                   </FormControl>
                 </Box>
               </HStack>
-              <HStack>
+              <HStack spacing={8}>
                 <Box w="full">
                   <FormControl id="price" isRequired>
-                    <InputField name="price" label="Price:" placeholder="00,00" labelProps={{ fontSize: 'xl' }} />
+                    <InputField name="price" label="Price:" placeholder="00,00" />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="date" isRequired>
-                    <InputDate labelProps={{ fontSize: 'xl' }} label="Date:" name="date" />
+                    <InputDate label="Date:" name="date" />
                   </FormControl>
                 </Box>
-              </HStack>
-              <HStack>
                 <Box w="full">
                   <FormControl id="eventOpenAt" isRequired>
-                    <InputHours
-                      labelProps={{ fontSize: 'xl' }}
-                      name="eventOpenAt"
-                      label="Event Open At:"
-                      placeholder="20:00"
-                    />
+                    <InputHours name="eventOpenAt" label="Event Open At:" placeholder="20:00" />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="eventEndAt" isRequired>
-                    <InputHours
-                      labelProps={{ fontSize: 'xl' }}
-                      name="eventEndAt"
-                      label="Event End At:"
-                      placeholder="04:00"
-                    />
+                    <InputHours name="eventEndAt" label="Event End At:" placeholder="04:00" />
                   </FormControl>
                 </Box>
-              </HStack>
-              <HStack>
                 <Box w="full">
                   <FormControl id="listAvailableAt" isRequired>
-                    <InputHours
-                      labelProps={{ fontSize: 'xl' }}
-                      name="listAvailableAt"
-                      label="List Available At:"
-                      placeholder="23:00"
-                    />
+                    <InputHours name="listAvailableAt" label="List Available At:" placeholder="23:00" />
                   </FormControl>
                 </Box>
                 <Box w="full">
                   <FormControl id="classification" isRequired>
-                    <InputAge labelProps={{ fontSize: 'xl' }} name="classification" label="Classification:" />
-                  </FormControl>
-                </Box>
-              </HStack>
-              <HStack>
-                <Box w="full">
-                  <FormControl id="place" isRequired>
-                    <InputMaps
-                      name="place"
-                      apiKey={googleMapsApiToken}
-                      label="Place:"
-                      placeholder="Event place"
-                      labelProps={{ fontSize: 'xl' }}
-                    />
+                    <InputAge name="classification" label="Classification:" />
                   </FormControl>
                 </Box>
               </HStack>
               <FormControl id="description" isRequired>
-                <InputArea
-                  name="description"
-                  label="Description:"
-                  placeholder="Describe your event"
-                  labelProps={{ fontSize: 'xl' }}
-                />
+                <InputArea name="description" label="Description:" placeholder="Describe your event" />
               </FormControl>
               <HStack>
                 <Box>
                   <FormControl id="flyer" isRequired>
-                    <InputFile
-                      name="flyer"
-                      label="Flyer:"
-                      labelProps={{ fontSize: 'xl' }}
-                      onChange={handleFileChange}
-                    />
+                    <InputFile name="flyer" label="Flyer:" onChange={handleFileChange} />
                   </FormControl>
                 </Box>
                 {values.flyer && (
@@ -240,7 +199,6 @@ export default function ShareEventView() {
                 <Button
                   loadingText="Submitting"
                   size="lg"
-                  type="submit"
                   onClick={() => handleSubmit()}
                   disabled={isDisabled}
                   text={'Send Event'}

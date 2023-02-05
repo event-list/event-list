@@ -21,7 +21,7 @@ interface Node {
   id: ID!
 }
 
-"""Party list User"""
+"""Event list User"""
 type User {
   """The ID of an object"""
   id: ID!
@@ -71,7 +71,7 @@ type Event implements Node {
   description: String
   slug: String
   flyer: String
-  label: String
+  label: Merchant
   place: String
   published: Boolean
   date: String
@@ -82,38 +82,30 @@ type Event implements Node {
   price: String
 }
 
+"""Event list Merchant"""
+type Merchant {
+  """The ID of an object"""
+  id: ID!
+  email: String!
+  name: String!
+  phoneNumber: String
+  taxID: TaxID!
+}
+
+"""Represent a TaxID"""
+type TaxID {
+  """taxID number/string"""
+  taxID: String
+
+  """type of this taxID"""
+  type: String
+}
+
 """All mutations"""
 type Mutation {
-  CreateEventMutation(input: CreateEventMutationInput!): CreateEventMutationPayload
   UserSignUpMutation(input: UserSignUpMutationInput!): UserSignUpMutationPayload
   UserSignInMutation(input: UserSignInMutationInput!): UserSignInMutationPayload
   UserSignOutMutation(input: UserSignOutMutationInput!): UserSignOutMutationPayload
-}
-
-type CreateEventMutationPayload {
-  events(after: String, first: Int, before: String, last: Int): EventConnection!
-
-  """Default success field resolver."""
-  success: String
-
-  """Default error field resolver."""
-  error: String
-  clientMutationId: String
-}
-
-input CreateEventMutationInput {
-  title: String!
-  description: String!
-  label: String!
-  place: String!
-  flyer: String!
-  date: String!
-  eventOpenAt: String!
-  eventEndAt: String!
-  listAvailableAt: String!
-  classification: String!
-  price: String!
-  clientMutationId: String
 }
 
 type UserSignUpMutationPayload {

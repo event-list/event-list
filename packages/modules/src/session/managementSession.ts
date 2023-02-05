@@ -4,8 +4,6 @@ import jwt from 'jsonwebtoken';
 import { config } from '@event-list/shared';
 import type { GraphQLContext } from '@event-list/types';
 
-import type { UserDocument } from '../user/UserModel';
-
 // 1 year
 // eslint-disable-next-line
 const maxAge = 365 * 24 * 60 * 60 * 100;
@@ -40,16 +38,7 @@ export const setSessionTokenCookie = async (
   }
 };
 
-// export const generateCollectionToken = (model: MerchantDocument, scope: string) =>
-//   jwt.sign(
-//     {
-//       id: getObjectId(model)?.toString(),
-//       scope,
-//     },
-//     config.JWT_SECRET,
-//   );
-
-export const generateUserToken = (model: UserDocument, scope: string) =>
+export const generateToken = <T>(model: T, scope: string) =>
   jwt.sign(
     {
       id: getObjectId(model)?.toString(),

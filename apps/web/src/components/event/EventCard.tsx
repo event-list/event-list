@@ -18,7 +18,7 @@ const EventCard = ({ event }) => {
           maxW={'330px'}
           w={'full'}
           // eslint-disable-next-line react-hooks/rules-of-hooks
-          bg={useColorModeValue('gray.100', 'gray.900')}
+          bg={useColorModeValue('gray.50', 'gray.900')}
           boxShadow={'2xl'}
           rounded={'lg'}
           pos={'relative'}
@@ -58,14 +58,14 @@ const EventCard = ({ event }) => {
           </Box>
           <Stack pt={10} align={'center'}>
             <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-              {event?.node?.label}
+              {event?.node?.label.name}
             </Text>
             <TextDecorated fontSize={'2xl'} fontWeight={'bold'}>
               {event?.node?.title}
             </TextDecorated>
             <Box>
               <Text fontWeight={700} fontSize={'lg'}>
-                {timestampToDate(event?.node?.date, 'yyyy-MM-dd')}
+                {timestampToDate(event?.node?.date, 'dd-MM-yyyy')}
               </Text>
             </Box>
             <Flex alignItems="center" justifyContent="space-between" w="60%">

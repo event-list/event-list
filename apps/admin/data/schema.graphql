@@ -1,0 +1,185 @@
+"""All queries"""
+type Query {
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+
+  """Fetches objects given their IDs"""
+  nodes(
+    """The IDs of objects"""
+    ids: [ID!]!
+  ): [Node]!
+  meAdmin: Merchant
+  myEvents(after: String, first: Int, before: String, last: Int): EventConnection!
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Event list Merchant"""
+type Merchant {
+  """The ID of an object"""
+  id: ID!
+  email: String!
+  name: String!
+  phoneNumber: String
+  taxID: TaxID!
+}
+
+"""Represent a TaxID"""
+type TaxID {
+  """taxID number/string"""
+  taxID: String
+
+  """type of this taxID"""
+  type: String
+}
+
+"""A connection to a list of items."""
+type EventConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [EventEdge]
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""An edge in a connection."""
+type EventEdge {
+  """The item at the end of the edge"""
+  node: Event
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Event Type"""
+type Event implements Node {
+  """The ID of an object"""
+  id: ID!
+  title: String
+  description: String
+  slug: String
+  flyer: String
+  label: Merchant
+  place: String
+  published: Boolean
+  date: String
+  eventOpenAt: String
+  eventEndAt: String
+  listAvailableAt: String
+  classification: String
+  price: String
+}
+
+"""All mutations"""
+type Mutation {
+  CreateEventMutation(input: CreateEventMutationInput!): CreateEventMutationPayload
+  MerchantSignUpMutation(input: MerchantSignUpMutationInput!): MerchantSignUpMutationPayload
+  MerchantSignInMutation(input: MerchantSignInMutationInput!): MerchantSignInMutationPayload
+  MerchantSignOutMutation(input: MerchantSignOutMutationInput!): MerchantSignOutMutationPayload
+}
+
+type CreateEventMutationPayload {
+  events(after: String, first: Int, before: String, last: Int): EventConnection!
+
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input CreateEventMutationInput {
+  title: String!
+  description: String!
+  place: String!
+  flyer: String!
+  date: String!
+  eventOpenAt: String!
+  eventEndAt: String!
+  listAvailableAt: String!
+  classification: String!
+  price: String!
+  clientMutationId: String
+}
+
+type MerchantSignUpMutationPayload {
+  meAdmin: Merchant
+
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input MerchantSignUpMutationInput {
+  name: String!
+  email: String!
+  password: String!
+  cnpj: TaxIDInputType!
+  phoneNumber: String!
+  clientMutationId: String
+}
+
+"""TaxID"""
+input TaxIDInputType {
+  """TaxID type"""
+  type: String!
+
+  """TaxID string/number"""
+  taxID: String!
+}
+
+type MerchantSignInMutationPayload {
+  meAdmin: Merchant
+
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input MerchantSignInMutationInput {
+  cnpj: String!
+  password: String!
+  clientMutationId: String
+}
+
+type MerchantSignOutMutationPayload {
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input MerchantSignOutMutationInput {
+  clientMutationId: String
+}

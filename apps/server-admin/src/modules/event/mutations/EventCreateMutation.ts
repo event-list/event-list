@@ -1,17 +1,12 @@
 import { errorField, successField } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull, GraphQLString } from 'graphql';
-import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
+import { mutationWithClientMutationId } from 'graphql-relay';
 
-import { EventModel } from '@event-list/modules';
-import type { GraphQLContext } from '@event-list/types';
-
-import { eventField } from '../EventFields';
-import { EventEdge } from '../EventType';
+import { eventField, EventModel } from '@event-list/modules';
 
 interface EventCreateArgs {
   title: string;
   description: string;
-  label: string;
   place: string;
   flyer: string;
   date: string;
@@ -29,9 +24,6 @@ export const EventCreateMutation = mutationWithClientMutationId({
       type: new GraphQLNonNull(GraphQLString),
     },
     description: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
-    label: {
       type: new GraphQLNonNull(GraphQLString),
     },
     place: {
@@ -59,15 +51,15 @@ export const EventCreateMutation = mutationWithClientMutationId({
       type: new GraphQLNonNull(GraphQLString),
     },
   },
-  mutateAndGetPayload: async (args: EventCreateArgs, ctx: GraphQLContext) => {
-    if (!ctx.user) throw new Error('Unauthorized');
+  mutateAndGetPayload: async (args: EventCreateArgs, ctx) => {
+    const { merchant, t } = ctx;
+    if (!merchant) throw new Error('Unauthorized');
 
-    const titleAndLabel = `${args.title}-${args.label}`;
-
-    const eventSlug = titleAndLabel.replace(' ', '-').toLowerCase();
+    const eventSlug = args.title;
 
     const rest = {
       published: true,
+      label: merchant._id,
       slug: eventSlug,
     };
 
@@ -76,11 +68,18 @@ export const EventCreateMutation = mutationWithClientMutationId({
       ...rest,
     }).save();
 
-    if (!newEvent) throw new Error('Something went wrong');
+    if (!newEvent) {
+      return {
+        id: null,
+        success: null,
+        error: t('Something went wrong'),
+      };
+    }
 
     return {
       id: newEvent._id,
-      success: 'Event successfully created',
+      success: t('Event successfully created'),
+      error: null,
     };
   },
   outputFields: {

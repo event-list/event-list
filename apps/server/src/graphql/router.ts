@@ -23,7 +23,6 @@ export const serverHelix = async (ctx: koa.Context, next: koa.Next) => {
     dataloaders,
     graphql: GRAPHQL_TYPE.SERVER,
     ctx,
-    merchant: ctx.merchant,
     user: ctx.user,
     t: (key: string) => key,
   };

@@ -53,7 +53,7 @@ const InputField = (props: InputFieldProps) => {
 
   return (
     <>
-      {label && <TextFormLabel label={label} fontSize={{ base: '13px', md: 'sm' }} {...props.labelProps} />}
+      {label && <TextFormLabel mt={'2'} label={label} {...props.labelProps} />}
       <Input
         name={name}
         fontSize={{ base: '13px', md: 'sm' }}
@@ -63,7 +63,7 @@ const InputField = (props: InputFieldProps) => {
         {...textInputProps}
       />
       {meta?.error && meta?.touched ? (
-        <Text color="red.600" fontSize={{ base: 'smaller' }} position={'absolute'}>
+        <Text color="red.600" fontSize={{ base: '12px', md: 'smaller' }} position={'absolute'}>
           {meta.error}
         </Text>
       ) : null}

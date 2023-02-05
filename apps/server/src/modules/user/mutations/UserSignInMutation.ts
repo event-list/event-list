@@ -2,8 +2,9 @@ import { errorField, successField } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 
+import type { UserDocument } from '@event-list/modules';
 import {
-  generateUserToken,
+  generateToken,
   setSessionTokenCookie,
   USER_SESSION_COOKIE,
   USER_TOKEN_SCOPES,
@@ -66,9 +67,7 @@ const UserSignInMutation = mutationWithClientMutationId({
       };
     }
 
-    const userToken = generateUserToken(user, USER_TOKEN_SCOPES.SESSION);
-
-    console.log(userToken);
+    const userToken = generateToken<UserDocument>(user, USER_TOKEN_SCOPES.SESSION);
 
     await setSessionTokenCookie(context, USER_SESSION_COOKIE, `JWT ${userToken}`);
 

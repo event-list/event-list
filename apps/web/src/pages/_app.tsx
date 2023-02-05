@@ -15,7 +15,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <ErrorBoundary fallbackRender={({ error }) => <div>{error.message}</div>}>
           <Suspense fallback={<div>Loading...</div>}>
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-            <NextNProgress />
+            <NextNProgress color="linear-gradient(to right, #E53E3E, #B83280)" options={{ showSpinner: false }} />
             <ReactRelayContainer Component={Component} props={pageProps} />
           </Suspense>
         </ErrorBoundary>

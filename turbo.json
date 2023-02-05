@@ -27,6 +27,10 @@
     "relay:web": {
       "cache": false,
       "dependsOn": ["relay"]
+    },
+    "relay:admin": {
+      "cache": false,
+      "dependsOn": ["relay"]
     }
   }
 }

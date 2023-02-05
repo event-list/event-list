@@ -1,6 +1,4 @@
-'use client';
-
-import type { BoxProps, FlexProps } from '@chakra-ui/react';
+import type { BoxProps } from '@chakra-ui/react';
 import {
   Box,
   Button,
@@ -11,7 +9,6 @@ import {
   HStack,
   Icon,
   IconButton,
-  Link,
   Menu,
   MenuButton,
   MenuItem,
@@ -24,26 +21,18 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import Image from 'next/image';
-import type { ReactText } from 'react';
-import type { IconType } from 'react-icons';
-import { FiChevronDown, FiHome, FiLogIn, FiLogOut, FiMenu, FiTrendingUp, FiUser } from 'react-icons/fi';
+import { FiChevronDown, FiLogIn, FiLogOut, FiMenu, FiUser } from 'react-icons/fi';
 import { HiMoon, HiSun } from 'react-icons/hi';
 
 //@ts-expect-error it not have type
 import Logo from '../logo.svg';
 
-type LinkItemProps = {
-  name: string;
-  icon: IconType;
-  href: string;
+type Props = {
+  children: React.ReactNode;
+  user: { name: string };
+  onLogout: () => void;
+  links: any;
 };
-
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome, href: '/' },
-  { name: 'Share your Event', icon: FiTrendingUp, href: '/share-your-event' },
-];
-
-type Props = { children: React.ReactNode; user: any; onLogout: () => void };
 
 export default function Header(props: Props) {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -51,7 +40,7 @@ export default function Header(props: Props) {
 
   return (
     <Box minH="100vh">
-      <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
+      <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} links={props.links} />
       <Drawer
         isOpen={isOpen}
         placement="left"
@@ -61,7 +50,7 @@ export default function Header(props: Props) {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose} links={props.links} />
         </DrawerContent>
       </Drawer>
       <Flex
@@ -69,7 +58,7 @@ export default function Header(props: Props) {
         px={{ base: 4, md: 4 }}
         height="20"
         alignItems="center"
-        bg={useColorModeValue('gray.100', 'gray.900')}
+        bg={useColorModeValue('gray.50', 'gray.900')}
         borderBottomWidth="1px"
         borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
         justifyContent={{ base: 'space-between', md: 'flex-end' }}
@@ -109,7 +98,7 @@ export default function Header(props: Props) {
                   {/* <MenuItem>Profile</MenuItem> */}
                   {/* <MenuDivider /> */}
                   <MenuItem onClick={props.onLogout} icon={<Icon w={5} h={6} as={FiLogOut} />}>
-                    <Text>Sign out</Text>
+                    <Text fontSize={13}>Sign out</Text>
                   </MenuItem>
                 </MenuList>
               </Menu>
@@ -137,14 +126,14 @@ export default function Header(props: Props) {
   );
 }
 
-type SidebarProps = BoxProps & { onClose: () => void };
+type SidebarProps = BoxProps & { onClose: () => void; links: Props['links'] };
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, links, ...rest }: SidebarProps) => {
   return (
     <>
       <Box
         transition="3s ease"
-        bg={useColorModeValue('gray.100', 'gray.900')}
+        bg={useColorModeValue('gray.50', 'gray.900')}
         borderRight="1px"
         borderRightColor={useColorModeValue('gray.200', 'gray.700')}
         w={{ base: 'full', md: 60 }}
@@ -156,29 +145,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           <Image src={Logo} alt={'Small and red Event List logo'} />
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
-        {LinkItems.map((link) => (
-          <NavItem key={link.name} icon={link.icon} href={link.href}>
-            {link.name}
-          </NavItem>
-        ))}
+        {links}
       </Box>
     </>
-  );
-};
-
-type NavItemProps = FlexProps & {
-  href: string;
-  icon: IconType;
-  children: ReactText;
-};
-
-const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
-  return (
-    <Link href={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-      <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
-        {icon && <Icon mr="4" fontSize="16" as={icon} />}
-        {children}
-      </Flex>
-    </Link>
   );
 };

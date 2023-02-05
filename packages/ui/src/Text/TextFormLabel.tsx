@@ -1,4 +1,4 @@
-import { FormLabel, Text } from '@chakra-ui/react';
+import { FormLabel } from '@chakra-ui/react';
 import type { FormLabelProps } from '@chakra-ui/react';
 
 import TextDecorated from './TextDecorated';

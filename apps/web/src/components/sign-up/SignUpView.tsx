@@ -25,20 +25,15 @@ import { useState } from 'react';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
-import { Button, InputField } from '@event-list/ui';
+import { Button, InputField, TextDecorated } from '@event-list/ui';
 
 import type { SignUpMutation, SignUpMutation$data } from '../../../__generated__/SignUpMutation.graphql';
 import Logo from '../../../data/logo.svg';
 import { SignUp } from './SignUpMutation';
 
-type SignUpParams = {
-  email: string;
-  password: string;
-  name: string;
-  gender: string;
-};
+type SignUpParams = yup.InferType<typeof SignUpSchema>;
 
-const SignUpSchema = yup.object().shape({
+const SignUpSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
   name: yup.string().required('Name is required'),
@@ -103,7 +98,7 @@ export default function SignUpView() {
 
   return (
     <FormikProvider value={formik}>
-      <Box position={'relative'}>
+      <Box position={'relative'} h={'100vh'}>
         <Container
           as={SimpleGrid}
           maxW={'7xl'}
@@ -117,11 +112,7 @@ export default function SignUpView() {
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-                Ensure your presence in the best events{' '}
-                <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
-                  &
-                </Text>{' '}
-                Share them
+                Ensure your <TextDecorated>presence</TextDecorated> in the bests <TextDecorated>events!</TextDecorated>
               </Heading>
             </Box>
           </Stack>
@@ -210,7 +201,6 @@ export default function SignUpView() {
                   text="Register"
                   mt={8}
                   w={'full'}
-                  type="submit"
                   isSubmitting={isPending}
                   disabled={isDisabled}
                   onClick={() => handleSubmit()}
@@ -218,13 +208,18 @@ export default function SignUpView() {
               </Box>
             </Stack>
             <Center pt={'3'}>
-              <Link color={'gray.700'} href={'/sign-in'} fontSize={{ base: 'sm', lg: 'md' }}>
+              <Link color={'gray.700'} href={'/sign-in'} fontSize={{ base: 'smaller', lg: 'md' }}>
                 Already have an account? Sign In
               </Link>
             </Center>
           </Flex>
         </Container>
-        <Blur position={'absolute'} top={-10} left={-10} style={{ filter: 'blur(70px)' }} />
+        <Blur
+          position={'absolute'}
+          top={useBreakpointValue({ base: 300, md: 100, lg: -10 })}
+          left={useBreakpointValue({ base: 70, md: 30, lg: -10 })}
+          style={{ filter: 'blur(70px)' }}
+        />
       </Box>
     </FormikProvider>
   );
@@ -233,7 +228,7 @@ export default function SignUpView() {
 export const Blur = (props: IconProps) => {
   return (
     <Icon
-      width={useBreakpointValue({ base: '100%', md: '40vw', lg: '30vw' })}
+      width={useBreakpointValue({ base: '80vw', md: '40vw', lg: '30vw' })}
       zIndex="-1"
       height="560px"
       viewBox="0 0 528 560"

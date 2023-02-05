@@ -1,6 +1,8 @@
 import type { CacheConfig, RequestParameters, Variables } from 'relay-runtime';
 import { Network, QueryResponseCache } from 'relay-runtime';
 
+import { config } from '@event-list/shared';
+
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export function createNetwork() {

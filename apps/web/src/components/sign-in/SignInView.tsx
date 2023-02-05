@@ -20,18 +20,15 @@ import { useSnackbar } from 'notistack';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
-import { Button, InputField } from '@event-list/ui';
+import { Button, InputField, TextDecorated } from '@event-list/ui';
 
 import type { SignInMutation, SignInMutation$data } from '../../../__generated__/SignInMutation.graphql';
 import Logo from '../../../data/logo.svg';
 import { SignIn } from './SignInMutation';
 
-type SignInParams = {
-  email: string;
-  password: string;
-};
+type SignInParams = yup.InferType<typeof SignInSchema>;
 
-const SignInSchema = yup.object().shape({
+const SignInSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
 });
@@ -89,7 +86,7 @@ export default function SignInView() {
 
   return (
     <FormikProvider value={formik}>
-      <Box position={'relative'}>
+      <Box position={'relative'} minH={'100vh'}>
         <Container
           as={SimpleGrid}
           maxW={'7xl'}
@@ -103,11 +100,7 @@ export default function SignInView() {
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-                Ensure your presence in the best events{' '}
-                <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
-                  &
-                </Text>{' '}
-                Share them
+                Ensure your <TextDecorated>presence</TextDecorated> in the bests <TextDecorated>events!</TextDecorated>
               </Heading>
             </Box>
           </Stack>
@@ -119,7 +112,7 @@ export default function SignInView() {
             flexDirection="column"
             justifyContent="center"
           >
-            <Stack spacing={{ base: 8 }}>
+            <Stack spacing={{ base: 4, sm: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
                   Sign in your account{' '}
@@ -129,7 +122,7 @@ export default function SignInView() {
                 </Heading>
               </Stack>
               <Box as={'form'} mt={10}>
-                <Stack spacing={4}>
+                <Stack spacing={6}>
                   <FormControl id="email" isRequired>
                     <InputField
                       labelProps={{ color: 'gray.700' }}
@@ -165,7 +158,6 @@ export default function SignInView() {
                   text="Login"
                   mt={8}
                   w={'full'}
-                  type="submit"
                   isSubmitting={isPending}
                   disabled={isDisabled}
                   onClick={() => handleSubmit()}
@@ -173,13 +165,18 @@ export default function SignInView() {
               </Box>
             </Stack>
             <Center pt={'3'}>
-              <Link color={'gray.700'} href={'/sign-up'} fontSize={{ base: 'sm', lg: 'md' }}>
+              <Link color={'gray.700'} href={'/sign-up'} fontSize={{ base: 'smaller', lg: 'md' }}>
                 Does not have an account? Sign Up
               </Link>
             </Center>
           </Flex>
         </Container>
-        <Blur position={'absolute'} top={-10} left={-10} style={{ filter: 'blur(70px)' }} />
+        <Blur
+          position={'absolute'}
+          top={useBreakpointValue({ base: 300, md: 100, lg: -10 })}
+          left={useBreakpointValue({ base: 70, md: 30, lg: -10 })}
+          style={{ filter: 'blur(70px)' }}
+        />
       </Box>
     </FormikProvider>
   );
@@ -188,7 +185,7 @@ export default function SignInView() {
 export const Blur = (props: IconProps) => {
   return (
     <Icon
-      width={useBreakpointValue({ base: '100%', md: '40vw', lg: '30vw' })}
+      width={useBreakpointValue({ base: '80vw', md: '40vw', lg: '30vw' })}
       zIndex="-1"
       height="560px"
       viewBox="0 0 528 560"

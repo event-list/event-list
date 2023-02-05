@@ -5,7 +5,7 @@ import { UserLoader, registerTypeLoader } from '@event-list/modules';
 
 const UserType = new GraphQLObjectType({
   name: 'User',
-  description: 'Party list User',
+  description: 'Event list User',
   fields: () => ({
     id: globalIdField('User'),
     email: {

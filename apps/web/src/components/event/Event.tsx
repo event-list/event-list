@@ -2,6 +2,7 @@ import {
   Box,
   Center,
   Flex,
+  HStack,
   Image,
   List,
   ListItem,
@@ -33,7 +34,9 @@ const EventFragment = graphql`
     description
     slug
     flyer
-    label
+    label {
+      name
+    }
     published
     date
     eventOpenAt
@@ -55,87 +58,77 @@ export default function Event(props: { fragmentKey: EventFragment_event$key }) {
           <Image rounded={'lg'} width={632} objectFit={'cover'} src={event?.flyer ?? ''} />
         </Box>
       </Center>
-      <Stack spacing={{ base: 1, md: 5 }}>
+      <Stack spacing={{ base: 2, md: 5 }}>
         <Box as={'header'}>
-          <TextDecorated lineHeight={1.1} fontWeight={'bold'} fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
+          <TextDecorated lineHeight={1.1} fontWeight={'bold'} fontSize={{ base: '4xl', sm: '5xl', lg: '5xl' }}>
             {event.title}
           </TextDecorated>
-          <Text color={useColorModeValue('gray.700', 'gray.200')} fontWeight={300} fontSize={'2xl'}>
-            {event.label}
+          <Text
+            color={useColorModeValue('gray.700', 'gray.200')}
+            fontWeight={300}
+            fontSize={{ base: 'xl', sm: '2xl', lg: '2xl' }}
+          >
+            {event.label?.name}
+          </Text>
+          <Text
+            textAlign="left"
+            color={useColorModeValue('gray.500', 'gray.400')}
+            fontSize={{ base: 'sm', sm: 'sm', lg: 'sm' }}
+          >
+            {event.description}
           </Text>
         </Box>
-
         <Stack
           spacing={{ base: 2, sm: 4 }}
           direction={'column'}
-          divider={<StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />}
+          divider={<StackDivider borderColor={'transparent'} py={1} />}
         >
-          <Text textAlign="left" color={useColorModeValue('gray.500', 'gray.400')} fontSize={'lg'}>
-            {event.description}
-          </Text>
           <Box>
-            <TextDecorated
-              fontSize={{ base: '16px', lg: '18px' }}
-              fontWeight={'semibold'}
-              textTransform={'uppercase'}
-              mb={'4'}
-            >
-              Place
-            </TextDecorated>
+            <TextDecorated fontSize={{ base: 'xl', sm: '1xl', lg: '1xl' }}>Place</TextDecorated>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
               <List spacing={2}>
                 <ListItem>
-                  <Text>{event.place}</Text>
+                  <Text fontSize={{ base: 'small', sm: 'sm', lg: 'sm' }}>{event.place}</Text>
                 </ListItem>
               </List>
             </SimpleGrid>
           </Box>
-
           <Box>
             <SimpleGrid columns={{ base: 2, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-              <StatsCard
-                title={'Price'}
-                stat={`R$${event.price},00` ?? '00,00'}
-                icon={<FaMoneyCheckAlt size={'2.2rem'} />}
-              />
+              <StatsCard title={'Price'} stat={`R$${event.price},00` ?? '00,00'} icon={<FaMoneyCheckAlt />} />
               <StatsCard
                 title={'Date'}
                 stat={timestampToDate(event.date, 'yyyy-MM-dd')}
-                icon={<BsFillCalendarDateFill size={'2.2rem'} />}
+                icon={<BsFillCalendarDateFill />}
               />
-              <StatsCard
-                title={'Classification'}
-                stat={(event.classification ?? '18') + '+'}
-                icon={<SiAdblock size={'2.2em'} />}
-              />
+              <StatsCard title={'Classification'} stat={(event.classification ?? '18') + '+'} icon={<SiAdblock />} />
               <StatsCard
                 title={'Event open At'}
-                stat={(event.eventOpenAt ?? 'not available') + 'hrs'}
-                icon={<BsDoorOpenFill size={'2.2em'} />}
+                stat={event.eventOpenAt ?? 'not available'}
+                icon={<BsDoorOpenFill />}
               />
               <StatsCard
                 title={'Event end At'}
-                stat={(event.eventEndAt ?? 'not available') + 'hrs'}
-                icon={<BsDoorClosedFill size={'2.2em'} />}
+                stat={event.eventEndAt ?? 'not available'}
+                icon={<BsDoorClosedFill />}
               />
               <StatsCard
                 title={'List available At'}
-                stat={(event.eventEndAt ?? 'not available') + 'hrs'}
-                icon={<MdFactCheck size={'2.2em'} />}
+                stat={event.eventEndAt ?? 'not available'}
+                icon={<MdFactCheck />}
               />
             </SimpleGrid>
           </Box>
+          <Button
+            loadingText="Submitting"
+            size={'lg'}
+            text={'I am going to this event'}
+            py={'7'}
+            w={'full'}
+            color={'white'}
+            isSubmitting={false}
+          />
         </Stack>
-        <Button
-          loadingText="Submitting"
-          size={'lg'}
-          mt={8}
-          text={'I am going to this event'}
-          py={'7'}
-          w={'full'}
-          color={'white'}
-          isSubmitting={false}
-        />
       </Stack>
     </SimpleGrid>
   );
@@ -152,29 +145,37 @@ function StatsCard(props: StatsCardProps) {
   return (
     <Stat
       px={{ base: 1, md: 3 }}
-      py={'3'}
+      py={'2'}
       shadow={'xl'}
       border={'1px solid'}
       borderColor={useColorModeValue('gray.700', 'gray.600')}
       rounded={'lg'}
       bgColor="transparent"
       color={'white'}
-      _hover={{
-        transform: 'translateY(5px)',
-        boxShadow: 'xl',
-        transitionDuration: '20ms',
-      }}
     >
       <Flex justifyContent={'space-between'} alignContent="center" alignItems={'center'} px={'1'}>
-        <Box>
-          <TextDecorated fontWeight={'base'}>{title}</TextDecorated>
-          <StatNumber as={Text} fontSize={'md'} fontWeight={'medium'} color={useColorModeValue('gray.700', 'gray.200')}>
+        <Stack w={'100%'} spacing={2}>
+          <Flex justifyContent={'space-between'} alignItems={'center'} w={'100%'}>
+            <TextDecorated fontWeight={'base'} fontSize={{ base: 'sm', sm: 'sm', lg: 'sm' }}>
+              {title}
+            </TextDecorated>
+            <Box
+              color={useColorModeValue('gray.700', 'gray.200')}
+              alignContent={'center'}
+              fontSize={{ base: '1rem', sm: '1.5rem' }}
+            >
+              {icon}
+            </Box>
+          </Flex>
+          <StatNumber
+            as={Text}
+            fontSize={{ base: 'sm', sm: 'sm', lg: 'sm' }}
+            fontWeight={'medium'}
+            color={useColorModeValue('gray.700', 'gray.200')}
+          >
             {stat}
           </StatNumber>
-        </Box>
-        <Box color={useColorModeValue('gray.700', 'gray.200')} alignContent={'center'}>
-          {icon}
-        </Box>
+        </Stack>
       </Flex>
     </Stat>
   );

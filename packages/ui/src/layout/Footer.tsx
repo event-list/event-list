@@ -35,7 +35,7 @@ const SocialButton = ({ children, label, href }: { children: ReactNode; label: s
 export default function Footer() {
   return (
     <Box
-      bg={useColorModeValue('gray.100', 'gray.900')}
+      bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
       role="contentinfo"
       position="absolute"
@@ -57,7 +57,7 @@ export default function Footer() {
         <Box w={'48'}>
           <Image src={Logo} alt={'Small and red Event List logo'} />
         </Box>
-        <Text>© 2022 Event List. All rights reserved</Text>
+        <Text fontSize={{ base: '13px', sm: 'sm' }}>© 2022 Event List. All rights reserved</Text>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'GitHub'} href={'https://github.com/event-list'}>
             <FaGithub />

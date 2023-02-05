@@ -10,7 +10,7 @@ dotenvSafe.config({
   sample: root('.env.example'),
 });
 
-export const { MONGO_URL, NODE_ENV, JWT_SECRET } = process.env;
+export const { MONGO_URL, NODE_ENV, JWT_SECRET, GRAPHQL_ENDPOINT } = process.env;
 
 export const EVENT_LIST_ENV = process.env.EVENT_LIST_ENV || 'development';
 

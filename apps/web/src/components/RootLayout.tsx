@@ -1,5 +1,7 @@
 /* eslint-disable no-constant-condition */
-import { Box, Container } from '@chakra-ui/react';
+import { Box, Container, Flex, Icon, Link } from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { FiHome, FiTrendingUp } from 'react-icons/fi';
 import type { PreloadedQuery } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay';
 import { graphql } from 'relay-runtime';
@@ -24,6 +26,27 @@ type LayoutProps = {
   title?: string;
 };
 
+const Links = () => (
+  <>
+    <NavItem key={'Home'} icon={FiHome} href={'/'}>
+      Home
+    </NavItem>
+  </>
+);
+
+const NavItem = ({ icon, children, href, ...rest }) => {
+  return (
+    <NextLink href={href}>
+      <Link style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+        <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
+          {icon && <Icon mr="4" fontSize="16" as={icon} />}
+          {children}
+        </Flex>
+      </Link>
+    </NextLink>
+  );
+};
+
 export default function RootLayout(props: LayoutProps) {
   const { me: userPreloaded } = usePreloadedQuery(LayoutQuery, props.preloadedQuery);
 
@@ -32,8 +55,8 @@ export default function RootLayout(props: LayoutProps) {
 
   return (
     <Layout title={props.title}>
-      <Header user={user} onLogout={logout}>
-        <Container maxW="full" overflow="hidden">
+      <Header user={user} onLogout={logout} links={<Links />}>
+        <Container maxW="full" overflow="hidden" pb={{ base: '28', md: '28' }} px={{ base: '2', md: '20' }}>
           <Box as="main" mb={'5rem'}>
             {props.children}
           </Box>

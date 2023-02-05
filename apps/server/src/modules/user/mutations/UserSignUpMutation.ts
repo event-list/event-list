@@ -2,9 +2,9 @@ import { errorField, successField } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 
-import type { CreateUserParams } from '@event-list/modules';
+import type { UserDocument } from '@event-list/modules';
 import {
-  generateUserToken,
+  generateToken,
   handleCreateUser,
   setSessionTokenCookie,
   USER_SESSION_COOKIE,
@@ -29,7 +29,8 @@ const UserSignUpMutation = mutationWithClientMutationId({
       type: new GraphQLNonNull(GraphQLString),
     },
   },
-  mutateAndGetPayload: async (args: CreateUserParams, context) => {
+  mutateAndGetPayload: async (args, context) => {
+    const { t } = context;
     const payload = { ...args };
 
     const { user, error } = await handleCreateUser({
@@ -37,15 +38,23 @@ const UserSignUpMutation = mutationWithClientMutationId({
       context,
     });
 
+    if (!user) {
+      return {
+        user: null,
+        success: null,
+        error: t('Something wrong'),
+      };
+    }
+
     if (error) return { id: null, success: null, error };
 
-    const userToken = generateUserToken(user!, USER_TOKEN_SCOPES.SESSION);
+    const userToken = generateToken<UserDocument>(user, USER_TOKEN_SCOPES.SESSION);
 
     await setSessionTokenCookie(context, USER_SESSION_COOKIE, `JWT ${userToken}`);
 
     return {
-      id: user!._id,
-      success: 'User successfully signed up',
+      id: user._id,
+      success: t('User successfully signed up'),
       error: null,
     };
   },

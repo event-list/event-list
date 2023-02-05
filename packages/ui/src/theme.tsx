@@ -32,9 +32,19 @@ const theme = extendTheme({
         fontFamily: 'Sifonn',
       },
     },
+    FormLabel: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+        fontSize: { base: 'sm', md: 'md' },
+      },
+    },
+    Th: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+      },
+    },
   },
   initialColorMode: 'dark',
-  useSystemColorMode: true,
 });
 
 export default theme;

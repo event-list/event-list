@@ -1,7 +1,7 @@
-export const ADMIN_USER_SESSION_COOKIE = 'adminUserToken';
+export const MERCHANT_SESSION_COOKIE = 'merchantToken';
 
-export const ADMIN_USER_TOKEN_SCOPES = {
-  SESSION: 'ADMIN_USER:SESSION',
+export const MERCHANT_TOKEN_SCOPES = {
+  SESSION: 'MERCHANT:SESSION',
 };
 
 export const USER_SESSION_COOKIE = 'userToken';

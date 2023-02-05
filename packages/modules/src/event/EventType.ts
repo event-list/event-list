@@ -2,7 +2,8 @@ import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { connectionDefinitions, globalIdField } from 'graphql-relay';
 import { GraphQLBoolean } from 'graphql/type';
 
-import { EventLoader, nodeInterface, registerTypeLoader } from '@event-list/modules';
+import { EventLoader, MerchantLoader, nodeInterface, registerTypeLoader } from '@event-list/modules';
+import { MerchantType } from '@event-list/server-admin/src/modules/merchant/MerchantType';
 
 const EventType = new GraphQLObjectType({
   name: 'Event',
@@ -26,8 +27,8 @@ const EventType = new GraphQLObjectType({
       resolve: (event) => event.flyer,
     },
     label: {
-      type: GraphQLString,
-      resolve: (event) => event.label,
+      type: MerchantType,
+      resolve: (event, _, context) => MerchantLoader.load(context, event.label),
     },
     place: {
       type: GraphQLString,
@@ -59,7 +60,7 @@ const EventType = new GraphQLObjectType({
     },
     price: {
       type: GraphQLString,
-      resolve: (event) => event.classification,
+      resolve: (event) => event.price,
     },
   }),
   interfaces: () => [nodeInterface],

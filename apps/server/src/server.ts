@@ -1,7 +1,5 @@
 import { createServer } from 'http';
 
-import { config } from '@event-list/shared';
-
 import app from './app';
 import { connectDatabase } from './mongo/mongo';
 (async () => {
@@ -15,5 +13,9 @@ import { connectDatabase } from './mongo/mongo';
 
   const server = createServer(app.callback());
 
-  server.listen(config.API_PORT, () => console.log('server is running'));
+  server.listen(4000, () => {
+    console.log(`Server running in 4000`);
+    console.log(`See the GraphQL Admin at /admin/graphql`);
+    console.log(`See the GraphQL Server at /graphql`);
+  });
 })();

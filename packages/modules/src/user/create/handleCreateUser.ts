@@ -1,3 +1,5 @@
+import { MerchantModel } from '@event-list/modules';
+
 import type { UserDocument } from '../UserModel';
 import UserModel from '../UserModel';
 
@@ -54,7 +56,12 @@ async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateU
     removedAt: null,
   });
 
-  if (userExistent) {
+  const merchantExistent = await MerchantModel.findOne({
+    email: email.trim().toLowerCase(),
+    removedAt: null,
+  });
+
+  if (userExistent || merchantExistent) {
     return {
       error: t('Email already in use'),
       ...payload,

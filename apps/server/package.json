@@ -4,7 +4,10 @@
   "main": "./src/server.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --transpile-only --ignore-watch node_modules src/server.ts"
+    "build": "esbuild ./src/index.ts --bundle --platform=node --target=node16.13.2 --outdir=dist --allow-overwrite",
+    "es": "nodemon -T -r esbuild-register",
+    "s": "ts-node -T -r esbuild-register",
+    "dev": "yarn es ./src/server.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

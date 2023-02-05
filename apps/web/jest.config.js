@@ -1,4 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const jestBaseConfig = require('../../packages/testutils/jest.web.config.base');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require('./package.json');
 
 module.exports = {
@@ -11,10 +13,7 @@ module.exports = {
   verbose: true,
   roots: ['<rootDir>'],
   transform: {
-    '^.+\\.(js|ts|tsx)?$': [
-      'babel-jest',
-      { configFile: './apps/web/test/.babelrc' },
-    ],
+    '^.+\\.(js|ts|tsx)?$': ['babel-jest', { configFile: './apps/web/test/.babelrc' }],
     '^.+\\.svg$': 'jest-transformer-svg',
   },
 };
