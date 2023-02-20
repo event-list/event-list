@@ -1,28 +1,22 @@
 /* eslint-disable no-constant-condition */
-import { Box, Container, Flex, Icon, Link } from '@chakra-ui/react';
+import { Box, Container, Flex, Icon, Link, MenuItem, Text } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { FiHome, FiTrendingUp } from 'react-icons/fi';
+import { CgProfile } from 'react-icons/cg';
+import { FiHome } from 'react-icons/fi';
 import type { PreloadedQuery } from 'react-relay';
-import { usePreloadedQuery } from 'react-relay';
-import { graphql } from 'relay-runtime';
+import { useFragment, usePreloadedQuery } from 'react-relay';
 
 import { Footer, Header, Layout } from '@event-list/ui';
 
-import type { RootLayoutQuery } from '../../__generated__/RootLayoutQuery.graphql';
-import { useAuth } from '../auth/useAuth';
+import type { ProfileQuery as ProfileQueryType } from '../../__generated__/ProfileQuery.graphql';
+import type { useAuthFragment_user$key } from '../../__generated__/useAuthFragment_user.graphql';
+import { useAuthFragment } from '../auth/useAuth';
 import { useLogout } from '../auth/useLogout';
-
-const LayoutQuery = graphql`
-  query RootLayoutQuery {
-    me {
-      ...useAuthFragment_user
-    }
-  }
-`;
+import { ProfileQuery } from './user/Profile';
 
 type LayoutProps = {
   children: React.ReactNode;
-  preloadedQuery: PreloadedQuery<RootLayoutQuery>;
+  preloadedQuery: PreloadedQuery<ProfileQueryType>;
   title?: string;
 };
 
@@ -33,6 +27,38 @@ const Links = () => (
     </NavItem>
   </>
 );
+
+const SubMenuItems = () => (
+  <NextLink href={'/profile'}>
+    <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
+      <Text fontSize={13}>Profile</Text>
+    </MenuItem>
+  </NextLink>
+);
+
+export default function RootLayout(props: LayoutProps) {
+  const [logout] = useLogout();
+
+  const { me } = usePreloadedQuery(ProfileQuery, props.preloadedQuery);
+  const user = useFragment<useAuthFragment_user$key>(useAuthFragment, me);
+
+  if (!user) {
+    return <Box>Unauthorized</Box>;
+  }
+
+  return (
+    <Layout title={props.title}>
+      <Header user={user} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />}>
+        <Container maxW="full" overflow="hidden" pb={{ base: '28', md: '28' }} px={{ base: '2', md: '20' }}>
+          <Box as="main" mb={'5rem'}>
+            {props.children}
+          </Box>
+          <Footer />
+        </Container>
+      </Header>
+    </Layout>
+  );
+}
 
 const NavItem = ({ icon, children, href, ...rest }) => {
   return (
@@ -46,23 +72,3 @@ const NavItem = ({ icon, children, href, ...rest }) => {
     </NextLink>
   );
 };
-
-export default function RootLayout(props: LayoutProps) {
-  const { me: userPreloaded } = usePreloadedQuery(LayoutQuery, props.preloadedQuery);
-
-  const [logout] = useLogout();
-  const [user] = useAuth(userPreloaded!);
-
-  return (
-    <Layout title={props.title}>
-      <Header user={user} onLogout={logout} links={<Links />}>
-        <Container maxW="full" overflow="hidden" pb={{ base: '28', md: '28' }} px={{ base: '2', md: '20' }}>
-          <Box as="main" mb={'5rem'}>
-            {props.children}
-          </Box>
-          <Footer />
-        </Container>
-      </Header>
-    </Layout>
-  );
-}

@@ -1,8 +1,6 @@
 import { GraphQLObjectType } from 'graphql';
 
-import { eventField, nodeField, nodesField } from '@event-list/modules';
-
-import { meField } from '../modules/user/UserFields';
+import { eventField, meField, nodeField, nodesField } from '@event-list/modules';
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',

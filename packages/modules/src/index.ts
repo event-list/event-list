@@ -28,14 +28,19 @@ export { setSessionTokenCookie, generateToken } from './session/managementSessio
 export { default as UserModel } from './user/UserModel';
 export type { UserDocument } from './user/UserModel';
 export { handleCreateUser, validateAndSanitizeCreateUser } from './user/create/handleCreateUser';
+export { UserEdge, UserType, UserConnection } from './user/UserType';
+export { meField } from './user/UserFields';
 
 // merchant
 export { default as MerchantModel } from './merchant/MerchantModel';
 export type { MerchantDocument } from './merchant/MerchantModel';
 export { handleCreateMerchant, validateAndSanitizeCreateMerchant } from './merchant/create/handleCreateMerchant';
+export { MerchantConnection, MerchantEdge, MerchantType } from './merchant/MerchantType';
+export { meAdminField } from './merchant/MerchantFields';
 
 // event
 export { default as EventModel } from './event/EventModel';
 export type { EventDocument } from './event/EventModel';
 export { eventField, myEvents } from './event/EventFields';
 export { EventConnection, EventEdge, EventType } from './event/EventType';
+export { handleChangeEventStatus } from './event/changeEventStatus/handleChangeEventStatus';

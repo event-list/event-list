@@ -22,8 +22,9 @@ const InputMaps = (props: InputMapsProps) => {
       options={{
         types: ['bar', 'night_club', 'park'],
         componentRestrictions: { country: 'br' },
+        fields: ['formatted_address', 'name'],
       }}
-      onPlaceSelected={(place) => helpers.setValue(place.name)}
+      onPlaceSelected={(place) => helpers.setValue(`${place.name} - ${place.formatted_address}`)}
       {...restProps}
       name={name}
       labelProps={labelProps}

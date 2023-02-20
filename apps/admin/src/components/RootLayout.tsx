@@ -31,7 +31,7 @@ type LayoutProps = {
 
 const Links = () => (
   <>
-    <NavItem key={'My events'} icon={FiHome} href={'/'}>
+    <NavItem key={'My event'} icon={FiHome} href={'/'}>
       My events
     </NavItem>
     <NavItem key={'Share my event'} icon={FiHome} href={'/share-your-event'}>

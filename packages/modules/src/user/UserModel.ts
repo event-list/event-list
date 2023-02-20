@@ -7,7 +7,7 @@ interface IUser {
   email: string;
   name: string;
   password: string;
-  gender: string;
+  gender: 'mas' | 'fem';
   createdAt: Date;
   updatedAt: Date;
   encryptPassword: (password: string) => string;

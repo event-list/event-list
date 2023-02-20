@@ -1,4 +1,4 @@
-import type { TextProps, FormLabelProps, InputProps } from '@chakra-ui/react';
+import type { FormLabelProps, InputProps } from '@chakra-ui/react';
 import { default as InputMaskPackage } from 'react-input-mask';
 import type { Props as MaskProps } from 'react-input-mask';
 

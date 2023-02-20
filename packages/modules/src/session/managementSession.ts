@@ -14,11 +14,11 @@ export const setSessionTokenCookie = async (
   token: string | null,
 ) => {
   try {
-    const domain = null;
+    const domain = config.EVENT_LIST_DOMAIN;
 
-    const secure = config.NODE_ENV !== 'development';
+    const secure = config.EVENT_LIST_ENV !== 'development';
 
-    const sameSite = config.EVENT_LIST_ENV === 'development' ? 'Lax' : 'None';
+    // const sameSite = config.EVENT_LIST_ENV === 'development' ? 'lax' : 'none';
 
     const options = {
       httpOnly: true,
@@ -27,7 +27,7 @@ export const setSessionTokenCookie = async (
       secure,
       domain,
       signed: false,
-      sameSite,
+      // sameSite,
       proxy: true,
     };
 

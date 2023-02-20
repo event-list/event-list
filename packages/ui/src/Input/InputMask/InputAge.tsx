@@ -12,7 +12,7 @@ type InputAgeProps = {
 const InputAge = (props: InputAgeProps) => {
   const { labelProps, ...restProps } = props;
 
-  return <InputMask type="text" placeholder="18+" {...restProps} labelProps={labelProps} mask="99" />;
+  return <InputMask type="text" placeholder="18+" {...restProps} labelProps={labelProps} mask="99+" />;
 };
 
 export default InputAge;

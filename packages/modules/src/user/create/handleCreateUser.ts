@@ -1,4 +1,5 @@
 import { MerchantModel } from '@event-list/modules';
+import type { GraphQLContext } from '@event-list/types';
 
 import type { UserDocument } from '../UserModel';
 import UserModel from '../UserModel';
@@ -12,11 +13,11 @@ type HandleCreateUserPayload = {
 
 type HandleCreateUserArgs = {
   payload: HandleCreateUserPayload;
-  context: Record<string, unknown>;
+  context: GraphQLContext;
 };
 
 function validateGender(gender: string) {
-  return gender.toLowerCase() === 'f' || gender.toLowerCase() === 'm';
+  return gender.toLowerCase() === 'mas' || gender.toLowerCase() === 'fem';
 }
 
 async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateUserArgs) {
@@ -43,6 +44,8 @@ async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateU
       ...payload,
     };
   }
+
+  console.log(gender);
 
   if (!gender || !validateGender(gender)) {
     return {

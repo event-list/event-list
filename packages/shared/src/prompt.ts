@@ -14,7 +14,7 @@ export const prompt = async () => {
   console.log({
     MONGO_URL: config.MONGO_URL,
     JWT_SECRET: config.JWT_SECRET,
-    NODE_ENV: config.NODE_ENV,
+    EVENT_LIST_ENV: config.EVENT_LIST_ENV,
   });
 
   if (process.env.PROMPT !== 'true') {

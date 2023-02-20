@@ -5,24 +5,19 @@ import {
   Container,
   Flex,
   FormControl,
-  FormLabel,
   Heading,
-  HStack,
   Icon,
   Link,
-  Radio,
-  RadioGroup,
   SimpleGrid,
   Stack,
   Text,
   useBreakpointValue,
+  useToast,
 } from '@chakra-ui/react';
 import { formatToCNPJ } from 'brazilian-values';
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
-import { useState } from 'react';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -45,13 +40,11 @@ const SignUpSchema = yup.object({
 export default function SignUpView() {
   const [MerchantSignUp, isPending] = useMutation<SignUpMutation>(SignUp);
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const toast = useToast();
 
   const router = useRouter();
 
   const onSubmit = (values: SignUpParams) => {
-    closeSnackbar();
-
     const config = {
       variables: {
         input: {
@@ -67,18 +60,32 @@ export default function SignUpView() {
       },
 
       onCompleted: ({ MerchantSignUpMutation }: SignUpMutation$data) => {
-        console.log(MerchantSignUpMutation);
         if (typeof MerchantSignUpMutation === 'undefined') {
-          enqueueSnackbar('Something was wrong');
+          toast({
+            title: 'Something was wrong',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
           return;
         }
 
         if (MerchantSignUpMutation?.error) {
-          enqueueSnackbar(MerchantSignUpMutation.error);
+          toast({
+            title: MerchantSignUpMutation.error,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
           return;
         }
 
-        enqueueSnackbar(MerchantSignUpMutation?.success);
+        toast({
+          title: MerchantSignUpMutation?.success,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
 
         router.push('/');
       },

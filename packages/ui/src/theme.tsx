@@ -43,6 +43,11 @@ const theme = extendTheme({
         fontFamily: 'Sifonn',
       },
     },
+    Heading: {
+      baseStyle: {
+        fontFamily: 'Sifonn',
+      },
+    },
   },
   initialColorMode: 'dark',
 });

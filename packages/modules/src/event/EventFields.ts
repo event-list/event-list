@@ -9,7 +9,8 @@ const eventField = () => ({
   events: {
     type: new GraphQLNonNull(EventConnection),
     args: { ...connectionArgs },
-    resolve: async (_, args, ctx) => await EventLoader.loadAll(ctx, args),
+    resolve: async (_, args, ctx) =>
+      await EventLoader.loadAll(ctx, withFilter(args, { status: true, published: true })),
   },
 });
 

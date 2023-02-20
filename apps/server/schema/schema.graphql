@@ -93,7 +93,7 @@ type EventEdge {
   cursor: String!
 }
 
-# Event Type
+# EventView Type
 type Event {
   # The ID of an object
   id: ID!

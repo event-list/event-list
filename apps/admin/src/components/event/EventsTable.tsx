@@ -5,7 +5,6 @@ import {
   TableContainer,
   Text,
   Table,
-  TableCaption,
   Thead,
   Tr,
   Th,
@@ -18,33 +17,30 @@ import { graphql, usePaginationFragment } from 'react-relay';
 
 import { TextDecorated } from '@event-list/ui';
 
-import type { MyEventsListFragment_query$key } from '../../../__generated__/MyEventsListFragment_query.graphql';
-import type { MyEventsListPagination_query } from '../../../__generated__/MyEventsListPagination_query.graphql';
+import type { EventsTableFragment_query$key } from '../../../__generated__/EventsTableFragment_query.graphql';
+import type { EventsTablePagination_query } from '../../../__generated__/EventsTablePagination_query.graphql';
 import { EventRow } from './EventRow';
 
-const myEventsListFragment = graphql`
-  fragment MyEventsListFragment_query on Query
+const EventsTableFragment = graphql`
+  fragment EventsTableFragment_query on Query
   @argumentDefinitions(first: { type: Int, defaultValue: 12 }, after: { type: String })
-  @refetchable(queryName: "MyEventsListPagination_query") {
+  @refetchable(queryName: "EventsTablePagination_query") {
     myEvents(first: $first, after: $after) @connection(key: "Events_myEvents", filters: []) {
       edges {
         node {
           id
           title
-          description
-          slug
-          flyer
-          label {
-            name
-          }
           published
+          status
           date
           eventOpenAt
-          eventEndAt
-          listAvailableAt
-          classification
           price
-          place
+          users {
+            mas
+            fem
+            free
+          }
+          usersQtd
         }
         cursor
       }
@@ -55,11 +51,11 @@ const myEventsListFragment = graphql`
   }
 `;
 
-export default function MyEventsList(props: { fragmentKey: MyEventsListFragment_query$key }) {
+export default function EventsTable(props: { fragmentKey: EventsTableFragment_query$key }) {
   const { data, loadNext, isLoadingNext } = usePaginationFragment<
-    MyEventsListPagination_query,
-    MyEventsListFragment_query$key
-  >(myEventsListFragment, props.fragmentKey);
+    EventsTablePagination_query,
+    EventsTableFragment_query$key
+  >(EventsTableFragment, props.fragmentKey);
 
   const events = data.myEvents;
 
@@ -111,17 +107,21 @@ export default function MyEventsList(props: { fragmentKey: MyEventsListFragment_
                 <Tr>
                   <Th fontFamily={'Sifonn'}>List</Th>
                   <Th fontFamily={'Sifonn'}>Name</Th>
-                  <Th fontFamily={'Sifonn'}>Total confirmed</Th>
+                  <Th fontFamily={'Sifonn'}>Total</Th>
                   <Th fontFamily={'Sifonn'}>Date</Th>
                   <Th fontFamily={'Sifonn'}>Event open At</Th>
                   <Th fontFamily={'Sifonn'}>Price</Th>
+                  <Th fontFamily={'Sifonn'}>Published</Th>
+                  <Th fontFamily={'Sifonn'}>Status</Th>
                   <Th fontFamily={'Sifonn'}>Access</Th>
+                  <Th fontFamily={'Sifonn'}>Actions</Th>
                 </Tr>
               </Thead>
-              <Tbody></Tbody>
-              {events.edges.map((event, index) => (
-                <EventRow key={index} event={event!.node} />
-              ))}
+              <Tbody>
+                {events.edges.map((event, index) => (
+                  <EventRow key={index} event={event!.node} />
+                ))}
+              </Tbody>
             </Table>
           </TableContainer>
         </Stack>

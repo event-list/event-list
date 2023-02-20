@@ -16,6 +16,8 @@ export { default as InputDate } from './Input/InputDate';
 export { default as InputAge } from './Input/InputMask/InputAge';
 export { default as InputHours } from './Input/InputMask/InputHours';
 export { default as InputCnpj } from './Input/InputMask/InputCnpj';
+export { default as InputPrice } from './Input/InputMask/InputPrice';
+export { default as InputSelect } from './Input/InputSelect';
 
 // button
 export { default as Button } from './Button/Button';

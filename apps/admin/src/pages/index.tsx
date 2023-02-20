@@ -2,22 +2,22 @@ import { graphql, usePreloadedQuery } from 'react-relay';
 
 import type { pagesEventsViewQuery } from '../../__generated__/pagesEventsViewQuery.graphql';
 import RootLayoutGenerated from '../../__generated__/RootLayoutQuery.graphql';
-import MyEventsList from '../components/event/MyEventsList';
+import EventsTable from '../components/event/EventsTable';
 import RootLayout from '../components/RootLayout';
 import getPreloadedQuery from '../relay/getPreloadedQuery';
 
-const myEventsViewQuery = graphql`
+const EventsViewQuery = graphql`
   query pagesEventsViewQuery {
-    ...MyEventsListFragment_query
+    ...EventsTableFragment_query
   }
 `;
 
 export default function Page(props) {
-  const key = usePreloadedQuery<pagesEventsViewQuery>(myEventsViewQuery, props.queryRefs.myEventsViewQuery);
+  const key = usePreloadedQuery<pagesEventsViewQuery>(EventsViewQuery, props.queryRefs.EventsViewQuery);
 
   return (
     <RootLayout preloadedQuery={props.queryRefs.RootLayout}>
-      <MyEventsList fragmentKey={key} />
+      <EventsTable fragmentKey={key} />
     </RootLayout>
   );
 }
@@ -27,12 +27,10 @@ export async function getServerSideProps(ctx) {
     props: {
       preloadedQueries: {
         RootLayout: await getPreloadedQuery(RootLayoutGenerated, {}, ctx),
-        myEventsViewQuery: await getPreloadedQuery(
+        EventsViewQuery: await getPreloadedQuery(
           //@ts-expect-error todo
-          myEventsViewQuery,
-          {
-            published: true,
-          },
+          EventsViewQuery,
+          {},
           ctx,
         ),
       },

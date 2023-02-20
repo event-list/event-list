@@ -7,19 +7,25 @@ type IEvent = {
   _id: Types.ObjectId;
   title: string;
   description: string;
-  slug: string;
   flyer: string;
   label: Types.ObjectId;
   place: string;
-  published: boolean;
   date: Date;
   eventOpenAt: string;
   eventEndAt: string;
   listAvailableAt: string;
   classification: string;
   price: string;
+  status: boolean;
+  users: {
+    mas: string[];
+    fem: string[];
+    free: string[];
+  };
   createdAt: Date;
   updatedAt: Date;
+  findUserInEvent: (name: string, role?: string) => boolean;
+  removeUserFromAllRoles: (name: string) => void;
 };
 
 type EventDocument = Document & IEvent;
@@ -34,10 +40,6 @@ const EventSchema = new Schema<EventDocument>(
       type: String,
       required: true,
     },
-    slug: {
-      type: String,
-      required: true,
-    },
     flyer: {
       type: String,
       required: true,
@@ -49,10 +51,6 @@ const EventSchema = new Schema<EventDocument>(
     },
     place: {
       type: String,
-      required: true,
-    },
-    published: {
-      type: Boolean,
       required: true,
     },
     date: {
@@ -79,6 +77,27 @@ const EventSchema = new Schema<EventDocument>(
       type: String,
       required: true,
     },
+    status: {
+      type: Boolean,
+      required: true,
+    },
+    users: {
+      mas: [
+        {
+          type: String,
+        },
+      ],
+      fem: [
+        {
+          type: String,
+        },
+      ],
+      free: [
+        {
+          type: String,
+        },
+      ],
+    },
   },
   {
     collection: 'Event',
@@ -88,6 +107,21 @@ const EventSchema = new Schema<EventDocument>(
     },
   },
 );
+
+EventSchema.methods = {
+  findUserInEvent(name, role) {
+    if (role) {
+      return this.users[role].includes(name);
+    }
+    return Object.keys(this.users).filter((key) => this.users[key].includes(name)).length > 0;
+  },
+
+  removeUserFromAllRoles(name) {
+    Object.keys(this.users).map((key) => {
+      this.users[key] = this.users[key].filter((currentName) => currentName !== name);
+    });
+  },
+};
 
 const EventModel = model<EventDocument>('Event', EventSchema);
 

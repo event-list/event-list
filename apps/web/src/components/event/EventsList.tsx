@@ -13,22 +13,7 @@ const EventsListFragment = graphql`
     events(first: $first, after: $after) @connection(key: "Events_events", filters: []) {
       edges {
         node {
-          id
-          title
-          description
-          slug
-          flyer
-          label {
-            name
-          }
-          published
-          date
-          eventOpenAt
-          eventEndAt
-          listAvailableAt
-          classification
-          price
-          place
+          ...EventViewFragment_event
         }
         cursor
       }
@@ -46,6 +31,8 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
   >(EventsListFragment, props.fragmentKey);
 
   const events = data.events;
+
+  console.log(events.edges);
 
   if (!events.edges) {
     return (
@@ -85,9 +72,9 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
         }}
         spacing="20px"
       >
-        {events.edges.map((event, index) => (
-          <EventCard key={index} event={event} />
-        ))}
+        {events.edges.map((event, index) => {
+          if (event?.node) return <EventCard key={index} fragmentKey={event?.node} />;
+        })}
       </SimpleGrid>
     </InfiniteScroll>
   );

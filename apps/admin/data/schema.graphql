@@ -79,7 +79,6 @@ type Event implements Node {
   id: ID!
   title: String
   description: String
-  slug: String
   flyer: String
   label: Merchant
   place: String
@@ -90,11 +89,22 @@ type Event implements Node {
   listAvailableAt: String
   classification: String
   price: String
+  status: Boolean
+  users: users
+  usersQtd: String
+}
+
+type users {
+  mas: [String]
+  fem: [String]
+  free: [String]
 }
 
 """All mutations"""
 type Mutation {
   CreateEventMutation(input: CreateEventMutationInput!): CreateEventMutationPayload
+  ChangeEventStatusMutation(input: ChangeEventStatusMutationInput!): ChangeEventStatusMutationPayload
+  AddUserInEventMutation(input: AddUserInEventMutationInput!): AddUserInEventMutationPayload
   MerchantSignUpMutation(input: MerchantSignUpMutationInput!): MerchantSignUpMutationPayload
   MerchantSignInMutation(input: MerchantSignInMutationInput!): MerchantSignInMutationPayload
   MerchantSignOutMutation(input: MerchantSignOutMutationInput!): MerchantSignOutMutationPayload
@@ -122,6 +132,36 @@ input CreateEventMutationInput {
   listAvailableAt: String!
   classification: String!
   price: String!
+  clientMutationId: String
+}
+
+type ChangeEventStatusMutationPayload {
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input ChangeEventStatusMutationInput {
+  eventId: String!
+  clientMutationId: String
+}
+
+type AddUserInEventMutationPayload {
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input AddUserInEventMutationInput {
+  eventId: String
+  names: [String]
+  role: String
   clientMutationId: String
 }
 

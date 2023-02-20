@@ -8,6 +8,7 @@ type GraphQLContext = {
   dataloaders: DataLoader;
   user?: UserDocument;
   merchant?: MerchantDocument;
+  t: ([key]: string) => string;
 };
 
 export type { GraphQLContext };

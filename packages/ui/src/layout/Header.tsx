@@ -32,6 +32,7 @@ type Props = {
   user: { name: string };
   onLogout: () => void;
   links: any;
+  subMenuItems: any;
 };
 
 export default function Header(props: Props) {
@@ -97,6 +98,7 @@ export default function Header(props: Props) {
                 >
                   {/* <MenuItem>Profile</MenuItem> */}
                   {/* <MenuDivider /> */}
+                  {props.subMenuItems}
                   <MenuItem onClick={props.onLogout} icon={<Icon w={5} h={6} as={FiLogOut} />}>
                     <Text fontSize={13}>Sign out</Text>
                   </MenuItem>

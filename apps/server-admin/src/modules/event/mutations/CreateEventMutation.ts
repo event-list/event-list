@@ -4,7 +4,7 @@ import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { eventField, EventModel } from '@event-list/modules';
 
-interface EventCreateArgs {
+type EventCreateArgs = {
   title: string;
   description: string;
   place: string;
@@ -15,9 +15,9 @@ interface EventCreateArgs {
   listAvailableAt: string;
   classification: string;
   price: string;
-}
+};
 
-export const EventCreateMutation = mutationWithClientMutationId({
+export const CreateEventMutation = mutationWithClientMutationId({
   name: 'CreateEventMutation',
   inputFields: {
     title: {
@@ -53,14 +53,12 @@ export const EventCreateMutation = mutationWithClientMutationId({
   },
   mutateAndGetPayload: async (args: EventCreateArgs, ctx) => {
     const { merchant, t } = ctx;
-    if (!merchant) throw new Error('Unauthorized');
 
-    const eventSlug = args.title;
+    if (!merchant) return { id: null, success: null, error: t('Unauthorized') };
 
     const rest = {
-      published: true,
+      status: true,
       label: merchant._id,
-      slug: eventSlug,
     };
 
     const newEvent = await new EventModel({

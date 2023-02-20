@@ -5,13 +5,12 @@ import { mutationWithClientMutationId } from 'graphql-relay';
 import type { UserDocument } from '@event-list/modules';
 import {
   generateToken,
+  meField,
   setSessionTokenCookie,
   USER_SESSION_COOKIE,
   USER_TOKEN_SCOPES,
   UserModel,
 } from '@event-list/modules';
-
-import { meField } from '../UserFields';
 
 type UserSignInMutationArgs = {
   email: string;

@@ -1,5 +1,6 @@
 import { GraphQLObjectType } from 'graphql';
 
+import { EventMutations } from '../modules/event/EventMutations';
 import { UserMutations } from '../modules/user/UserMutations';
 
 const MutationType = new GraphQLObjectType({
@@ -7,6 +8,7 @@ const MutationType = new GraphQLObjectType({
   description: 'All mutations',
   fields: () => ({
     ...UserMutations,
+    ...EventMutations,
   }),
 });
 

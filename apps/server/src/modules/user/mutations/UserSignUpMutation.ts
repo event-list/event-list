@@ -6,12 +6,12 @@ import type { UserDocument } from '@event-list/modules';
 import {
   generateToken,
   handleCreateUser,
+  meField,
   setSessionTokenCookie,
   USER_SESSION_COOKIE,
   USER_TOKEN_SCOPES,
 } from '@event-list/modules';
-
-import { meField } from '../UserFields';
+import type { GraphQLContext } from '@event-list/types';
 
 const UserSignUpMutation = mutationWithClientMutationId({
   name: 'UserSignUpMutation',
@@ -29,7 +29,7 @@ const UserSignUpMutation = mutationWithClientMutationId({
       type: new GraphQLNonNull(GraphQLString),
     },
   },
-  mutateAndGetPayload: async (args, context) => {
+  mutateAndGetPayload: async (args, context: GraphQLContext) => {
     const { t } = context;
     const payload = { ...args };
 
@@ -38,6 +38,8 @@ const UserSignUpMutation = mutationWithClientMutationId({
       context,
     });
 
+    if (error) return { id: null, success: null, error };
+
     if (!user) {
       return {
         user: null,
@@ -45,8 +47,6 @@ const UserSignUpMutation = mutationWithClientMutationId({
         error: t('Something wrong'),
       };
     }
-
-    if (error) return { id: null, success: null, error };
 
     const userToken = generateToken<UserDocument>(user, USER_TOKEN_SCOPES.SESSION);
 

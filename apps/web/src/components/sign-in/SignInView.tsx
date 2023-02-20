@@ -12,11 +12,11 @@ import {
   Stack,
   Text,
   useBreakpointValue,
+  useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -36,13 +36,11 @@ const SignInSchema = yup.object({
 export default function SignInView() {
   const [UserSignIn, isPending] = useMutation<SignInMutation>(SignIn);
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const toast = useToast();
 
   const router = useRouter();
 
   const onSubmit = (values: SignInParams) => {
-    closeSnackbar();
-
     const config = {
       variables: {
         input: {
@@ -53,16 +51,31 @@ export default function SignInView() {
 
       onCompleted: ({ UserSignInMutation }: SignInMutation$data) => {
         if (typeof UserSignInMutation === 'undefined') {
-          enqueueSnackbar('Something was wrong');
+          toast({
+            title: 'Something was wrong',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
           return;
         }
 
         if (UserSignInMutation?.error) {
-          enqueueSnackbar(UserSignInMutation.error);
+          toast({
+            title: UserSignInMutation.error,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
           return;
         }
 
-        enqueueSnackbar(UserSignInMutation?.success);
+        toast({
+          title: UserSignInMutation?.success,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
 
         router.push('/');
       },
@@ -96,7 +109,7 @@ export default function SignInView() {
         >
           <Stack spacing={{ base: 10, md: 20 }}>
             <Stack direction={'row'} spacing={4} align={'center'}>
-              <Image src={Logo} alt={'Small and red Event List logo'} />
+              <Image src={Logo} alt={'Small and red EventView List logo'} />
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>

@@ -12,6 +12,7 @@ const getUserFromCookie = async (sessionCookie?: string) => {
   }
 
   try {
+    // @ts-expect-error todo
     const token = jwt.verify(sessionCookie?.replace('JWT', '').trim(), config.JWT_SECRET);
 
     const merchant = await MerchantModel.findById(token.id);

@@ -16,11 +16,11 @@ import {
   Stack,
   Text,
   useBreakpointValue,
+  useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
@@ -44,13 +44,11 @@ export default function SignUpView() {
   const [gender, setGender] = useState<string>('m');
   const [UserSignUn, isPending] = useMutation<SignUpMutation>(SignUp);
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const toast = useToast();
 
   const router = useRouter();
 
   const onSubmit = (values: SignUpParams) => {
-    closeSnackbar();
-
     const config = {
       variables: {
         input: {
@@ -63,16 +61,31 @@ export default function SignUpView() {
 
       onCompleted: ({ UserSignUpMutation }: SignUpMutation$data) => {
         if (typeof UserSignUpMutation === 'undefined') {
-          enqueueSnackbar('Something was wrong');
+          toast({
+            title: 'Something was wrong',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
           return;
         }
 
         if (UserSignUpMutation?.error) {
-          enqueueSnackbar(UserSignUpMutation.error);
+          toast({
+            title: UserSignUpMutation.error,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
           return;
         }
 
-        enqueueSnackbar(UserSignUpMutation?.success);
+        toast({
+          title: UserSignUpMutation?.success,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
 
         router.push('/');
       },
@@ -108,7 +121,7 @@ export default function SignUpView() {
         >
           <Stack spacing={{ base: 10, md: 20 }}>
             <Stack direction={'row'} spacing={4} align={'center'}>
-              <Image src={Logo} alt={'Small and red Event List logo'} />
+              <Image src={Logo} alt={'Small and red EventView List logo'} />
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
@@ -139,7 +152,7 @@ export default function SignUpView() {
                     <InputField
                       labelProps={{ color: 'gray.700' }}
                       name="email"
-                      label="Email: "
+                      label="Email:"
                       placeholder="user@email.com"
                       _placeholder={{
                         color: 'gray.400',
@@ -154,7 +167,7 @@ export default function SignUpView() {
                       labelProps={{ color: 'gray.700' }}
                       type="password"
                       name="password"
-                      label="Password: "
+                      label="Password:"
                       placeholder="*******"
                       _placeholder={{
                         color: 'gray.400',
@@ -169,7 +182,7 @@ export default function SignUpView() {
                       <InputField
                         labelProps={{ color: 'gray.700' }}
                         bg={'gray.100'}
-                        label={'Name: '}
+                        label={'Name:'}
                         border={0}
                         color={'gray.700'}
                         name="name"
@@ -181,14 +194,14 @@ export default function SignUpView() {
                     </FormControl>
                     <FormControl id="gender" isRequired>
                       <FormLabel as={Text} color={'gray.700'}>
-                        Gender:{' '}
+                        Gender:
                       </FormLabel>
                       <RadioGroup onChange={setGender} value={gender} color={'gray.700'} mt="0.5rem">
                         <Stack direction="row">
-                          <Radio value="m" colorScheme="red" borderColor="gray.400">
+                          <Radio value="mas" colorScheme="red" borderColor="gray.400">
                             Male
                           </Radio>
-                          <Radio value="f" colorScheme="red" borderColor="gray.400">
+                          <Radio value="fem" colorScheme="red" borderColor="gray.400">
                             Female
                           </Radio>
                         </Stack>

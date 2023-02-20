@@ -6,13 +6,12 @@ import type { MerchantDocument } from '@event-list/modules';
 import {
   generateToken,
   handleCreateMerchant,
+  meAdminField,
   MERCHANT_SESSION_COOKIE,
   MERCHANT_TOKEN_SCOPES,
   setSessionTokenCookie,
   TaxIDInputType,
 } from '@event-list/modules';
-
-import { meAdminField } from '../MerchantFields';
 
 const MerchantSignUpMutation = mutationWithClientMutationId({
   name: 'MerchantSignUpMutation',

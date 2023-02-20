@@ -1,10 +1,12 @@
-import { graphql, readInlineData, useFragment } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 
 import type { useAuthFragment_user$key } from '../../__generated__/useAuthFragment_user.graphql';
 
-const useAuthFragment = graphql`
+export const useAuthFragment = graphql`
   fragment useAuthFragment_user on User {
     name
+    gender
+    email
   }
 `;
 

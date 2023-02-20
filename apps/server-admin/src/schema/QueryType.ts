@@ -1,8 +1,6 @@
 import { GraphQLObjectType } from 'graphql';
 
-import { myEvents, nodeField, nodesField } from '@event-list/modules';
-
-import { meAdminField } from '../modules/merchant/MerchantFields';
+import { meAdminField, myEvents, nodeField, nodesField } from '@event-list/modules';
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',

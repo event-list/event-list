@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, HStack, Image, Stack, useToast } from '@chakra-ui/react';
+import { Box, Flex, FormControl, HStack, Image, Stack, useToast, Tooltip } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import { useS3Upload } from 'next-s3-upload';
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ import {
   InputDate,
   InputHours,
   InputAge,
+  InputPrice,
 } from '@event-list/ui';
 
 import type { ShareEventMutation, ShareEventMutation$data } from '../../../../__generated__/ShareEventMutation.graphql';
@@ -24,7 +25,7 @@ type ShareEventParams = yup.InferType<typeof ShareEventSchema>;
 
 const ShareEventSchema = yup.object({
   title: yup.string().required('Title is required'),
-  description: yup.string().required('Password is required'),
+  description: yup.string().min(12, 'Your description must have min 12 characters').required('Description is required'),
   place: yup.string().required('Place is required'),
   date: yup.string().required('Date is required'),
   eventOpenAt: yup.string().required('Event open at is required'),
@@ -151,7 +152,7 @@ export default function ShareEventView() {
               <HStack spacing={8}>
                 <Box w="full">
                   <FormControl id="price" isRequired>
-                    <InputField name="price" label="Price:" placeholder="00,00" />
+                    <InputPrice name="price" label="Price:" />
                   </FormControl>
                 </Box>
                 <Box w="full">
@@ -181,7 +182,11 @@ export default function ShareEventView() {
                 </Box>
               </HStack>
               <FormControl id="description" isRequired>
-                <InputArea name="description" label="Description:" placeholder="Describe your event" />
+                <InputArea
+                  name="description"
+                  label="Description:"
+                  placeholder="Describe your event, the attractions, the place..."
+                />
               </FormControl>
               <HStack>
                 <Box>
@@ -201,7 +206,7 @@ export default function ShareEventView() {
                   size="lg"
                   onClick={() => handleSubmit()}
                   disabled={isDisabled}
-                  text={'Send Event'}
+                  text={'Share Event'}
                   isSubmitting={isPending}
                 />
               </Stack>

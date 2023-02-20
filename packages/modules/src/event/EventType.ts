@@ -1,9 +1,10 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import { connectionDefinitions, globalIdField } from 'graphql-relay';
-import { GraphQLBoolean } from 'graphql/type';
+import { GraphQLBoolean, GraphQLList } from 'graphql/type';
 
-import { EventLoader, MerchantLoader, nodeInterface, registerTypeLoader } from '@event-list/modules';
-import { MerchantType } from '@event-list/server-admin/src/modules/merchant/MerchantType';
+import type { EventDocument } from '@event-list/modules';
+import { EventLoader, MerchantLoader, MerchantType, nodeInterface, registerTypeLoader } from '@event-list/modules';
+import type { GraphQLContext } from '@event-list/types';
 
 const EventType = new GraphQLObjectType({
   name: 'Event',
@@ -18,17 +19,13 @@ const EventType = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (event) => event.description,
     },
-    slug: {
-      type: GraphQLString,
-      resolve: (event) => event.slug,
-    },
     flyer: {
       type: GraphQLString,
       resolve: (event) => event.flyer,
     },
     label: {
       type: MerchantType,
-      resolve: (event, _, context) => MerchantLoader.load(context, event.label),
+      resolve: (event, _, context: GraphQLContext) => MerchantLoader.load(context, event.label),
     },
     place: {
       type: GraphQLString,
@@ -36,7 +33,8 @@ const EventType = new GraphQLObjectType({
     },
     published: {
       type: GraphQLBoolean,
-      resolve: (event) => event.published,
+      //@ts-expect-error todo
+      resolve: (event) => event.date > new Date(),
     },
     date: {
       type: GraphQLString,
@@ -61,6 +59,33 @@ const EventType = new GraphQLObjectType({
     price: {
       type: GraphQLString,
       resolve: (event) => event.price,
+    },
+    status: {
+      type: GraphQLBoolean,
+      resolve: (event) => event.status,
+    },
+    users: {
+      type: new GraphQLObjectType({
+        name: 'users',
+        fields: {
+          mas: {
+            type: new GraphQLList(GraphQLString),
+            resolve: (users: EventDocument['users']) => users.mas,
+          },
+          fem: {
+            type: new GraphQLList(GraphQLString),
+            resolve: (users: EventDocument['users']) => users.fem,
+          },
+          free: {
+            type: new GraphQLList(GraphQLString),
+            resolve: (users: EventDocument['users']) => users.free,
+          },
+        },
+      }),
+    },
+    usersQtd: {
+      type: GraphQLString,
+      resolve: (event: EventDocument) => event.users.mas.length + event.users.fem.length + event.users.free.length,
     },
   }),
   interfaces: () => [nodeInterface],

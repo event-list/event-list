@@ -10,9 +10,8 @@ import {
   MERCHANT_TOKEN_SCOPES,
   MERCHANT_SESSION_COOKIE,
   TAXID_TYPE,
+  meAdminField,
 } from '@event-list/modules';
-
-import { meAdminField } from '../MerchantFields';
 
 type MerchantSignInMutationArgs = {
   cnpj: string;
@@ -45,8 +44,6 @@ const MerchantSignInMutation = mutationWithClientMutationId({
       };
     }
 
-    console.log(cnpj);
-
     const merchant = await MerchantModel.findOne({
       taxID: { taxID: cnpj, type: TAXID_TYPE.BR_CNPJ },
       removedAt: null,
@@ -69,8 +66,6 @@ const MerchantSignInMutation = mutationWithClientMutationId({
     //     error: t('CNPJ or password wrong'),
     //   };
     // }
-
-    console.log('merchant: ', merchant);
 
     const merchantToken = generateToken<MerchantDocument>(merchant, MERCHANT_TOKEN_SCOPES.SESSION);
 

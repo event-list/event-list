@@ -2,7 +2,7 @@ import type { ButtonProps as ChakraButtonProps } from '@chakra-ui/react';
 import { Button as ChakraButton, Spinner, Text } from '@chakra-ui/react';
 
 type ButtonProps = {
-  text: string;
+  text: string | JSX.Element;
   isSubmitting: boolean;
 } & ChakraButtonProps;
 

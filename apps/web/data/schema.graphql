@@ -69,7 +69,6 @@ type Event implements Node {
   id: ID!
   title: String
   description: String
-  slug: String
   flyer: String
   label: Merchant
   place: String
@@ -80,6 +79,9 @@ type Event implements Node {
   listAvailableAt: String
   classification: String
   price: String
+  status: Boolean
+  users: users
+  usersQtd: String
 }
 
 """Event list Merchant"""
@@ -101,11 +103,19 @@ type TaxID {
   type: String
 }
 
+type users {
+  mas: [String]
+  fem: [String]
+  free: [String]
+}
+
 """All mutations"""
 type Mutation {
   UserSignUpMutation(input: UserSignUpMutationInput!): UserSignUpMutationPayload
   UserSignInMutation(input: UserSignInMutationInput!): UserSignInMutationPayload
   UserSignOutMutation(input: UserSignOutMutationInput!): UserSignOutMutationPayload
+  UserMeUpdateMutation(input: UserMeUpdateMutationInput!): UserMeUpdateMutationPayload
+  EnsurePresenceMutation(input: EnsurePresenceMutationInput!): EnsurePresenceMutationPayload
 }
 
 type UserSignUpMutationPayload {
@@ -154,5 +164,38 @@ type UserSignOutMutationPayload {
 }
 
 input UserSignOutMutationInput {
+  clientMutationId: String
+}
+
+type UserMeUpdateMutationPayload {
+  me: User
+
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input UserMeUpdateMutationInput {
+  name: String
+  email: String
+  password: String
+  gender: String
+  clientMutationId: String
+}
+
+type EnsurePresenceMutationPayload {
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input EnsurePresenceMutationInput {
+  eventId: String
   clientMutationId: String
 }

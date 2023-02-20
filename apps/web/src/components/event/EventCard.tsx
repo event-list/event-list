@@ -1,16 +1,22 @@
 import { Box, Center, Flex, Image, Stack, Text, VStack, useColorModeValue } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { useFragment } from 'react-relay';
 import timestampToDate from 'timestamp-to-date';
 
 import { TextDecorated } from '@event-list/ui';
 
-const EventCard = ({ event }) => {
-  if (!event?.node) {
+import type { EventViewFragment_event$key } from '../../../__generated__/EventViewFragment_event.graphql';
+import { EventViewFragment } from './EventView';
+
+const EventCard = (props: { fragmentKey: EventViewFragment_event$key }) => {
+  const event = useFragment<EventViewFragment_event$key>(EventViewFragment, props.fragmentKey);
+
+  if (!event) {
     return null;
   }
 
   return (
-    <NextLink href={`/event/${event?.node?.id}`}>
+    <NextLink href={`/event/${event.id}`}>
       <Center py={12} cursor={'pointer'}>
         <Box
           role={'group'}
@@ -37,7 +43,7 @@ const EventCard = ({ event }) => {
               pos: 'absolute',
               top: 2,
               left: 0,
-              backgroundImage: `url(${event?.node?.flyer ?? ''})`,
+              backgroundImage: `url(${event.flyer ?? ''})`,
               filter: 'blur(15px)',
               zIndex: -1,
             }}
@@ -47,25 +53,18 @@ const EventCard = ({ event }) => {
               },
             }}
           >
-            <Image
-              alt="flyer"
-              rounded={'lg'}
-              height={250}
-              width={282}
-              objectFit={'cover'}
-              src={event?.node?.flyer ?? ''}
-            />
+            <Image alt="flyer" rounded={'lg'} height={250} width={282} objectFit={'cover'} src={event.flyer ?? ''} />
           </Box>
           <Stack pt={10} align={'center'}>
             <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-              {event?.node?.label.name}
+              {event.label?.name}
             </Text>
             <TextDecorated fontSize={'2xl'} fontWeight={'bold'}>
-              {event?.node?.title}
+              {event.title}
             </TextDecorated>
             <Box>
               <Text fontWeight={700} fontSize={'lg'}>
-                {timestampToDate(event?.node?.date, 'dd-MM-yyyy')}
+                {timestampToDate(event.date, 'dd-MM-yyyy')}
               </Text>
             </Box>
             <Flex alignItems="center" justifyContent="space-between" w="60%">
@@ -75,7 +74,7 @@ const EventCard = ({ event }) => {
                     Open At
                   </TextDecorated>
                   <Text as={'span'} fontWeight={700} fontSize={'lg'}>
-                    {event?.node?.eventOpenAt}
+                    {event.eventOpenAt}
                   </Text>
                 </VStack>
               </Box>
@@ -85,7 +84,7 @@ const EventCard = ({ event }) => {
                     End At
                   </TextDecorated>
                   <Text as={'span'} fontWeight={700} fontSize={'lg'}>
-                    {event?.node?.eventEndAt}
+                    {event.eventEndAt}
                   </Text>
                 </VStack>
               </Box>

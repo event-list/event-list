@@ -1,8 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const config = require('./configCommon');
 // const pluginsProduction = require('./pluginsProduction');
 
 module.exports = (api) => {
-  api.cache.using(() => process.env.NODE_ENV);
+  api.cache.using(() => process.env.EVENT_LIST_ENV);
 
   // const enableFastRefresh = !api.env('production') && !api.env('test');
 
