@@ -36,12 +36,11 @@ type SignUpParams = yup.InferType<typeof SignUpSchema>;
 const SignUpSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
-  name: yup.string().required('Name is required'),
+  name: yup.string().required('Full Name is required'),
   gender: yup.string().required('Gender is required'),
 });
 
 export default function SignUpView() {
-  const [gender, setGender] = useState<string>('m');
   const [UserSignUn, isPending] = useMutation<SignUpMutation>(SignUp);
 
   const toast = useToast();
@@ -54,7 +53,7 @@ export default function SignUpView() {
         input: {
           email: values.email,
           password: values.password,
-          gender: gender,
+          gender: values.gender,
           name: values.name,
         },
       },
@@ -98,14 +97,14 @@ export default function SignUpView() {
     initialValues: {
       email: '',
       password: '',
-      gender: gender,
+      gender: 'mas',
       name: '',
     },
     validationSchema: SignUpSchema,
     onSubmit,
   });
 
-  const { handleSubmit, isValid, dirty } = formik;
+  const { handleSubmit, isValid, dirty, values, setFieldValue } = formik;
 
   const isDisabled = !isValid || isPending || !dirty;
 
@@ -182,21 +181,26 @@ export default function SignUpView() {
                       <InputField
                         labelProps={{ color: 'gray.700' }}
                         bg={'gray.100'}
-                        label={'Name:'}
+                        label={'Full Name:'}
                         border={0}
                         color={'gray.700'}
                         name="name"
-                        placeholder="Your name"
+                        placeholder="Your full name"
                         _placeholder={{
                           color: 'gray.400',
                         }}
                       />
                     </FormControl>
                     <FormControl id="gender" isRequired>
-                      <FormLabel as={Text} color={'gray.700'}>
-                        Gender:
-                      </FormLabel>
-                      <RadioGroup onChange={setGender} value={gender} color={'gray.700'} mt="0.5rem">
+                      <FormLabel color={'gray.700'}>Gender:</FormLabel>
+                      <RadioGroup
+                        onChange={(data) => {
+                          setFieldValue('gender', data);
+                        }}
+                        value={values.gender}
+                        color={'gray.700'}
+                        mt="0.5rem"
+                      >
                         <Stack direction="row">
                           <Radio value="mas" colorScheme="red" borderColor="gray.400">
                             Male

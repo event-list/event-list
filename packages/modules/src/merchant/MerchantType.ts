@@ -1,8 +1,10 @@
+import { connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
 import { GraphQLObjectType } from 'graphql';
 import { connectionDefinitions, globalIdField } from 'graphql-relay';
 import { GraphQLNonNull, GraphQLString } from 'graphql/type';
 
-import { MerchantLoader, registerTypeLoader, TaxIDType } from '@event-list/modules';
+import { EventConnection, EventLoader, MerchantLoader, nodeInterface, registerTypeLoader } from '@event-list/modules';
+import type { GraphQLContext } from '@event-list/types';
 
 const MerchantType = new GraphQLObjectType({
   name: 'Merchant',
@@ -17,22 +19,64 @@ const MerchantType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       resolve: (merchant) => merchant.name,
     },
-    phoneNumber: {
+    description: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (merchant) => merchant.description,
+    },
+    logo: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (merchant) => merchant.logo,
+    },
+    biography: {
       type: GraphQLString,
+      resolve: (merchant) => merchant.biography,
+    },
+    phoneNumber: {
+      type: new GraphQLNonNull(GraphQLString),
       resolve: (merchant) => merchant.phoneNumber,
     },
-    taxID: {
-      type: new GraphQLNonNull(TaxIDType),
-      resolver: (merchant) => merchant.taxID,
+    instagramAccount: {
+      type: GraphQLString,
+      resolve: (merchant) => merchant.instagramAccount,
     },
+    facebookAccount: {
+      type: GraphQLString,
+      resolve: (merchant) => merchant.facebookAccount,
+    },
+    twitterAccount: {
+      type: GraphQLString,
+      resolve: (merchant) => merchant.twitterAccount,
+    },
+    website: {
+      type: GraphQLString,
+      resolve: (merchant) => merchant.website,
+    },
+    events: {
+      type: EventConnection,
+      args: { ...connectionArgs },
+      resolve: async (merchant, args, ctx: GraphQLContext) =>
+        await EventLoader.loadAll(
+          ctx,
+          withFilter(args, {
+            label: merchant._id,
+            status: true,
+            published: true,
+          }),
+        ),
+    },
+    // taxID: {
+    //   type: new GraphQLNonNull(TaxIDType),
+    //   resolver: (merchant) => merchant.taxID,
+    // },
   }),
+  interfaces: () => [nodeInterface],
 });
+
+registerTypeLoader(MerchantType, MerchantLoader.load);
 
 const { connectionType: MerchantConnection, edgeType: MerchantEdge } = connectionDefinitions({
   name: 'Merchant',
   nodeType: MerchantType,
 });
-
-registerTypeLoader(MerchantType, MerchantLoader.load);
 
 export { MerchantConnection, MerchantEdge, MerchantType };

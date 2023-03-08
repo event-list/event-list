@@ -36,6 +36,7 @@
     "react-infinite-scroller": "^1.2.6",
     "react-input-mask": "^3.0.0-alpha.2",
     "react-relay": "main",
+    "react-to-print": "^2.14.12",
     "relay-runtime": "main",
     "timestamp-to-date": "^1.1.0",
     "yup": "^0.32.11"

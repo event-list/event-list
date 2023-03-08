@@ -9,19 +9,18 @@ import {
   setSessionTokenCookie,
   MERCHANT_TOKEN_SCOPES,
   MERCHANT_SESSION_COOKIE,
-  TAXID_TYPE,
   meAdminField,
 } from '@event-list/modules';
 
 type MerchantSignInMutationArgs = {
-  cnpj: string;
+  email: string;
   password: string;
 };
 
 const MerchantSignInMutation = mutationWithClientMutationId({
   name: 'MerchantSignInMutation',
   inputFields: {
-    cnpj: {
+    email: {
       type: new GraphQLNonNull(GraphQLString),
     },
     password: {
@@ -31,12 +30,12 @@ const MerchantSignInMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async (args: MerchantSignInMutationArgs, context) => {
     const { t } = context;
 
-    const { cnpj, password } = {
+    const { email, password } = {
       password: args.password.trim(),
-      cnpj: args.cnpj.trim(),
+      email: args.email.trim().toLowerCase(),
     };
 
-    if (!cnpj || !password) {
+    if (!email || !password) {
       return {
         merchant: null,
         success: null,
@@ -45,7 +44,7 @@ const MerchantSignInMutation = mutationWithClientMutationId({
     }
 
     const merchant = await MerchantModel.findOne({
-      taxID: { taxID: cnpj, type: TAXID_TYPE.BR_CNPJ },
+      email,
       removedAt: null,
     });
 

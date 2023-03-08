@@ -64,7 +64,7 @@ const AddUserInEventMutation = mutationWithClientMutationId({
     }
 
     return {
-      success: 'Presence successfully for these names',
+      success: t('Presence successfully for these names'),
       error: null,
     };
   },

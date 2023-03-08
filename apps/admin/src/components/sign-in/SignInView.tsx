@@ -20,7 +20,7 @@ import { useRouter } from 'next/router';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
-import { Button, InputCnpj, InputField, TextDecorated } from '@event-list/ui';
+import { Button, InputField, TextDecorated } from '@event-list/ui';
 
 import type { SignInMutation, SignInMutation$data } from '../../../__generated__/SignInMutation.graphql';
 import Logo from '../../../data/logo.svg';
@@ -29,7 +29,7 @@ import { SignIn } from './SignInMutation';
 type SignInParams = yup.InferType<typeof SignInSchema>;
 
 const SignInSchema = yup.object({
-  cnpj: yup.string().required('Cnpj is required'),
+  email: yup.string().required('Email is required'),
   password: yup.string().required('Password is required'),
 });
 
@@ -44,7 +44,7 @@ export default function SignInView() {
     const config = {
       variables: {
         input: {
-          cnpj: values.cnpj,
+          email: values.email,
           password: values.password,
         },
       },
@@ -86,7 +86,7 @@ export default function SignInView() {
 
   const formik = useFormik<SignInParams>({
     initialValues: {
-      cnpj: '',
+      email: '',
       password: '',
     },
     validationSchema: SignInSchema,
@@ -128,7 +128,7 @@ export default function SignInView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  Sign in your merchant account{' '}
+                  Sign in your label account{' '}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
@@ -136,12 +136,12 @@ export default function SignInView() {
               </Stack>
               <Box as={'form'} mt={10}>
                 <Stack spacing={4}>
-                  <FormControl id="cnpj" isRequired>
-                    <InputCnpj
+                  <FormControl id="email" isRequired>
+                    <InputField
                       labelProps={{ color: 'gray.700' }}
-                      name="cnpj"
-                      label="CNPJ: "
-                      placeholder="00.000.000/0000-00"
+                      name="email"
+                      label="Email:"
+                      placeholder="user@email.com"
                       _placeholder={{
                         color: 'gray.400',
                       }}
@@ -155,7 +155,7 @@ export default function SignInView() {
                       labelProps={{ color: 'gray.700' }}
                       type="password"
                       name="password"
-                      label="Password: "
+                      label="Password:"
                       placeholder="*******"
                       _placeholder={{
                         color: 'gray.400',

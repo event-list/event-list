@@ -1,7 +1,8 @@
 import { Select, Text } from '@chakra-ui/react';
-import type { FormLabelProps, SelectProps } from '@chakra-ui/react';
+import type { SelectProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 
+import type { TextDecoratedProps } from '../Text/TextFormLabel';
 import TextFormLabel from '../Text/TextFormLabel';
 
 type Options = {
@@ -11,7 +12,7 @@ type Options = {
 
 type InputSelectProps = {
   label?: string;
-  labelProps?: FormLabelProps & { decorated?: boolean };
+  labelProps?: TextDecoratedProps;
   options: Options[];
 } & SelectProps;
 

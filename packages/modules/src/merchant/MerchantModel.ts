@@ -2,20 +2,24 @@ import { compareSync, hashSync } from 'bcryptjs';
 import type { Document, Types } from 'mongoose';
 import { model, Schema } from 'mongoose';
 
-import { taxIDFields } from '../taxid/TaxIDSchema';
-import type { ITaxID } from '../taxid/TaxIDSchema';
-
 interface IMerchant {
   _id: Types.ObjectId;
   email: string;
   name: string;
+  description: string;
+  logo: string;
+  biography: string;
   password: string;
   phoneNumber: string;
+  instagramAccount: string;
+  facebookAccount: string;
+  twitterAccount: string;
+  website: string;
   createdAt: Date;
   updatedAt: Date;
   encryptPassword: (password: string) => string;
   authenticate: (plainTextPassword: string) => boolean;
-  taxID: ITaxID;
+  // taxID: ITaxID;
 }
 
 type MerchantDocument = Document & IMerchant;
@@ -25,6 +29,7 @@ const MerchantSchema = new Schema<MerchantDocument>(
     name: {
       type: String,
       description: 'Merchant name',
+      unique: true,
       required: true,
       trim: true,
     },
@@ -34,6 +39,18 @@ const MerchantSchema = new Schema<MerchantDocument>(
       unique: true,
       index: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
+    logo: {
+      type: String,
+      required: true,
+    },
+    biography: {
+      type: String,
+      required: false,
+    },
     password: {
       type: String,
       hidden: true,
@@ -42,9 +59,30 @@ const MerchantSchema = new Schema<MerchantDocument>(
     phoneNumber: {
       type: String,
       required: true,
+      unique: true,
       index: true,
     },
-    ...taxIDFields,
+    instagramAccount: {
+      type: String,
+      required: false,
+      index: true,
+    },
+    facebookAccount: {
+      type: String,
+      required: false,
+      index: true,
+    },
+    twitterAccount: {
+      type: String,
+      required: false,
+      index: true,
+    },
+    website: {
+      type: String,
+      required: false,
+      index: true,
+    },
+    // ...taxIDFields,
   },
   {
     collection: 'Merchant',

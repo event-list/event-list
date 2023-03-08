@@ -11,9 +11,6 @@ const UserMeUpdateMutation = mutationWithClientMutationId({
     name: {
       type: GraphQLString,
     },
-    email: {
-      type: GraphQLString,
-    },
     password: {
       type: GraphQLString,
     },

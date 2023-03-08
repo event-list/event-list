@@ -9,8 +9,6 @@ const {
   load,
   loadAll,
 } = createLoader({
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   model: MerchantModel,
   loaderName: 'MerchantLoader',
 });

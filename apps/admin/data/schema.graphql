@@ -11,7 +11,7 @@ type Query {
     """The IDs of objects"""
     ids: [ID!]!
   ): [Node]!
-  meAdmin: Merchant
+  meAdmin: Merchant!
   myEvents(after: String, first: Int, before: String, last: Int): EventConnection!
 }
 
@@ -22,22 +22,20 @@ interface Node {
 }
 
 """Event list Merchant"""
-type Merchant {
+type Merchant implements Node {
   """The ID of an object"""
   id: ID!
   email: String!
   name: String!
-  phoneNumber: String
-  taxID: TaxID!
-}
-
-"""Represent a TaxID"""
-type TaxID {
-  """taxID number/string"""
-  taxID: String
-
-  """type of this taxID"""
-  type: String
+  description: String!
+  logo: String!
+  biography: String
+  phoneNumber: String!
+  instagramAccount: String
+  facebookAccount: String
+  twitterAccount: String
+  website: String
+  events(after: String, first: Int, before: String, last: Int): EventConnection
 }
 
 """A connection to a list of items."""
@@ -77,19 +75,18 @@ type EventEdge {
 type Event implements Node {
   """The ID of an object"""
   id: ID!
-  title: String
-  description: String
-  flyer: String
-  label: Merchant
-  place: String
-  published: Boolean
-  date: String
-  eventOpenAt: String
-  eventEndAt: String
-  listAvailableAt: String
-  classification: String
-  price: String
-  status: Boolean
+  title: String!
+  description: String!
+  flyer: String!
+  label: Merchant!
+  place: String!
+  published: Boolean!
+  dateStart: String!
+  dateEnd: String!
+  listAvailableAt: String!
+  classification: String!
+  price: String!
+  status: Boolean!
   users: users
   usersQtd: String
 }
@@ -103,11 +100,12 @@ type users {
 """All mutations"""
 type Mutation {
   CreateEventMutation(input: CreateEventMutationInput!): CreateEventMutationPayload
-  ChangeEventStatusMutation(input: ChangeEventStatusMutationInput!): ChangeEventStatusMutationPayload
+  UpdateEventMutation(input: UpdateEventMutationInput!): UpdateEventMutationPayload
   AddUserInEventMutation(input: AddUserInEventMutationInput!): AddUserInEventMutationPayload
   MerchantSignUpMutation(input: MerchantSignUpMutationInput!): MerchantSignUpMutationPayload
   MerchantSignInMutation(input: MerchantSignInMutationInput!): MerchantSignInMutationPayload
   MerchantSignOutMutation(input: MerchantSignOutMutationInput!): MerchantSignOutMutationPayload
+  MerchantMeUpdateMutation(input: MerchantMeUpdateMutationInput!): MerchantMeUpdateMutationPayload
 }
 
 type CreateEventMutationPayload {
@@ -126,16 +124,15 @@ input CreateEventMutationInput {
   description: String!
   place: String!
   flyer: String!
-  date: String!
-  eventOpenAt: String!
-  eventEndAt: String!
+  dateStart: String!
+  dateEnd: String!
   listAvailableAt: String!
   classification: String!
   price: String!
   clientMutationId: String
 }
 
-type ChangeEventStatusMutationPayload {
+type UpdateEventMutationPayload {
   """Default success field resolver."""
   success: String
 
@@ -144,8 +141,17 @@ type ChangeEventStatusMutationPayload {
   clientMutationId: String
 }
 
-input ChangeEventStatusMutationInput {
+input UpdateEventMutationInput {
   eventId: String!
+  title: String
+  description: String
+  flyer: String
+  place: String
+  eventOpenAt: String
+  eventEndAt: String
+  listAvailableAt: String
+  classification: String
+  status: Boolean
   clientMutationId: String
 }
 
@@ -166,7 +172,7 @@ input AddUserInEventMutationInput {
 }
 
 type MerchantSignUpMutationPayload {
-  meAdmin: Merchant
+  meAdmin: Merchant!
 
   """Default success field resolver."""
   success: String
@@ -179,23 +185,15 @@ type MerchantSignUpMutationPayload {
 input MerchantSignUpMutationInput {
   name: String!
   email: String!
+  logo: String!
+  description: String!
   password: String!
-  cnpj: TaxIDInputType!
   phoneNumber: String!
   clientMutationId: String
 }
 
-"""TaxID"""
-input TaxIDInputType {
-  """TaxID type"""
-  type: String!
-
-  """TaxID string/number"""
-  taxID: String!
-}
-
 type MerchantSignInMutationPayload {
-  meAdmin: Merchant
+  meAdmin: Merchant!
 
   """Default success field resolver."""
   success: String
@@ -206,7 +204,7 @@ type MerchantSignInMutationPayload {
 }
 
 input MerchantSignInMutationInput {
-  cnpj: String!
+  email: String!
   password: String!
   clientMutationId: String
 }
@@ -221,5 +219,30 @@ type MerchantSignOutMutationPayload {
 }
 
 input MerchantSignOutMutationInput {
+  clientMutationId: String
+}
+
+type MerchantMeUpdateMutationPayload {
+  meAdmin: Merchant!
+
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input MerchantMeUpdateMutationInput {
+  name: String
+  description: String
+  logo: String
+  biography: String
+  phoneNumber: String
+  instagramAccount: String
+  facebookAccount: String
+  twitterAccount: String
+  website: String
+  password: String
   clientMutationId: String
 }

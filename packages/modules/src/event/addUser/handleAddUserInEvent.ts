@@ -15,7 +15,7 @@ type HandleAddUserArgs = {
 
 async function validateAndSanitizeAddUserInEvent({ payload, context }: HandleAddUserArgs) {
   const { t } = context;
-  const { name, role, event } = payload;
+  const { name, role, event, overwrite } = payload;
 
   if (!name) {
     return {
@@ -31,11 +31,18 @@ async function validateAndSanitizeAddUserInEvent({ payload, context }: HandleAdd
     };
   }
 
-  const userExistentInEvent = event.findUserInEvent(name, role);
+  const userExistentInEvent = event.findUserInEvent(name, overwrite ? role : null);
+
+  if (!event.status) {
+    return {
+      error: t('This event is not available'),
+      ...payload,
+    };
+  }
 
   if (userExistentInEvent) {
     return {
-      error: t(`${name} already going to this event as ${role} role`),
+      error: t(`'${name}' is already on the list`),
       ...payload,
     };
   }

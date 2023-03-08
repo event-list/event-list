@@ -1,13 +1,13 @@
 import { getPreloadedQuery } from '@event-list/relay';
 
-import ProfileQueryGenerated from '../../../__generated__/ProfileQuery.graphql';
+import ProfileViewQueryGenerated from '../../../__generated__/ProfileViewQuery.graphql';
 import RootLayout from '../../components/RootLayout';
-import { ProfileView } from '../../components/user/Profile';
+import { ProfileView } from '../../components/user/ProfileView';
 
 export default function Profile(props) {
   return (
-    <RootLayout preloadedQuery={props.ProfileQuery}>
-      <ProfileView preloadedQuery={props.ProfileQuery} />
+    <RootLayout preloadedQuery={props.queryRefs.ProfileViewQuery}>
+      <ProfileView preloadedQuery={props.queryRefs.ProfileViewQuery} />
     </RootLayout>
   );
 }
@@ -15,7 +15,9 @@ export default function Profile(props) {
 export async function getServerSideProps(ctx) {
   return {
     props: {
-      ProfileQuery: await getPreloadedQuery(ProfileQueryGenerated, {}, ctx),
+      preloadedQueries: {
+        ProfileViewQuery: await getPreloadedQuery(ProfileViewQueryGenerated, {}, ctx),
+      },
     },
   };
 }

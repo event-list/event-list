@@ -13,6 +13,7 @@ type Query {
   ): [Node]!
   me: User
   events(after: String, first: Int, before: String, last: Int): EventConnection!
+  merchants(after: String, first: Int, before: String, last: Int): MerchantConnection!
 }
 
 """An object with an ID"""
@@ -67,46 +68,61 @@ type EventEdge {
 type Event implements Node {
   """The ID of an object"""
   id: ID!
-  title: String
-  description: String
-  flyer: String
-  label: Merchant
-  place: String
-  published: Boolean
-  date: String
-  eventOpenAt: String
-  eventEndAt: String
-  listAvailableAt: String
-  classification: String
-  price: String
-  status: Boolean
+  title: String!
+  description: String!
+  flyer: String!
+  label: Merchant!
+  place: String!
+  published: Boolean!
+  dateStart: String!
+  dateEnd: String!
+  listAvailableAt: String!
+  classification: String!
+  price: String!
+  status: Boolean!
   users: users
   usersQtd: String
 }
 
 """Event list Merchant"""
-type Merchant {
+type Merchant implements Node {
   """The ID of an object"""
   id: ID!
   email: String!
   name: String!
-  phoneNumber: String
-  taxID: TaxID!
-}
-
-"""Represent a TaxID"""
-type TaxID {
-  """taxID number/string"""
-  taxID: String
-
-  """type of this taxID"""
-  type: String
+  description: String!
+  logo: String!
+  biography: String
+  phoneNumber: String!
+  instagramAccount: String
+  facebookAccount: String
+  twitterAccount: String
+  website: String
+  events(after: String, first: Int, before: String, last: Int): EventConnection
 }
 
 type users {
   mas: [String]
   fem: [String]
   free: [String]
+}
+
+"""A connection to a list of items."""
+type MerchantConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MerchantEdge]
+}
+
+"""An edge in a connection."""
+type MerchantEdge {
+  """The item at the end of the edge"""
+  node: Merchant
+
+  """A cursor for use in pagination"""
+  cursor: String!
 }
 
 """All mutations"""
@@ -180,7 +196,6 @@ type UserMeUpdateMutationPayload {
 
 input UserMeUpdateMutationInput {
   name: String
-  email: String
   password: String
   gender: String
   clientMutationId: String

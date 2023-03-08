@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
 import { connectionDefinitions, globalIdField } from 'graphql-relay';
 import { GraphQLBoolean, GraphQLList } from 'graphql/type';
 
@@ -12,56 +12,51 @@ const EventType = new GraphQLObjectType({
   fields: () => ({
     id: globalIdField('Event'),
     title: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.title,
     },
     description: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.description,
     },
     flyer: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.flyer,
     },
     label: {
-      type: MerchantType,
+      type: new GraphQLNonNull(MerchantType),
       resolve: (event, _, context: GraphQLContext) => MerchantLoader.load(context, event.label),
     },
     place: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.place,
     },
     published: {
-      type: GraphQLBoolean,
-      //@ts-expect-error todo
-      resolve: (event) => event.date > new Date(),
+      type: new GraphQLNonNull(GraphQLBoolean),
+      resolve: (event) => event.dateStart > new Date(),
     },
-    date: {
-      type: GraphQLString,
-      resolve: (event) => event.date,
+    dateStart: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (event) => event.dateStart,
     },
-    eventOpenAt: {
-      type: GraphQLString,
-      resolve: (event) => event.eventOpenAt,
-    },
-    eventEndAt: {
-      type: GraphQLString,
-      resolve: (event) => event.eventEndAt,
+    dateEnd: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (event) => event.dateEnd,
     },
     listAvailableAt: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.listAvailableAt,
     },
     classification: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.classification,
     },
     price: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.price,
     },
     status: {
-      type: GraphQLBoolean,
+      type: new GraphQLNonNull(GraphQLBoolean),
       resolve: (event) => event.status,
     },
     users: {

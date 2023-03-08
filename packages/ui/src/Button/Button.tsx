@@ -1,9 +1,13 @@
 import type { ButtonProps as ChakraButtonProps } from '@chakra-ui/react';
 import { Button as ChakraButton, Spinner, Text } from '@chakra-ui/react';
 
+import { TextDecorated } from '@event-list/ui';
+
 type ButtonProps = {
   text: string | JSX.Element;
   isSubmitting: boolean;
+  href?: string;
+  textDecorated?: boolean;
 } & ChakraButtonProps;
 
 const Button = (props: ButtonProps) => {
@@ -19,7 +23,7 @@ const Button = (props: ButtonProps) => {
       }}
       {...restProps}
     >
-      {isSubmitting ? <Spinner /> : <Text>{text}</Text>}
+      {isSubmitting ? <Spinner /> : props.textDecorated ? <TextDecorated>{text}</TextDecorated> : <Text>{text}</Text>}
     </ChakraButton>
   );
 };

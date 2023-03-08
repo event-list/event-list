@@ -1,9 +1,9 @@
 import { AddUserInEventMutation } from './mutations/AddUserInEventMutation';
-import { ChangeEventStatusMutation } from './mutations/ChangeEventStatusMutation';
 import { CreateEventMutation } from './mutations/CreateEventMutation';
+import { UpdateEventMutation } from './mutations/UpdateEventMutation';
 
 export const EventMutations = {
   CreateEventMutation,
-  ChangeEventStatusMutation,
+  UpdateEventMutation,
   AddUserInEventMutation,
 };

@@ -1,13 +1,14 @@
-import type { FormLabelProps, InputProps } from '@chakra-ui/react';
+import type { InputProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 import AutoComplete from 'react-google-autocomplete';
 import type { ReactGoogleAutocompleteProps } from 'react-google-autocomplete';
 
+import type { TextDecoratedProps } from '../../Text/TextFormLabel';
 import InputField from '../InputField';
 
 type InputMapsProps = {
   label?: string;
-  labelProps?: FormLabelProps & { decorated?: boolean };
+  labelProps?: TextDecoratedProps;
 } & InputProps &
   ReactGoogleAutocompleteProps;
 

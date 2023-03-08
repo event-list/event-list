@@ -4,52 +4,53 @@ const theme = extendTheme({
   components: {
     Text: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
       },
     },
     Link: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
       },
     },
     ListItem: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
       },
     },
     List: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
       },
     },
     StatNumber: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
       },
     },
     Input: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
       },
     },
     FormLabel: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
         fontSize: { base: 'sm', md: 'md' },
       },
     },
     Th: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
       },
     },
     Heading: {
       baseStyle: {
-        fontFamily: 'Sifonn',
+        fontFamily: 'Noto Sans',
       },
     },
   },
   initialColorMode: 'dark',
+  useSystemColorMode: false,
 });
 
 export default theme;

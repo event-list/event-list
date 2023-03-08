@@ -1,11 +1,12 @@
-import type { FormLabelProps, InputProps } from '@chakra-ui/react';
+import type { InputProps } from '@chakra-ui/react';
 import type { Props as MaskProps } from 'react-input-mask';
 
+import type { TextDecoratedProps } from '../Text/TextFormLabel';
 import InputField from './InputField';
 
 type InputDateProps = {
   label?: string;
-  labelProps?: FormLabelProps & { decorated?: boolean };
+  labelProps?: TextDecoratedProps;
 } & InputProps &
   Omit<MaskProps, 'mask'>;
 
@@ -14,7 +15,7 @@ const InputDate = (props: InputDateProps) => {
 
   const today = new Date().toISOString().split('T')[0];
 
-  return <InputField type="date" min={today} {...restProps} labelProps={labelProps} />;
+  return <InputField type="datetime-local" min={today} {...restProps} labelProps={labelProps} />;
 };
 
 export default InputDate;

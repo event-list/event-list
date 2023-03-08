@@ -18,10 +18,24 @@ export { default as InputHours } from './Input/InputMask/InputHours';
 export { default as InputCnpj } from './Input/InputMask/InputCnpj';
 export { default as InputPrice } from './Input/InputMask/InputPrice';
 export { default as InputSelect } from './Input/InputSelect';
+export { default as InputLeftAddon } from './Input/InputLeftAddon';
+export { default as InputLeftElement } from './Input/InputLeftElement';
 
 // button
 export { default as Button } from './Button/Button';
 
+// link
+export { default as LinkDecorated } from './Link/LinkDecorated';
+
 // text
 export { default as TextDecorated } from './Text/TextDecorated';
 export { default as TextFormLabel } from './Text/TextFormLabel';
+
+// card
+export { default as Card } from './Card/Card';
+
+// container
+export { default as ContainerPage } from './Container/ContainerPage';
+
+// container
+export { default as Tooltip } from './Tooltip/Tooltip';

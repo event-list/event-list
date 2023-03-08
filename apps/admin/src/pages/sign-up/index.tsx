@@ -16,17 +16,17 @@ export default function SignUp() {
 }
 
 export async function getServerSideProps(ctx) {
-  const token = getToken({ req: ctx.req, res: ctx.res });
-
-  if (token) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-      props: {},
-    };
-  }
+  // const token = getToken({ req: ctx.req, res: ctx.res });
+  //
+  // if (token) {
+  //   return {
+  //     redirect: {
+  //       permanent: false,
+  //       destination: '/',
+  //     },
+  //     props: {},
+  //   };
+  // }
 
   return {
     props: {},

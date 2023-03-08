@@ -1,13 +1,22 @@
-import { MerchantLoader } from '@event-list/modules';
+import { connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
+import { GraphQLNonNull } from 'graphql';
+
+import { MerchantConnection, MerchantLoader, MerchantType } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
 
-import { MerchantType } from './MerchantType';
-
-const meAdminField = () => ({
-  meAdmin: {
-    type: MerchantType,
-    resolve: async (_, args, ctx: GraphQLContext) => await MerchantLoader.load(ctx, ctx.merchant?._id),
+const merchantField = () => ({
+  merchants: {
+    type: new GraphQLNonNull(MerchantConnection),
+    args: { ...connectionArgs },
+    resolve: async (_, args, ctx) => await MerchantLoader.loadAll(ctx, withFilter(args, {})),
   },
 });
 
-export { meAdminField };
+const meAdminField = () => ({
+  meAdmin: {
+    type: new GraphQLNonNull(MerchantType),
+    resolve: async (_, __, ctx: GraphQLContext) => await MerchantLoader.load(ctx, ctx.merchant?._id),
+  },
+});
+
+export { merchantField, meAdminField };

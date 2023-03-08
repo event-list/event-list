@@ -9,10 +9,9 @@ type EventCreateArgs = {
   description: string;
   place: string;
   flyer: string;
-  date: string;
-  eventOpenAt: string;
-  eventEndAt: string;
-  listAvailableAt: string;
+  dateStart: Date;
+  dateEnd: Date;
+  listAvailableAt: Date;
   classification: string;
   price: string;
 };
@@ -32,13 +31,10 @@ export const CreateEventMutation = mutationWithClientMutationId({
     flyer: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    date: {
+    dateStart: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    eventOpenAt: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
-    eventEndAt: {
+    dateEnd: {
       type: new GraphQLNonNull(GraphQLString),
     },
     listAvailableAt: {

@@ -8,7 +8,6 @@ import {
   Flex,
   HStack,
   Icon,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -31,8 +30,9 @@ type Props = {
   children: React.ReactNode;
   user: { name: string };
   onLogout: () => void;
-  links: any;
-  subMenuItems: any;
+  links: JSX.Element;
+  subMenuItems: JSX.Element;
+  searchBar?: JSX.Element;
 };
 
 export default function Header(props: Props) {
@@ -62,26 +62,32 @@ export default function Header(props: Props) {
         bg={useColorModeValue('gray.50', 'gray.900')}
         borderBottomWidth="1px"
         borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-        justifyContent={{ base: 'space-between', md: 'flex-end' }}
+        justifyContent={{ base: 'space-between' }}
       >
-        <IconButton
-          display={{ base: 'flex', md: 'none' }}
-          onClick={onOpen}
-          variant="outline"
-          aria-label="open menu"
-          icon={<FiMenu />}
-        />
+        <HStack>
+          <ButtonChakra display={{ base: 'flex', md: 'none' }} p={1} mx={1} bgColor={'transparent'} onClick={onOpen}>
+            <FiMenu />
+          </ButtonChakra>
+
+          <Box>
+            <ButtonChakra onClick={toggleColorMode} p={1} mx={1} bgColor={'transparent'}>
+              {colorMode === 'light' ? <HiMoon /> : <HiSun />}
+            </ButtonChakra>
+          </Box>
+
+          {props.searchBar}
+        </HStack>
+
         <HStack spacing={{ base: '0', md: '6' }}>
-          {/* <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} /> */}
+          {/* <IconButton size="lg" variant="ghost" aria-merchant="open menu" icon={<FiBell />} /> */}
           <Flex alignItems={'center'}>
             {props.user?.name ? (
               <Menu>
-                <ButtonChakra onClick={toggleColorMode} mr={'1rem'}>
-                  {colorMode === 'light' ? <HiMoon /> : <HiSun />}
-                </ButtonChakra>
                 <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
                   <HStack>
-                    <FiUser />
+                    <Box p={1} mx={1}>
+                      <FiUser />
+                    </Box>
                     <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                       <Text fontSize="base">{props.user?.name}</Text>
                     </VStack>
@@ -121,7 +127,7 @@ export default function Header(props: Props) {
           </Flex>
         </HStack>
       </Flex>
-      <Box ml={{ base: 0, md: 60 }} p="4" minH={'100vh'}>
+      <Box ml={{ base: 0, md: 60 }} p="4" minH={'100vh'} pb={'3rem'}>
         {props.children}
       </Box>
     </Box>
@@ -132,23 +138,21 @@ type SidebarProps = BoxProps & { onClose: () => void; links: Props['links'] };
 
 const SidebarContent = ({ onClose, links, ...rest }: SidebarProps) => {
   return (
-    <>
-      <Box
-        transition="3s ease"
-        bg={useColorModeValue('gray.50', 'gray.900')}
-        borderRight="1px"
-        borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-        w={{ base: 'full', md: 60 }}
-        pos="fixed"
-        h="full"
-        {...rest}
-      >
-        <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-          <Image src={Logo} alt={'Small and red Event List logo'} />
-          <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
-        </Flex>
-        {links}
-      </Box>
-    </>
+    <Box
+      transition="3s ease"
+      bg={useColorModeValue('gray.50', 'gray.900')}
+      borderRight="1px"
+      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      w={{ base: 'full', md: 60 }}
+      pos="fixed"
+      h="100%"
+      {...rest}
+    >
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+        <Image src={Logo} alt={'Small and red Event List logo'} />
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      </Flex>
+      {links}
+    </Box>
   );
 };

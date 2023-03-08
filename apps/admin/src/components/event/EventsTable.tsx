@@ -9,13 +9,12 @@ import {
   Tr,
   Th,
   Tbody,
-  Stack,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import InfiniteScroll from 'react-infinite-scroller';
 import { graphql, usePaginationFragment } from 'react-relay';
 
-import { TextDecorated } from '@event-list/ui';
+import { ContainerPage, TextDecorated, Tooltip } from '@event-list/ui';
 
 import type { EventsTableFragment_query$key } from '../../../__generated__/EventsTableFragment_query.graphql';
 import type { EventsTablePagination_query } from '../../../__generated__/EventsTablePagination_query.graphql';
@@ -28,19 +27,7 @@ const EventsTableFragment = graphql`
     myEvents(first: $first, after: $after) @connection(key: "Events_myEvents", filters: []) {
       edges {
         node {
-          id
-          title
-          published
-          status
-          date
-          eventOpenAt
-          price
-          users {
-            mas
-            fem
-            free
-          }
-          usersQtd
+          ...EventRowFragment_event
         }
         cursor
       }
@@ -51,6 +38,14 @@ const EventsTableFragment = graphql`
   }
 `;
 
+const ThTooltip = ({ label, children }) => {
+  return (
+    <Th fontFamily={'Noto Sans'}>
+      <Tooltip label={label}>{children}</Tooltip>
+    </Th>
+  );
+};
+
 export default function EventsTable(props: { fragmentKey: EventsTableFragment_query$key }) {
   const { data, loadNext, isLoadingNext } = usePaginationFragment<
     EventsTablePagination_query,
@@ -59,8 +54,7 @@ export default function EventsTable(props: { fragmentKey: EventsTableFragment_qu
 
   const events = data.myEvents;
 
-  // @ts-expect-error todo
-  if (events.edges?.length <= 0 || !events.edges) {
+  if (!events.edges) {
     return (
       <SimpleGrid minChildWidth="350px" spacing="20px" textAlign={'center'}>
         <Text>
@@ -94,38 +88,31 @@ export default function EventsTable(props: { fragmentKey: EventsTableFragment_qu
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <Flex rounded={'xl'} p={{ base: 4, sm: 6, md: 8 }}>
-        <Stack spacing={8} mx={'auto'} w={'100%'}>
-          <Stack align={'center'}>
-            <TextDecorated fontSize={'6xl'} fontWeight={'bold'} textAlign={'center'}>
-              My events
-            </TextDecorated>
-          </Stack>
-          <TableContainer>
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th fontFamily={'Sifonn'}>List</Th>
-                  <Th fontFamily={'Sifonn'}>Name</Th>
-                  <Th fontFamily={'Sifonn'}>Total</Th>
-                  <Th fontFamily={'Sifonn'}>Date</Th>
-                  <Th fontFamily={'Sifonn'}>Event open At</Th>
-                  <Th fontFamily={'Sifonn'}>Price</Th>
-                  <Th fontFamily={'Sifonn'}>Published</Th>
-                  <Th fontFamily={'Sifonn'}>Status</Th>
-                  <Th fontFamily={'Sifonn'}>Access</Th>
-                  <Th fontFamily={'Sifonn'}>Actions</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {events.edges.map((event, index) => (
-                  <EventRow key={index} event={event!.node} />
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Stack>
-      </Flex>
+      <ContainerPage title={'My events'}>
+        <TableContainer>
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <ThTooltip label={'View the list of participants of the event'}>List</ThTooltip>
+                <ThTooltip label={'Event name'}>Name</ThTooltip>
+                <ThTooltip label={'Number of people on the event list'}>Total</ThTooltip>
+                <ThTooltip label={'Date Start'}>Date Start</ThTooltip>
+                <ThTooltip label={'List available at'}>List available at</ThTooltip>
+                <ThTooltip label={'Informative event price'}>Price</ThTooltip>
+                <ThTooltip label={'Defined by your event date'}>Published</ThTooltip>
+                <ThTooltip label={'Defined by you'}>Status</ThTooltip>
+                <ThTooltip label={'Access event page'}>Access</ThTooltip>
+                <ThTooltip label={'Actions that you can do with this event'}>Actions</ThTooltip>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {events.edges.map((event, index) => {
+                if (event?.node) return <EventRow key={index} fragmentKey={event?.node} />;
+              })}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </ContainerPage>
     </InfiniteScroll>
   );
 }

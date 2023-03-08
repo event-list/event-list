@@ -1,12 +1,13 @@
-import type { FormLabelProps, InputProps } from '@chakra-ui/react';
+import type { InputProps } from '@chakra-ui/react';
 import { default as InputMaskPackage } from 'react-input-mask';
 import type { Props as MaskProps } from 'react-input-mask';
 
+import type { TextDecoratedProps } from '../../Text/TextFormLabel';
 import InputField from '../InputField';
 
 type InputMaskProps = {
   label?: string;
-  labelProps?: FormLabelProps & { decorated?: boolean };
+  labelProps?: TextDecoratedProps;
 } & InputProps &
   MaskProps;
 

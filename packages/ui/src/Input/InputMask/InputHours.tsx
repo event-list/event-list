@@ -1,11 +1,12 @@
-import type { FormLabelProps, InputProps } from '@chakra-ui/react';
+import type { InputProps } from '@chakra-ui/react';
 import type { Props as MaskProps } from 'react-input-mask';
 
 import { InputMask } from '../../index';
+import type { TextDecoratedProps } from '../../Text/TextFormLabel';
 
 type InputHoursProps = {
   label?: string;
-  labelProps?: FormLabelProps & { decorated?: boolean };
+  labelProps?: TextDecoratedProps;
 } & InputProps &
   Omit<MaskProps, 'mask'>;
 

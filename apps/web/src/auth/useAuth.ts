@@ -1,6 +1,4 @@
-import { graphql, useFragment } from 'react-relay';
-
-import type { useAuthFragment_user$key } from '../../__generated__/useAuthFragment_user.graphql';
+import { graphql } from 'react-relay';
 
 export const useAuthFragment = graphql`
   fragment useAuthFragment_user on User {
@@ -9,9 +7,3 @@ export const useAuthFragment = graphql`
     email
   }
 `;
-
-export const useAuth = (fragmentKey: useAuthFragment_user$key) => {
-  const user = useFragment<useAuthFragment_user$key>(useAuthFragment, fragmentKey);
-
-  return [user];
-};

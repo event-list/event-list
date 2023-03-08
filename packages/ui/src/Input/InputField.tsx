@@ -1,12 +1,13 @@
 import { Input, Text } from '@chakra-ui/react';
-import type { FormLabelProps, InputProps } from '@chakra-ui/react';
+import type { InputProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 
+import type { TextDecoratedProps } from '../Text/TextFormLabel';
 import TextFormLabel from '../Text/TextFormLabel';
 
 type InputFieldProps = {
   label?: string;
-  labelProps?: FormLabelProps & { decorated?: boolean };
+  labelProps?: TextDecoratedProps;
 } & InputProps;
 
 const InputField = (props: InputFieldProps) => {
@@ -53,7 +54,7 @@ const InputField = (props: InputFieldProps) => {
 
   return (
     <>
-      {label && <TextFormLabel mt={'2'} label={label} {...props.labelProps} />}
+      {label && <TextFormLabel mt={'2'} fontSize={{ base: '13px', md: 'sm' }} label={label} {...props.labelProps} />}
       <Input
         name={name}
         fontSize={{ base: '13px', md: 'sm' }}

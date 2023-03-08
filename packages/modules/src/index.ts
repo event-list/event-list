@@ -36,11 +36,11 @@ export { default as MerchantModel } from './merchant/MerchantModel';
 export type { MerchantDocument } from './merchant/MerchantModel';
 export { handleCreateMerchant, validateAndSanitizeCreateMerchant } from './merchant/create/handleCreateMerchant';
 export { MerchantConnection, MerchantEdge, MerchantType } from './merchant/MerchantType';
-export { meAdminField } from './merchant/MerchantFields';
+export { meAdminField, merchantField } from './merchant/MerchantFields';
 
 // event
 export { default as EventModel } from './event/EventModel';
 export type { EventDocument } from './event/EventModel';
 export { eventField, myEvents } from './event/EventFields';
 export { EventConnection, EventEdge, EventType } from './event/EventType';
-export { handleChangeEventStatus } from './event/changeEventStatus/handleChangeEventStatus';
+export { handleUpdateEvent } from './event/update/handleUpdateEvent';

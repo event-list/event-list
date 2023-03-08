@@ -10,10 +10,9 @@ type IEvent = {
   flyer: string;
   label: Types.ObjectId;
   place: string;
-  date: Date;
-  eventOpenAt: string;
-  eventEndAt: string;
-  listAvailableAt: string;
+  dateStart: Date;
+  dateEnd: Date;
+  listAvailableAt: Date;
   classification: string;
   price: string;
   status: boolean;
@@ -24,7 +23,7 @@ type IEvent = {
   };
   createdAt: Date;
   updatedAt: Date;
-  findUserInEvent: (name: string, role?: string) => boolean;
+  findUserInEvent: (name: string, role?: string | null) => boolean;
   removeUserFromAllRoles: (name: string) => void;
 };
 
@@ -53,20 +52,16 @@ const EventSchema = new Schema<EventDocument>(
       type: String,
       required: true,
     },
-    date: {
+    dateStart: {
       type: Date,
       required: true,
     },
-    eventOpenAt: {
-      type: String,
-      required: true,
-    },
-    eventEndAt: {
-      type: String,
+    dateEnd: {
+      type: Date,
       required: true,
     },
     listAvailableAt: {
-      type: String,
+      type: Date,
       required: true,
     },
     classification: {

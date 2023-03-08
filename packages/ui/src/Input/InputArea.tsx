@@ -1,12 +1,13 @@
 import { Textarea, Text } from '@chakra-ui/react';
-import type { TextareaProps, FormLabelProps } from '@chakra-ui/react';
+import type { TextareaProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 
+import type { TextDecoratedProps } from '../Text/TextFormLabel';
 import TextFormLabel from '../Text/TextFormLabel';
 
 type InputAreaProps = {
   label?: string;
-  labelProps?: FormLabelProps & { decorated?: boolean };
+  labelProps?: TextDecoratedProps;
 } & TextareaProps;
 
 const InputArea = (props: InputAreaProps) => {
@@ -54,7 +55,14 @@ const InputArea = (props: InputAreaProps) => {
   return (
     <>
       {label && <TextFormLabel label={label} fontSize={{ base: '13px', md: 'sm' }} {...props.labelProps} />}
-      <Textarea name={name} onChange={handleChange} value={field.value} onBlur={handleBlur} {...textInputProps} />
+      <Textarea
+        name={name}
+        fontSize={{ base: '13px', md: 'sm' }}
+        onChange={handleChange}
+        value={field.value}
+        onBlur={handleBlur}
+        {...textInputProps}
+      />
       {meta?.error && meta?.touched ? (
         <Text color="red.600" fontSize={{ base: '12px', md: 'smaller' }} position={'absolute'}>
           {meta.error}

@@ -1,26 +1,27 @@
-import { isCNPJ } from 'brazilian-values';
-
-import type { ITaxID, MerchantDocument } from '@event-list/modules';
+import type { MerchantDocument } from '@event-list/modules';
 import { MerchantModel } from '@event-list/modules';
+import type { GraphQLContext } from '@event-list/types';
 
 import UserModel from '../../user/UserModel';
 
 type HandleCreateMerchantPayload = {
   email: string;
   name: string;
+  description: string;
+  logo: string;
   password: string;
   phoneNumber: string;
-  cnpj: ITaxID;
+  // cnpj: ITaxID;
 };
 
 type HandleCreateMerchantArgs = {
   payload: HandleCreateMerchantPayload;
-  context: Record<string, unknown>;
+  context: GraphQLContext;
 };
 
 async function validateAndSanitizeCreateMerchant({ payload, context }: HandleCreateMerchantArgs) {
   const { t } = context;
-  const { email, name, password, phoneNumber, cnpj } = payload;
+  const { email, name, password, phoneNumber, description, logo } = payload;
 
   if (!email) {
     return {
@@ -32,6 +33,20 @@ async function validateAndSanitizeCreateMerchant({ payload, context }: HandleCre
   if (!name) {
     return {
       error: t('Name is required'),
+      ...payload,
+    };
+  }
+
+  if (!description) {
+    return {
+      error: t('Description is required'),
+      ...payload,
+    };
+  }
+
+  if (!logo) {
+    return {
+      error: t('Logo is required'),
       ...payload,
     };
   }
@@ -50,56 +65,81 @@ async function validateAndSanitizeCreateMerchant({ payload, context }: HandleCre
     };
   }
 
-  if (!cnpj.taxID) {
-    return {
-      error: t('Cnpj is required'),
-      ...payload,
-    };
-  }
-
-  if (!isCNPJ(cnpj.taxID)) {
-    return {
-      error: t('Cnpj is required'),
-      ...payload,
-    };
-  }
-
-  const merchantExistent = await MerchantModel.findOne({
+  const emailMerchantExistent = await MerchantModel.findOne({
     email: email.trim().toLowerCase(),
     removedAt: null,
   });
 
-  const userExistent = await UserModel.findOne({
+  const emailUserExistent = await UserModel.findOne({
     email: email.trim().toLowerCase(),
     removedAt: null,
   });
 
-  const merchantCnpjExistent = await MerchantModel.findOne({
-    taxID: { taxID: cnpj.taxID, type: cnpj.type },
+  const numberMerchantExistent = await MerchantModel.findOne({
+    phoneNumber,
     removedAt: null,
   });
 
-  if (merchantExistent || userExistent) {
+  const nameMerchantExistent = await MerchantModel.findOne({
+    name,
+    removedAt: null,
+  });
+
+  if (emailMerchantExistent || emailUserExistent) {
     return {
       error: t('Email already in use'),
       ...payload,
     };
   }
 
-  if (merchantCnpjExistent) {
+  if (numberMerchantExistent) {
     return {
-      error: t('Merchant already in use'),
+      error: t('Phone number already in use'),
       ...payload,
     };
   }
 
+  if (nameMerchantExistent) {
+    return {
+      error: t('Name number already in use'),
+      ...payload,
+    };
+  }
+
+  // if (!cnpj.taxID) {
+  //   return {
+  //     error: t('Cnpj is required'),
+  //     ...payload,
+  //   };
+  // }
+  //
+  // if (!isCNPJ(cnpj.taxID)) {
+  //   return {
+  //     error: t('Cnpj is required'),
+  //     ...payload,
+  //   };
+  // }
+
+  // const merchantCnpjExistent = await MerchantModel.findOne({
+  //   taxID: { taxID: cnpj.taxID, type: cnpj.type },
+  //   removedAt: null,
+  // });
+
+  // if (merchantCnpjExistent) {
+  //   return {
+  //     error: t('Merchant already in use'),
+  //     ...payload,
+  //   };
+  // }
+
   return {
     error: null,
     email,
+    description,
+    logo,
     password,
     name,
     phoneNumber,
-    cnpj,
   };
 }
 
@@ -114,7 +154,8 @@ const handleCreateMerchant = async ({
     name,
     password,
     phoneNumber,
-    cnpj,
+    description,
+    logo,
     error: errorMerchantValidatePayload,
   } = await validateAndSanitizeCreateMerchant({ payload, context });
 
@@ -128,8 +169,9 @@ const handleCreateMerchant = async ({
     email,
     password,
     name,
+    description,
+    logo,
     phoneNumber,
-    taxID: cnpj,
   }).save();
 
   return {

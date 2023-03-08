@@ -23,7 +23,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^6",
     "next": "12.3.1",
-    "next-s3-upload": "^0.2.8",
+    "next-s3-upload": "^0.2.10",
     "next-transpile-modules": "^10.0.0",
     "nextjs-progressbar": "^0.0.16",
     "notistack": "^2.0.8",

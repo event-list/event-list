@@ -1,11 +1,12 @@
-import type { FormLabelProps, InputProps } from '@chakra-ui/react';
+import type { InputProps } from '@chakra-ui/react';
 import type { Props as MaskProps } from 'react-input-mask';
 
 import { InputMask } from '../../index';
+import type { TextDecoratedProps } from '../../Text/TextFormLabel';
 
 type InputAgeProps = {
   label?: string;
-  labelProps?: FormLabelProps & { decorated?: boolean };
+  labelProps?: Omit<TextDecoratedProps, 'label'>;
 } & InputProps &
   Omit<MaskProps, 'mask'>;
 

@@ -6,7 +6,7 @@ type TextDecoratedProps = TextProps & {
 };
 
 const TextDecorated = (props: TextDecoratedProps) => {
-  return <Text bgClip="text" as={'span'} bgGradient="linear(to-r, red.500,pink.600)" {...props} />;
+  return <Text as={'span'} bgClip="text" bgGradient="linear(to-r, red.500,pink.600)" {...props} />;
 };
 
 export default TextDecorated;

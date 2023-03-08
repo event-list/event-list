@@ -1,17 +1,25 @@
 import { FormLabel } from '@chakra-ui/react';
 import type { FormLabelProps } from '@chakra-ui/react';
 
+import { Tooltip } from '@event-list/ui';
+
 import TextDecorated from './TextDecorated';
 
 type TextDecoratedProps = {
-  label: string;
+  label?: string;
   decorated?: boolean;
+  tooltip?: string;
 } & FormLabelProps;
 
 const TextFormLabel = (props: TextDecoratedProps) => {
-  const { label, decorated, ...restProps } = props;
+  const { label, decorated, tooltip, ...restProps } = props;
 
-  return <FormLabel {...restProps}>{decorated ? <TextDecorated>{label}</TextDecorated> : label}</FormLabel>;
+  return (
+    <FormLabel {...restProps}>
+      <Tooltip label={tooltip}>{decorated ? <TextDecorated>{label}</TextDecorated> : label}</Tooltip>
+    </FormLabel>
+  );
 };
 
+export type { TextDecoratedProps };
 export default TextFormLabel;

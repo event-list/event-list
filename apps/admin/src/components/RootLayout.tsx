@@ -1,43 +1,38 @@
-/* eslint-disable no-constant-condition */
-import type { FlexProps } from '@chakra-ui/react';
-import { Box, Container, Flex, Icon, Link } from '@chakra-ui/react';
+import { Box, Container, Flex, Icon, Link, MenuItem, Text } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import type { ReactText } from 'react';
-import type { IconType } from 'react-icons';
-import { FiHome, FiTrendingUp } from 'react-icons/fi';
+import { BsCardChecklist } from 'react-icons/bs';
+import { CgProfile } from 'react-icons/cg';
+import { FiHome } from 'react-icons/fi';
+import { RiShareForwardLine } from 'react-icons/ri';
 import type { PreloadedQuery } from 'react-relay';
-import { usePreloadedQuery } from 'react-relay';
-import { graphql } from 'relay-runtime';
+import { useFragment, usePreloadedQuery } from 'react-relay';
 
 import { Footer, Header, Layout } from '@event-list/ui';
 
-import type { RootLayoutQuery } from '../../__generated__/RootLayoutQuery.graphql';
-import { useAuth } from '../auth/useAuth';
+import type { ProfileViewQuery as ProfileViewQueryType } from '../../__generated__/ProfileViewQuery.graphql';
+import type { useAdminAuthFragment_user$key } from '../../__generated__/useAdminAuthFragment_user.graphql';
+import { useAdminAuthFragment } from '../auth/useAdminAuth';
 import { useLogout } from '../auth/useLogout';
-
-const LayoutQuery = graphql`
-  query RootLayoutQuery {
-    meAdmin {
-      ...useAuthFragment_user
-    }
-  }
-`;
+import { ProfileViewQuery } from './merchant/ProfileView';
 
 type LayoutProps = {
   children: React.ReactNode;
-  preloadedQuery: PreloadedQuery<RootLayoutQuery>;
+  preloadedQuery: PreloadedQuery<ProfileViewQueryType>;
   title?: string;
 };
 
 const Links = () => (
-  <>
-    <NavItem key={'My event'} icon={FiHome} href={'/'}>
-      My events
+  <Box>
+    <NavItem key={'Home'} icon={FiHome} href={'/'}>
+      <Text fontWeight={'600'}>Home</Text>
     </NavItem>
-    <NavItem key={'Share my event'} icon={FiHome} href={'/share-your-event'}>
-      Share my event
+    <NavItem key={'My event'} icon={BsCardChecklist} href={'/events'}>
+      <Text fontWeight={'600'}>My events</Text>
     </NavItem>
-  </>
+    <NavItem key={'Share an event'} icon={RiShareForwardLine} href={'/share-your-event'}>
+      <Text fontWeight={'600'}>Share an event</Text>
+    </NavItem>
+  </Box>
 );
 
 const NavItem = ({ icon, children, href, ...rest }) => {
@@ -53,22 +48,32 @@ const NavItem = ({ icon, children, href, ...rest }) => {
   );
 };
 
-export default function RootLayout(props: LayoutProps) {
-  const { meAdmin: userPreloaded } = usePreloadedQuery(LayoutQuery, props.preloadedQuery);
+const SubMenuItems = () => (
+  <NextLink href={'/profile'}>
+    <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
+      <Text fontSize={13}>Profile</Text>
+    </MenuItem>
+  </NextLink>
+);
 
+export default function RootLayout(props: LayoutProps) {
   const [logout] = useLogout();
-  const [user] = useAuth(userPreloaded!);
+
+  const { meAdmin } = usePreloadedQuery(ProfileViewQuery, props.preloadedQuery);
+  const merchant = useFragment<useAdminAuthFragment_user$key>(useAdminAuthFragment, meAdmin);
+
+  if (!merchant) {
+    return <Box>Unauthorized</Box>;
+  }
 
   return (
     <Layout title={props.title}>
-      <Header user={user} onLogout={logout} links={<Links />}>
-        <Container maxW="full" overflow="hidden" pb={{ base: '28', md: '28' }} px={{ base: '2', md: '20' }}>
-          <Box as="main" mb={'5rem'}>
-            {props.children}
-          </Box>
-          <Footer />
+      <Header user={merchant} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />}>
+        <Container maxW="full" overflow="hidden">
+          <Box mb={'5rem'}>{props.children}</Box>
         </Container>
       </Header>
+      <Footer />
     </Layout>
   );
 }

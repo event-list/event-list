@@ -1,31 +1,38 @@
 /* eslint-disable no-constant-condition */
 import { Box, Container, Flex, Icon, Link, MenuItem, Text } from '@chakra-ui/react';
+import { FormikProvider, useFormik } from 'formik';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { CgProfile } from 'react-icons/cg';
-import { FiHome } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
+import { GiPartyPopper } from 'react-icons/gi';
+import { HiOutlineTicket } from 'react-icons/hi';
 import type { PreloadedQuery } from 'react-relay';
 import { useFragment, usePreloadedQuery } from 'react-relay';
 
 import { Footer, Header, Layout } from '@event-list/ui';
 
-import type { ProfileQuery as ProfileQueryType } from '../../__generated__/ProfileQuery.graphql';
+import type { ProfileViewQuery as ProfileViewQueryType } from '../../__generated__/ProfileViewQuery.graphql';
 import type { useAuthFragment_user$key } from '../../__generated__/useAuthFragment_user.graphql';
 import { useAuthFragment } from '../auth/useAuth';
 import { useLogout } from '../auth/useLogout';
-import { ProfileQuery } from './user/Profile';
+import { ProfileViewQuery } from './user/ProfileView';
 
 type LayoutProps = {
   children: React.ReactNode;
-  preloadedQuery: PreloadedQuery<ProfileQueryType>;
+  preloadedQuery: PreloadedQuery<ProfileViewQueryType>;
   title?: string;
 };
 
 const Links = () => (
-  <>
-    <NavItem key={'Home'} icon={FiHome} href={'/'}>
-      Home
+  <Box>
+    <NavItem key={'Home'} icon={HiOutlineTicket} href={'/'}>
+      <Text fontWeight={'600'}>Events</Text>
     </NavItem>
-  </>
+    <NavItem key={'Label'} icon={GiPartyPopper} href={'/label'}>
+      <Text fontWeight={'600'}>Labels</Text>
+    </NavItem>
+  </Box>
 );
 
 const SubMenuItems = () => (
@@ -39,7 +46,7 @@ const SubMenuItems = () => (
 export default function RootLayout(props: LayoutProps) {
   const [logout] = useLogout();
 
-  const { me } = usePreloadedQuery(ProfileQuery, props.preloadedQuery);
+  const { me } = usePreloadedQuery(ProfileViewQuery, props.preloadedQuery);
   const user = useFragment<useAuthFragment_user$key>(useAuthFragment, me);
 
   if (!user) {
@@ -49,10 +56,8 @@ export default function RootLayout(props: LayoutProps) {
   return (
     <Layout title={props.title}>
       <Header user={user} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />}>
-        <Container maxW="full" overflow="hidden" pb={{ base: '28', md: '28' }} px={{ base: '2', md: '20' }}>
-          <Box as="main" mb={'5rem'}>
-            {props.children}
-          </Box>
+        <Container maxW="full" overflow="hidden">
+          <Box mb={'5rem'}>{props.children}</Box>
           <Footer />
         </Container>
       </Header>

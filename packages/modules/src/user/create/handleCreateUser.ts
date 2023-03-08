@@ -45,8 +45,6 @@ async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateU
     };
   }
 
-  console.log(gender);
-
   if (!gender || !validateGender(gender)) {
     return {
       error: t('Gender is required'),

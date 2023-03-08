@@ -1,11 +1,13 @@
 import type { IconProps } from '@chakra-ui/react';
 import {
+  Avatar,
   Box,
   Center,
   Container,
   Flex,
   FormControl,
   Heading,
+  HStack,
   Icon,
   Link,
   SimpleGrid,
@@ -14,14 +16,15 @@ import {
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
-import { formatToCNPJ } from 'brazilian-values';
 import { FormikProvider, useFormik } from 'formik';
+import { useS3Upload } from 'next-s3-upload';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { HiUser } from 'react-icons/hi';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
-import { Button, InputCnpj, InputField, TextDecorated } from '@event-list/ui';
+import { Button, InputField, InputFile, TextDecorated } from '@event-list/ui';
 
 import type { SignUpMutation, SignUpMutation$data } from '../../../__generated__/SignUpMutation.graphql';
 import Logo from '../../../data/logo.svg';
@@ -32,17 +35,25 @@ type SignUpParams = yup.InferType<typeof SignUpSchema>;
 const SignUpSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
   name: yup.string().required('Name is required'),
+  description: yup.string().required('Description is required'),
+  logo: yup.string().required('Logo is required'),
   password: yup.string().required('Password is required'),
-  cnpj: yup.string().required('CNPJ is required'),
   phoneNumber: yup.string().required('Phone Number is required'),
 });
 
 export default function SignUpView() {
-  const [MerchantSignUp, isPending] = useMutation<SignUpMutation>(SignUp);
-
+  const { uploadToS3 } = useS3Upload();
+  const router = useRouter();
   const toast = useToast();
 
-  const router = useRouter();
+  const [MerchantSignUp, isPending] = useMutation<SignUpMutation>(SignUp);
+
+  const handleFileChange = async (event) => {
+    const file: File = event.target.files[0];
+    const { url } = await uploadToS3(file);
+
+    values.logo = url;
+  };
 
   const onSubmit = (values: SignUpParams) => {
     const config = {
@@ -50,12 +61,14 @@ export default function SignUpView() {
         input: {
           email: values.email,
           name: values.name,
+          description: values.description,
+          logo: values.logo,
           password: values.password,
-          cnpj: {
-            taxID: formatToCNPJ(values.cnpj),
-            type: 'BR:CNPJ',
-          },
-          phoneNumber: values.name,
+          // cnpj: {
+          //   taxID: formatToCNPJ(values.cnpj),
+          //   type: 'BR:CNPJ',
+          // },
+          phoneNumber: values.phoneNumber,
         },
       },
 
@@ -98,15 +111,16 @@ export default function SignUpView() {
     initialValues: {
       email: '',
       name: '',
+      description: '',
+      logo: '',
       password: '',
-      cnpj: '',
       phoneNumber: '',
     },
     validationSchema: SignUpSchema,
     onSubmit,
   });
 
-  const { handleSubmit, isValid, dirty } = formik;
+  const { handleSubmit, isValid, dirty, values } = formik;
 
   const isDisabled = !isValid || isPending || !dirty;
 
@@ -141,7 +155,7 @@ export default function SignUpView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  Sign up your merchant account{' '}
+                  Sign up your label account{' '}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
@@ -153,7 +167,7 @@ export default function SignUpView() {
                     <InputField
                       labelProps={{ color: 'gray.700' }}
                       name="email"
-                      label="Email: "
+                      label="Email:"
                       placeholder="user@email.com"
                       _placeholder={{
                         color: 'gray.400',
@@ -168,7 +182,7 @@ export default function SignUpView() {
                       labelProps={{ color: 'gray.700' }}
                       type="password"
                       name="password"
-                      label="Password: "
+                      label="Password:"
                       placeholder="********"
                       _placeholder={{
                         color: 'gray.400',
@@ -178,26 +192,42 @@ export default function SignUpView() {
                       border={0}
                     />
                   </FormControl>
-                  <FormControl id="name" isRequired>
+                  <HStack>
+                    <FormControl id="name" isRequired>
+                      <InputField
+                        labelProps={{ color: 'gray.700' }}
+                        bg={'gray.100'}
+                        label={'Label Name:'}
+                        border={0}
+                        color={'gray.700'}
+                        name="name"
+                        placeholder="Label Name"
+                        _placeholder={{
+                          color: 'gray.400',
+                        }}
+                      />
+                    </FormControl>
+                    <FormControl id="phoneNumber" isRequired>
+                      <InputField
+                        labelProps={{ color: 'gray.700' }}
+                        name="phoneNumber"
+                        label="Phone Number:"
+                        placeholder="+5548999999999"
+                        _placeholder={{
+                          color: 'gray.400',
+                        }}
+                        color={'gray.700'}
+                        bg={'gray.100'}
+                        border={0}
+                      />
+                    </FormControl>
+                  </HStack>
+                  <FormControl id="description" isRequired>
                     <InputField
                       labelProps={{ color: 'gray.700' }}
-                      bg={'gray.100'}
-                      label={'Name: '}
-                      border={0}
-                      color={'gray.700'}
-                      name="name"
-                      placeholder="Your name"
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                    />
-                  </FormControl>
-                  <FormControl id="cnpj" isRequired>
-                    <InputCnpj
-                      labelProps={{ color: 'gray.700' }}
-                      name="cnpj"
-                      label="CNPJ: "
-                      placeholder="00.000.000/0000-00"
+                      name="description"
+                      label="Description:"
+                      placeholder="What about is your label?"
                       _placeholder={{
                         color: 'gray.400',
                       }}
@@ -206,20 +236,30 @@ export default function SignUpView() {
                       border={0}
                     />
                   </FormControl>
-                  <FormControl id="phoneNumber" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      name="phoneNumber"
-                      label="Phone Number: "
-                      placeholder="+5548999999999"
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
+                  <Box>
+                    <FormControl id="logo" isRequired>
+                      <InputFile
+                        labelProps={{ color: 'gray.700' }}
+                        color={'gray.700'}
+                        id={'logo-input'}
+                        name="logo"
+                        label="Logo:"
+                        display={'none'}
+                        onChange={handleFileChange}
+                      />
+                    </FormControl>
+                    <Avatar
+                      size={'md'}
+                      icon={<HiUser size={'4rem'} />}
+                      src={values.logo}
                       color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
+                      bgColor={'transparent'}
+                      border="4px solid"
+                      borderColor="gray.800"
+                      cursor={'pointer'}
+                      onClick={() => document.getElementById('logo-input')?.click()}
                     />
-                  </FormControl>
+                  </Box>
                 </Stack>
                 <Button
                   size="lg"

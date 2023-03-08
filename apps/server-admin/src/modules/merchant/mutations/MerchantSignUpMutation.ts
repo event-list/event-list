@@ -10,7 +10,6 @@ import {
   MERCHANT_SESSION_COOKIE,
   MERCHANT_TOKEN_SCOPES,
   setSessionTokenCookie,
-  TaxIDInputType,
 } from '@event-list/modules';
 
 const MerchantSignUpMutation = mutationWithClientMutationId({
@@ -22,12 +21,18 @@ const MerchantSignUpMutation = mutationWithClientMutationId({
     email: {
       type: new GraphQLNonNull(GraphQLString),
     },
+    logo: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    description: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
     password: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    cnpj: {
-      type: new GraphQLNonNull(TaxIDInputType),
-    },
+    // cnpj: {
+    //   type: new GraphQLNonNull(TaxIDInputType),
+    // },
     phoneNumber: {
       type: new GraphQLNonNull(GraphQLString),
     },

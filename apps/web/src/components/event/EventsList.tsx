@@ -2,6 +2,8 @@ import { CircularProgress, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { graphql, usePaginationFragment } from 'react-relay';
 
+import ContainerPage from '@event-list/ui/src/Container/ContainerPage';
+
 import type { EventsListFragment_query$key } from '../../../__generated__/EventsListFragment_query.graphql';
 import type { EventsListPagination_query } from '../../../__generated__/EventsListPagination_query.graphql';
 import { EventCard } from './EventCard';
@@ -13,7 +15,7 @@ const EventsListFragment = graphql`
     events(first: $first, after: $after) @connection(key: "Events_events", filters: []) {
       edges {
         node {
-          ...EventViewFragment_event
+          ...EventFragment_event
         }
         cursor
       }
@@ -31,8 +33,6 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
   >(EventsListFragment, props.fragmentKey);
 
   const events = data.events;
-
-  console.log(events.edges);
 
   if (!events.edges) {
     return (
@@ -63,19 +63,22 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <SimpleGrid
-        minChildWidth="350px"
-        templateColumns={{
-          base: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
-          lg: 'repeat(4, 1fr)',
-        }}
-        spacing="20px"
-      >
-        {events.edges.map((event, index) => {
-          if (event?.node) return <EventCard key={index} fragmentKey={event?.node} />;
-        })}
-      </SimpleGrid>
+      <ContainerPage title={'Events'}>
+        <SimpleGrid
+          minChildWidth="350px"
+          templateColumns={{
+            base: 'repeat(1, 1fr)',
+            lg: 'repeat(2, 1fr)',
+            xl: 'repeat(3, 1fr)',
+            '2xl': 'repeat(4, 1fr)',
+          }}
+          spacing="20px"
+        >
+          {events.edges.map((event, index) => {
+            if (event?.node) return <EventCard key={index} fragmentKey={event?.node} />;
+          })}
+        </SimpleGrid>
+      </ContainerPage>
     </InfiniteScroll>
   );
 }
