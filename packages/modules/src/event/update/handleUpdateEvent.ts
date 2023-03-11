@@ -1,11 +1,8 @@
-import { getObjectId } from '@entria/graphql-mongo-helpers';
-
 import type { EventDocument, MerchantDocument } from '@event-list/modules';
-import { EventModel } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
 
 type HandleUpdateEventPayload = {
-  eventId: EventDocument['_id'];
+  event: EventDocument;
   merchantId: MerchantDocument['_id'];
   title: string;
   description: string;
@@ -13,7 +10,7 @@ type HandleUpdateEventPayload = {
   place: string;
   listAvailableAt: Date;
   classification: string;
-  status: string;
+  status: boolean;
 };
 
 type HandleUpdateEventArgs = {
@@ -23,19 +20,15 @@ type HandleUpdateEventArgs = {
 
 async function validateAndSanitizeUpdateEvent({ payload, context }: HandleUpdateEventArgs) {
   const { t } = context;
-  const { eventId, merchantId, ...restPayload } = payload;
+  const { event, merchantId, ...restPayload } = payload;
 
-  if (!eventId)
+  if (!event.eventIsPublished())
     return {
-      error: t('Event Id is required'),
-      ...payload,
+      error: t('Your event is not published, please share a new event'),
+      payload: restPayload,
     };
 
-  const event = await EventModel.findOne({ _id: getObjectId(eventId) });
-
-  if (!event) return { error: t('Event not found'), ...payload };
-
-  if (event.label.toString() != merchantId.toString()) return { error: t('Unauthorized'), ...payload };
+  if (event.label.toString() != merchantId.toString()) return { error: t('Unauthorized'), payload: restPayload };
 
   return {
     error: null,
