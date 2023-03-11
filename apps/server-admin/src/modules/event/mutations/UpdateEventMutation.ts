@@ -1,9 +1,9 @@
-import { errorField, successField } from '@entria/graphql-mongo-helpers';
+import { errorField, getObjectId, successField } from '@entria/graphql-mongo-helpers';
 import { GraphQLBoolean, GraphQLNonNull } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 import { GraphQLString } from 'graphql/type';
 
-import { handleUpdateEvent } from '@event-list/modules';
+import { EventModel, handleUpdateEvent } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
 
 export const UpdateEventMutation = mutationWithClientMutationId({
@@ -45,8 +45,14 @@ export const UpdateEventMutation = mutationWithClientMutationId({
 
     if (!merchant) return { success: null, error: t('Unauthorized') };
 
+    const { eventId, ...rest } = args;
+
+    const event = await EventModel.findOne({ _id: getObjectId(eventId) });
+
+    if (!event) return { success: null, error: t('Event not found') };
+
     const { success, error } = await handleUpdateEvent({
-      payload: { ...args, merchantId: merchant._id },
+      payload: { ...rest, event, merchantId: merchant._id },
       context,
     });
 
