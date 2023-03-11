@@ -33,7 +33,7 @@ const EventType = new GraphQLObjectType({
     },
     published: {
       type: new GraphQLNonNull(GraphQLBoolean),
-      resolve: (event) => event.dateStart > new Date(),
+      resolve: (event) => event.dateEnd > new Date(),
     },
     dateStart: {
       type: new GraphQLNonNull(GraphQLString),
@@ -65,15 +65,15 @@ const EventType = new GraphQLObjectType({
         fields: {
           mas: {
             type: new GraphQLList(GraphQLString),
-            resolve: (users: EventDocument['users']) => users.mas,
+            resolve: (users: EventDocument['users']) => users.mas.sort(),
           },
           fem: {
             type: new GraphQLList(GraphQLString),
-            resolve: (users: EventDocument['users']) => users.fem,
+            resolve: (users: EventDocument['users']) => users.fem.sort(),
           },
           free: {
             type: new GraphQLList(GraphQLString),
-            resolve: (users: EventDocument['users']) => users.free,
+            resolve: (users: EventDocument['users']) => users.free.sort(),
           },
         },
       }),

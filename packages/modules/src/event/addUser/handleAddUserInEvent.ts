@@ -24,6 +24,8 @@ async function validateAndSanitizeAddUserInEvent({ payload, context }: HandleAdd
     };
   }
 
+  const nameSanitize = event.capitilizeName(name).trim();
+
   if (!role) {
     return {
       error: t('Type is required'),
@@ -31,7 +33,7 @@ async function validateAndSanitizeAddUserInEvent({ payload, context }: HandleAdd
     };
   }
 
-  const userExistentInEvent = event.findUserInEvent(name, overwrite ? role : null);
+  const userExistentInEvent = event.findUserInEvent(nameSanitize, overwrite ? role : null);
 
   if (!event.status) {
     return {
@@ -40,16 +42,22 @@ async function validateAndSanitizeAddUserInEvent({ payload, context }: HandleAdd
     };
   }
 
+  if (!event.eventIsPublished())
+    return {
+      error: t('Your event is not published, please share a new event'),
+      ...payload,
+    };
+
   if (userExistentInEvent) {
     return {
-      error: t(`'${name}' is already on the list`),
+      error: t(`'${nameSanitize}' is already on the list`),
       ...payload,
     };
   }
 
   return {
     error: null,
-    name,
+    name: nameSanitize,
     event,
     role,
   };
