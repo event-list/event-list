@@ -41,8 +41,6 @@ const AddUserInEventMutation = mutationWithClientMutationId({
 
     if (!event) return { id: null, success: null, error: t('Event not found') };
 
-    if (!event.status) return { id: null, success: null, error: t('Event inative') };
-
     const responses = await Promise.all(
       names.map(async (name) => {
         const { success, error } = await handleAddUserInEvent({
