@@ -33,7 +33,7 @@ export function createNetwork() {
 }
 
 export async function networkFetch(params: RequestParameters, variables: Variables, headers = {}) {
-  const response = await fetch(process.env.GRAPHQL_ENDPOINT ?? 'http://localhost:4000/admin/graphql', {
+  const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ?? 'http://localhost:4000/admin/graphql', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
