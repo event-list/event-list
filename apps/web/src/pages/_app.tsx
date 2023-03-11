@@ -3,8 +3,9 @@ import type { AppProps } from 'next/app';
 import NextNProgress from 'nextjs-progressbar';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { ReactRelayContainer } from '@event-list/relay';
 import { theme } from '@event-list/ui';
+
+import { ReactRelayContainer } from '../relay/ReactRelayContainer';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
