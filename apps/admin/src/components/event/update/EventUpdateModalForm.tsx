@@ -1,6 +1,7 @@
 import {
   Box,
   Center,
+  Flex,
   FormControl,
   Heading,
   HStack,
@@ -11,11 +12,11 @@ import {
   ModalFooter,
   ModalHeader,
   Stack,
+  Text,
   useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import { useS3Upload } from 'next-s3-upload';
-import type { RefetchFnDynamic } from 'react-relay';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -26,17 +27,13 @@ import {
   InputDate,
   InputField,
   InputFile,
-  InputHours,
   InputMaps,
+  InputSwitch,
   TextDecorated,
 } from '@event-list/ui';
 import TextFormLabel from '@event-list/ui/src/Text/TextFormLabel';
 
-import type {
-  EventRowFragment_event$data,
-  EventRowFragment_event$key,
-} from '../../../../__generated__/EventRowFragment_event.graphql';
-import type { EventRowRefetch_query } from '../../../../__generated__/EventRowRefetch_query.graphql';
+import type { EventRowFragment_event$data } from '../../../../__generated__/EventRowFragment_event.graphql';
 import type {
   UpdateEventMutation,
   UpdateEventMutation$data,
@@ -152,7 +149,7 @@ const EventUpdateModalForm = ({
         <ModalHeader>
           <Center>
             <Heading>
-              <TextDecorated>Update Event</TextDecorated>
+              <TextDecorated>{event.title}</TextDecorated>
             </Heading>
           </Center>
         </ModalHeader>
@@ -162,29 +159,37 @@ const EventUpdateModalForm = ({
             <FormControl id="flyer">
               <InputFile id={'flyer-input'} name="flyer" display={'none'} onChange={handleFileChange} />
             </FormControl>
+            <Flex flexDirection={'column'} alignItems={'center'}>
+              <Image
+                borderRadius={'lg'}
+                w={'50%'}
+                src={values.flyer}
+                color={'gray.700'}
+                cursor={'pointer'}
+                onClick={() => document.getElementById('flyer-input')?.click()}
+              />
+
+              <FormControl id="status">
+                <Center>
+                  <InputSwitch name="status" label="Status:" />
+                </Center>
+              </FormControl>
+            </Flex>
             <HStack spacing={8}>
-              <Box w="full">
-                <FormControl id="title">
-                  <InputField name="title" label="Title:" placeholder="Event name" />
-                </FormControl>
-              </Box>
-              <Box w="full">
-                <FormControl id="place">
-                  <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
-                </FormControl>
-              </Box>
+              <FormControl id="title">
+                <InputField name="title" label="Title:" placeholder="Event name" />
+              </FormControl>
+              <FormControl id="place">
+                <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
+              </FormControl>
             </HStack>
             <HStack spacing={8}>
-              <Box w="full">
-                <FormControl id="classification">
-                  <InputAge name="classification" label="Classification:" />
-                </FormControl>
-              </Box>
-              <Box w="full">
-                <FormControl id="listAvailableAt">
-                  <InputDate name="listAvailableAt" label="List Available At:" />
-                </FormControl>
-              </Box>
+              <FormControl id="classification">
+                <InputAge name="classification" label="Classification:" />
+              </FormControl>
+              <FormControl id="listAvailableAt">
+                <InputDate name="listAvailableAt" label="List Available At:" />
+              </FormControl>
             </HStack>
             <HStack>
               <FormControl id="description">
@@ -194,16 +199,6 @@ const EventUpdateModalForm = ({
                   placeholder="Describe your event, the attractions, the place..."
                 />
               </FormControl>
-              <Box>
-                <TextFormLabel label={'Flyer: '} fontSize={{ base: '13px', md: 'sm' }} />
-                <Image
-                  height={'100px'}
-                  src={values.flyer}
-                  color={'gray.700'}
-                  cursor={'pointer'}
-                  onClick={() => document.getElementById('flyer-input')?.click()}
-                />
-              </Box>
             </HStack>
           </Stack>
         </ModalBody>
@@ -212,7 +207,7 @@ const EventUpdateModalForm = ({
             onClick={() => handleSubmit()}
             isSubmitting={isPendingMutation}
             isDisabled={isDisabled}
-            text={'Update Event'}
+            text={'Update'}
             mr={3}
           />
           <Button onClick={onClose} isSubmitting={false} text={'Close'} />

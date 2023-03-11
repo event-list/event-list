@@ -1,5 +1,5 @@
 import ProfileViewQueryGenerated from '../../../__generated__/ProfileViewQuery.graphql';
-import ShareEventForm from '../../components/event/share/ShareEventForm';
+import ShareEventForm from '../../components/event/create/ShareEventForm';
 import RootLayout from '../../components/RootLayout';
 import getPreloadedQuery from '../../relay/getPreloadedQuery';
 

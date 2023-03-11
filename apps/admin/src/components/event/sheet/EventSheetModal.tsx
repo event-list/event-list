@@ -15,9 +15,8 @@ import {
   FormControl,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
-import { useRef, useTransition } from 'react';
+import { useRef } from 'react';
 import { AiFillPrinter, AiOutlineReload } from 'react-icons/ai';
-import type { RefetchFnDynamic } from 'react-relay';
 import { useMutation } from 'react-relay';
 import { useReactToPrint } from 'react-to-print';
 import * as yup from 'yup';
@@ -28,11 +27,7 @@ import type {
   AddUserInEventMutation,
   AddUserInEventMutation$data,
 } from '../../../../__generated__/AddUserInEventMutation.graphql';
-import type {
-  EventRowFragment_event$data,
-  EventRowFragment_event$key,
-} from '../../../../__generated__/EventRowFragment_event.graphql';
-import type { EventRowRefetch_query } from '../../../../__generated__/EventRowRefetch_query.graphql';
+import type { EventRowFragment_event$data } from '../../../../__generated__/EventRowFragment_event.graphql';
 import { AddUserInEvent } from './mutations/AddUserInEventMutation';
 
 type AddUserInEventParams = yup.InferType<typeof AddUserInEventSchema>;
@@ -42,17 +37,19 @@ const AddUserInEventSchema = yup.object({
   role: yup.string().required('Role is required'),
 });
 
-const EventListUsersModal = ({
+const EventSheetModal = ({
   users,
   title,
   eventId,
   onClose: onCloseOuside,
+  onCompleted,
   refetch,
 }: {
   users: EventRowFragment_event$data['users'];
   title: string;
   eventId: string;
   onClose: () => void;
+  onCompleted?: () => any;
   refetch: any;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -104,7 +101,7 @@ const EventListUsersModal = ({
           isClosable: true,
         });
 
-        refetch();
+        onCompleted && onCompleted();
       },
     };
 
@@ -236,4 +233,4 @@ const EventListUsersModal = ({
   );
 };
 
-export { EventListUsersModal };
+export { EventSheetModal };
