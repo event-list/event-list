@@ -78,7 +78,7 @@ type Event implements Node {
   title: String!
   description: String!
   flyer: String!
-  label: Merchant!
+  merchant: Merchant!
   place: String!
   published: Boolean!
   dateStart: String!

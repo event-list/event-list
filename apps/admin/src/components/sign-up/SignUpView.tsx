@@ -155,7 +155,7 @@ export default function SignUpView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  Sign up your label account{' '}
+                  Sign up your merchant account{' '}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
@@ -197,11 +197,11 @@ export default function SignUpView() {
                       <InputField
                         labelProps={{ color: 'gray.700' }}
                         bg={'gray.100'}
-                        label={'Label Name:'}
+                        label={'Merchant Name:'}
                         border={0}
                         color={'gray.700'}
                         name="name"
-                        placeholder="Label Name"
+                        placeholder="Merchant Name"
                         _placeholder={{
                           color: 'gray.400',
                         }}

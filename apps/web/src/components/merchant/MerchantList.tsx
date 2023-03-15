@@ -62,7 +62,7 @@ const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) =>
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage title={'Labels'}>
+      <ContainerPage title={'Merchants'}>
         <SimpleGrid
           minChildWidth="350px"
           templateColumns={{

@@ -93,7 +93,7 @@ export default function EventsTable(props: { fragmentKey: EventsTableFragment_qu
           <Table variant="simple">
             <Thead>
               <Tr>
-                <ThTooltip label={'View the list of participants of the event'}>List</ThTooltip>
+                <ThTooltip label={'View the guest list of the event'}>List</ThTooltip>
                 <ThTooltip label={'Event name'}>Name</ThTooltip>
                 <ThTooltip label={'Number of people on the event list'}>Total</ThTooltip>
                 <ThTooltip label={'Date Start'}>Date Start</ThTooltip>

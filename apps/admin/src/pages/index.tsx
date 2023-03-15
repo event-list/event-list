@@ -42,7 +42,7 @@ export default function Page(props) {
               <Flex justifyContent={'space-between'}>
                 <Stack>
                   <Heading fontSize={{ base: 'lg', sm: '2xl' }}>See your events</Heading>
-                  <Text fontSize={'md'}>Total confirmed, list of participants, price, and more...</Text>
+                  <Text fontSize={'md'}>Total confirmed, guest list, price, and more...</Text>
                 </Stack>
                 <Stack>
                   <LinkDecorated target={'_blank'} w={'10rem'} href={`/events`} label={`My events`} />

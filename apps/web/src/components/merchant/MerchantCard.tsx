@@ -7,13 +7,13 @@ import type { MerchantViewFragment_merchant$key } from '../../../__generated__/M
 import { MerchantViewFragment } from './MerchantView';
 
 const MerchantCard = (props: { fragmentKey: MerchantViewFragment_merchant$key }) => {
-  const label = useFragment<MerchantViewFragment_merchant$key>(MerchantViewFragment, props.fragmentKey);
+  const merchant = useFragment<MerchantViewFragment_merchant$key>(MerchantViewFragment, props.fragmentKey);
 
-  if (!label) return null;
+  if (!merchant) return null;
 
   return (
-    <Card linkNavigation={`/label/${label.id}`} urlImage={label.logo ?? ''} title={label.name}>
-      <Text>{label.description}</Text>
+    <Card linkNavigation={`/merchant/${merchant.id}`} urlImage={merchant.logo ?? ''} title={merchant.name}>
+      <Text>{merchant.description}</Text>
     </Card>
   );
 };
