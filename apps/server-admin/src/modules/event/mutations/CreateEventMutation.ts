@@ -73,7 +73,7 @@ export const CreateEventMutation = mutationWithClientMutationId({
     const newEvent = await new EventModel({
       ...args,
       status: true,
-      label: merchant._id,
+      merchant: merchant._id,
     }).save();
 
     if (!newEvent) {

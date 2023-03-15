@@ -11,7 +11,7 @@ type IEvent = {
   title: string;
   description: string;
   flyer: string;
-  label: Types.ObjectId;
+  merchant: Types.ObjectId;
   place: string;
   dateStart: DateMongoose;
   dateEnd: DateMongoose;
@@ -45,7 +45,7 @@ const EventSchema = new Schema<EventDocument>(
       type: String,
       required: true,
     },
-    label: {
+    merchant: {
       type: ObjectId,
       ref: 'Merchant',
       required: true,

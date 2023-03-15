@@ -3,14 +3,14 @@ import { graphql, usePreloadedQuery } from 'react-relay';
 
 import { getPreloadedQuery } from '@event-list/relay';
 
-import type { LidLabelViewQuery } from '../../../__generated__/LidLabelViewQuery.graphql';
-import LidLabelViewQueryGenerated from '../../../__generated__/LidLabelViewQuery.graphql';
+import type { MidLabelViewQuery } from '../../../__generated__/MidLabelViewQuery.graphql';
+import MidLabelViewQueryGenerated from '../../../__generated__/MidLabelViewQuery.graphql';
 import ProfileViewQueryGenerated from '../../../__generated__/ProfileViewQuery.graphql';
 import { MerchantView } from '../../components/merchant/MerchantView';
 import RootLayout from '../../components/RootLayout';
 
 const LabelViewQuery = graphql`
-  query LidLabelViewQuery($id: ID!) @preloadable {
+  query MidLabelViewQuery($id: ID!) @preloadable {
     merchant: node(id: $id) {
       ...MerchantViewFragment_merchant
     }
@@ -18,7 +18,7 @@ const LabelViewQuery = graphql`
 `;
 
 export default function Page(props) {
-  const { merchant } = usePreloadedQuery<LidLabelViewQuery>(LabelViewQuery, props.queryRefs.LabelViewQuery);
+  const { merchant } = usePreloadedQuery<MidLabelViewQuery>(LabelViewQuery, props.queryRefs.LabelViewQuery);
 
   if (!merchant) {
     return (
@@ -41,7 +41,7 @@ export async function getServerSideProps(ctx) {
       preloadedQueries: {
         ProfileViewQuery: await getPreloadedQuery(ProfileViewQueryGenerated, {}, ctx),
         LabelViewQuery: await getPreloadedQuery(
-          LidLabelViewQueryGenerated,
+          MidLabelViewQueryGenerated,
           {
             id: ctx.params.lid,
           },

@@ -128,7 +128,7 @@ export default function SignInView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  Sign in your label account{' '}
+                  Sign in your merchant account{' '}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>

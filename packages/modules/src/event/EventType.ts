@@ -23,9 +23,9 @@ const EventType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.flyer,
     },
-    label: {
+    merchant: {
       type: new GraphQLNonNull(MerchantType),
-      resolve: (event, _, context: GraphQLContext) => MerchantLoader.load(context, event.label),
+      resolve: (event, _, context: GraphQLContext) => MerchantLoader.load(context, event.merchant),
     },
     place: {
       type: new GraphQLNonNull(GraphQLString),

@@ -46,7 +46,7 @@ type ProfileViewProps = {
 type MerchantMeUpdateParams = yup.InferType<typeof MerchantMeUpdateSchema>;
 
 const MerchantMeUpdateSchema = yup.object({
-  name: yup.string().required('Label Name is required'),
+  name: yup.string().required('Merchant Name is required'),
   biography: yup.string(),
   description: yup.string().required('Description is required'),
   logo: yup.string(),
@@ -197,7 +197,12 @@ const ProfileView = (props: ProfileViewProps) => {
           <Stack spacing={5}>
             <HStack>
               <FormControl id="name" isRequired>
-                <InputField name="name" label="Label Name:" placeholder="Label Name" defaultValue={merchant.name} />
+                <InputField
+                  name="name"
+                  label="Merchant Name:"
+                  placeholder="Merchant Name"
+                  defaultValue={merchant.name}
+                />
               </FormControl>
               <FormControl id="phoneNumber" isRequired>
                 <InputField
@@ -212,7 +217,7 @@ const ProfileView = (props: ProfileViewProps) => {
               <InputField
                 name="description"
                 label="Description:"
-                placeholder="What about is your label"
+                placeholder="What about is your Merchant"
                 defaultValue={merchant.phoneNumber}
               />
             </FormControl>

@@ -28,7 +28,7 @@ async function validateAndSanitizeUpdateEvent({ payload, context }: HandleUpdate
       payload: restPayload,
     };
 
-  if (event.label.toString() != merchantId.toString()) return { error: t('Unauthorized'), payload: restPayload };
+  if (event.merchant.toString() != merchantId.toString()) return { error: t('Unauthorized'), payload: restPayload };
 
   return {
     error: null,

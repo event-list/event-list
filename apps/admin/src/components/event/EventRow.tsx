@@ -21,12 +21,8 @@ export const EventRowFragment = graphql`
     dateEnd
     listAvailableAt
     flyer
-    price
-    users {
-      mas
-      fem
-      free
-    }
+    currentPrice
+    users
     usersQtd
   }
 `;
@@ -48,7 +44,7 @@ const EventRow = (props: { fragmentKey: EventRowFragment_event$key }) => {
       <Td>{event.usersQtd}</Td>
       <Td>{timestampToDate(event.dateStart, 'dd/MM/yyyy HH:mm')}</Td>
       <Td>{timestampToDate(event.listAvailableAt, 'dd/MM/yyyy HH:mm')}</Td>
-      <Td>{event.price}</Td>
+      <Td>{event.currentPrice}</Td>
       <Td>{event.published ? 'True' : 'False'} </Td>
       <Td>{event.status ? 'Active' : 'Inative'}</Td>
       <Td>

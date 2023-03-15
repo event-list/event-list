@@ -41,7 +41,7 @@ const AddUserInEventMutation = mutationWithClientMutationId({
 
     if (!event) return { id: null, success: null, error: t('Event not found') };
 
-    if (event.label._id.toString() !== merchant._id.toString()) {
+    if (event.merchant._id.toString() !== merchant._id.toString()) {
       return { id: null, success: null, error: t('Unauthorized') };
     }
 

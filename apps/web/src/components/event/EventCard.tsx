@@ -19,7 +19,7 @@ const EventCard = (props: { fragmentKey: EventFragment_event$key }) => {
       linkNavigation={`/event/${event.id}`}
       urlImage={event.flyer}
       title={event.title}
-      subTitle={event.label?.name}
+      subTitle={event.merchant?.name}
       imageHeight={{ base: 300, sm: 370 }}
     >
       <Flex alignItems="center" justifyContent="space-between" w="60%">

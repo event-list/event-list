@@ -30,7 +30,7 @@ import {
 } from 'next-share';
 import NextLink from 'next/link';
 import type { ReactNode } from 'react';
-import { BsDoorClosedFill, BsDoorOpenFill, BsFillCalendarDateFill } from 'react-icons/bs';
+import { BsDoorClosedFill, BsDoorOpenFill } from 'react-icons/bs';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { MdFactCheck } from 'react-icons/md';
 import { SiAdblock } from 'react-icons/si';
@@ -53,7 +53,7 @@ export const EventViewFragment = graphql`
     title
     description
     flyer
-    label {
+    merchant {
       name
       id
     }
@@ -63,7 +63,7 @@ export const EventViewFragment = graphql`
     dateEnd
     listAvailableAt
     classification
-    price
+    currentPrice
     place
   }
 `;
@@ -143,9 +143,9 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
               {event.title}
             </TextDecorated>
             <Text fontWeight={'700'} fontSize={{ base: 'lg', sm: '2xl', lg: '2xl' }}>
-              <NextLink href={`/label/${event.label.id}`} replace>
-                <Link href={`/label/${event.label.id}`} isExternal={true}>
-                  {event.label?.name}
+              <NextLink href={`/merchant/${event.merchant.id}`} replace>
+                <Link href={`/merchant/${event.merchant.id}`} isExternal={true}>
+                  {event.merchant?.name}
                   <ExternalLinkIcon ml={'0.5rem'} fontSize={'md'} />
                 </Link>
               </NextLink>
@@ -206,7 +206,7 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
             </Stack>
             <Stack>
               <SimpleGrid columns={{ base: 2 }} spacing={{ base: 5, lg: 8 }}>
-                <StatsCard title={'Price'} stat={event.price ?? '00,00'} icon={<FaMoneyCheckAlt />} />
+                <StatsCard title={'Price'} stat={event.currentPrice ?? '00,00'} icon={<FaMoneyCheckAlt />} />
                 <StatsCard title={'Classification'} stat={event.classification ?? '18'} icon={<SiAdblock />} />
                 <StatsCard
                   title={'Start'}
