@@ -38,3 +38,6 @@ __generated__
 
 .jest-cache
 junit.xml
+
+.idea
+.vscode
