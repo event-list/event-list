@@ -3,6 +3,9 @@ import mongoose, { model, Schema } from 'mongoose';
 
 const { ObjectId } = mongoose.Schema.Types;
 
+type EventPrice = { title: string; value: string; date: DateMongoose };
+type EventUsers = { name: string; role: string };
+
 type IEvent = {
   _id: Types.ObjectId;
   title: string;
@@ -14,19 +17,16 @@ type IEvent = {
   dateEnd: DateMongoose;
   listAvailableAt: DateMongoose;
   classification: string;
-  price: string;
+  prices: EventPrice[];
   status: boolean;
-  users: {
-    mas: string[];
-    fem: string[];
-    free: string[];
-  };
+  users: EventUsers[];
   createdAt: DateMongoose;
   updatedAt: DateMongoose;
-  findUserInEvent: (name: string, role?: string | null) => boolean;
-  removeUserFromAllRoles: (name: string) => void;
+  findUserInEvent: (name: string) => boolean;
+  removeUserFromEvent: (name: string) => void;
   eventIsPublished: () => boolean;
   capitilizeName: (str: string) => string;
+  getCurrentPrice: () => EventPrice;
 };
 
 type EventDocument = Document & IEvent;
@@ -70,31 +70,38 @@ const EventSchema = new Schema<EventDocument>(
       type: String,
       required: true,
     },
-    price: {
-      type: String,
-      required: true,
-    },
+    prices: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        value: {
+          type: String,
+          required: true,
+        },
+        date: {
+          type: Date,
+          required: true,
+        },
+      },
+    ],
     status: {
       type: Boolean,
       required: true,
     },
-    users: {
-      mas: [
-        {
+    users: [
+      {
+        name: {
           type: String,
+          required: true,
         },
-      ],
-      fem: [
-        {
+        role: {
           type: String,
+          required: true,
         },
-      ],
-      free: [
-        {
-          type: String,
-        },
-      ],
-    },
+      },
+    ],
   },
   {
     collection: 'Event',
@@ -106,17 +113,16 @@ const EventSchema = new Schema<EventDocument>(
 );
 
 EventSchema.methods = {
-  findUserInEvent(name, role) {
-    if (role) {
-      return this.users[role].includes(name);
-    }
-    return Object.keys(this.users).filter((key) => this.users[key].includes(name)).length > 0;
+  findUserInEvent(name) {
+    return this.users.some((user) => user.name === name);
   },
 
-  removeUserFromAllRoles(name) {
-    Object.keys(this.users).map((key) => {
-      this.users[key] = this.users[key].filter((currentName) => currentName !== name);
-    });
+  removeUserFromEvent(name) {
+    const data = this.users.find((user) => user.name === name);
+    if (data) {
+      const index = this.users.indexOf(data);
+      this.users.splice(index, 1);
+    }
   },
 
   eventIsPublished() {
@@ -125,6 +131,10 @@ EventSchema.methods = {
 
   capitilizeName(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  },
+
+  getCurrentPrice() {
+    return this.prices.find((price) => new Date() < price.date);
   },
 };
 

@@ -1,5 +1,5 @@
 import { errorField, getObjectId, successField } from '@entria/graphql-mongo-helpers';
-import { GraphQLString } from 'graphql';
+import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { EventModel, UserModel } from '@event-list/modules';
@@ -10,7 +10,7 @@ const EnsurePresenceMutation = mutationWithClientMutationId({
   name: 'EnsurePresenceMutation',
   inputFields: {
     eventId: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
   },
   mutateAndGetPayload: async (args, context: GraphQLContext) => {
@@ -32,9 +32,15 @@ const EnsurePresenceMutation = mutationWithClientMutationId({
     if (!user) return { id: null, success: null, error: t('User not found') };
 
     const { success, error } = await handleAddUserInEvent({
-      payload: { event, name: user.name, role: user.gender },
+      payload: {
+        event,
+        name: user.name,
+        role: event.getCurrentPrice().title,
+      },
       context,
     });
+
+    await event.save();
 
     return {
       success,

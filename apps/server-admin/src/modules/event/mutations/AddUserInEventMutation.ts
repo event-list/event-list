@@ -1,5 +1,5 @@
 import { errorField, getObjectId, successField } from '@entria/graphql-mongo-helpers';
-import { GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { EventModel } from '@event-list/modules';
@@ -16,7 +16,7 @@ const AddUserInEventMutation = mutationWithClientMutationId({
       type: new GraphQLList(GraphQLString),
     },
     role: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
   },
   mutateAndGetPayload: async (args, context: GraphQLContext) => {
@@ -41,6 +41,10 @@ const AddUserInEventMutation = mutationWithClientMutationId({
 
     if (!event) return { id: null, success: null, error: t('Event not found') };
 
+    if (event.label._id.toString() !== merchant._id.toString()) {
+      return { id: null, success: null, error: t('Unauthorized') };
+    }
+
     const responses = await Promise.all(
       names.map(async (name) => {
         const { success, error } = await handleAddUserInEvent({
@@ -51,6 +55,8 @@ const AddUserInEventMutation = mutationWithClientMutationId({
         return { success, error };
       }),
     );
+
+    await event.save();
 
     const responseWithError = responses.filter((response) => response.error !== null || undefined);
 

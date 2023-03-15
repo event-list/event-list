@@ -85,16 +85,17 @@ type Event implements Node {
   dateEnd: String!
   listAvailableAt: String!
   classification: String!
-  price: String!
+  prices: [prices]
+  currentPrice: String!
   status: Boolean!
-  users: users
+  users: [String]
   usersQtd: String
 }
 
-type users {
-  mas: [String]
-  fem: [String]
-  free: [String]
+type prices {
+  title: String!
+  value: String!
+  date: String!
 }
 
 """All mutations"""
@@ -128,8 +129,14 @@ input CreateEventMutationInput {
   dateEnd: String!
   listAvailableAt: String!
   classification: String!
-  price: String!
+  prices: [pricesObj]!
   clientMutationId: String
+}
+
+input pricesObj {
+  title: String!
+  value: String!
+  date: String!
 }
 
 type UpdateEventMutationPayload {
@@ -167,7 +174,7 @@ type AddUserInEventMutationPayload {
 input AddUserInEventMutationInput {
   eventId: String
   names: [String]
-  role: String
+  role: String!
   clientMutationId: String
 }
 

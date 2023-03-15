@@ -78,9 +78,10 @@ type Event implements Node {
   dateEnd: String!
   listAvailableAt: String!
   classification: String!
-  price: String!
+  prices: [prices]
+  currentPrice: String!
   status: Boolean!
-  users: users
+  users: [String]
   usersQtd: String
 }
 
@@ -101,10 +102,10 @@ type Merchant implements Node {
   events(after: String, first: Int, before: String, last: Int): EventConnection
 }
 
-type users {
-  mas: [String]
-  fem: [String]
-  free: [String]
+type prices {
+  title: String!
+  value: String!
+  date: String!
 }
 
 """A connection to a list of items."""
@@ -211,6 +212,6 @@ type EnsurePresenceMutationPayload {
 }
 
 input EnsurePresenceMutationInput {
-  eventId: String
+  eventId: String!
   clientMutationId: String
 }
