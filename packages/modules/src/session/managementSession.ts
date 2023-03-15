@@ -14,21 +14,15 @@ export const setSessionTokenCookie = async (
   token: string | null,
 ) => {
   try {
-    const domain = config.EVENT_LIST_DOMAIN;
-
-    const secure = config.EVENT_LIST_ENV !== 'development';
-
-    // const sameSite = config.EVENT_LIST_ENV === 'development' ? 'lax' : 'none';
+    const domain = config.EVENT_LIST_ENV === 'production' ? config.EVENT_LIST_DOMAIN : undefined;
 
     const options = {
-      httpOnly: true,
-      overwrite: true,
-      maxAge,
-      secure,
       domain,
-      signed: false,
-      // sameSite,
-      proxy: true,
+      httpOnly: true,
+      secure: config.EVENT_LIST_ENV !== 'development',
+      sameSite: 'lax',
+      path: '/',
+      maxAge,
     };
 
     context.ctx.cookies.set(COLLECTION_SESSION_COOKIE, token, options);
