@@ -4,7 +4,7 @@ import type { GraphQLContext } from '@event-list/types';
 type HandleAddUserPayload = {
   event: EventDocument;
   name: string;
-  role: 'mas' | 'fem' | 'free';
+  role: string;
   overwrite?: boolean;
 };
 
@@ -17,6 +17,13 @@ async function validateAndSanitizeAddUserInEvent({ payload, context }: HandleAdd
   const { t } = context;
   const { name, role, event, overwrite } = payload;
 
+  if (!event) {
+    return {
+      error: t('Event not found'),
+      ...payload,
+    };
+  }
+
   if (!name) {
     return {
       error: t('Name is required'),
@@ -28,12 +35,19 @@ async function validateAndSanitizeAddUserInEvent({ payload, context }: HandleAdd
 
   if (!role) {
     return {
-      error: t('Type is required'),
+      error: t('Role is required'),
       ...payload,
     };
   }
 
-  const userExistentInEvent = event.findUserInEvent(nameSanitize, overwrite ? role : null);
+  const roleExists = event.prices.some((price) => price.title === role);
+
+  if (!roleExists) {
+    return {
+      error: t('Role not exists'),
+      ...payload,
+    };
+  }
 
   if (!event.status) {
     return {
@@ -48,11 +62,15 @@ async function validateAndSanitizeAddUserInEvent({ payload, context }: HandleAdd
       ...payload,
     };
 
-  if (userExistentInEvent) {
-    return {
-      error: t(`'${nameSanitize}' is already on the list`),
-      ...payload,
-    };
+  if (!overwrite) {
+    const userExistentInEvent = event.findUserInEvent(nameSanitize);
+
+    if (userExistentInEvent) {
+      return {
+        error: t(`'${nameSanitize}' is already on the list`),
+        ...payload,
+      };
+    }
   }
 
   return {
@@ -81,12 +99,17 @@ const handleAddUserInEvent = async ({
     };
   }
 
-  if (payload.overwrite) {
-    event.removeUserFromAllRoles(name);
+  if (!event) {
+    return {
+      error: t('Event not found'),
+    };
   }
 
-  event.users[role].push(name);
-  await event.save();
+  if (payload.overwrite) {
+    event.removeUserFromEvent(name);
+  }
+
+  event.users.push({ name, role });
 
   return {
     success: t('Presence successfully ensured'),
