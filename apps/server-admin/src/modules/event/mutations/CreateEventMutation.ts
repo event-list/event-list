@@ -1,6 +1,7 @@
 import { errorField, successField } from '@entria/graphql-mongo-helpers';
-import { GraphQLNonNull, GraphQLString } from 'graphql';
+import { GraphQLNonNull, GraphQLString, GraphQLList, GraphQLInputObjectType } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
+import type { Date } from 'mongoose';
 
 import { eventField, EventModel } from '@event-list/modules';
 
@@ -13,7 +14,7 @@ type EventCreateArgs = {
   dateEnd: Date;
   listAvailableAt: Date;
   classification: string;
-  price: string;
+  prices: { title: string; value: string; date: Date }[];
 };
 
 export const CreateEventMutation = mutationWithClientMutationId({
@@ -43,8 +44,25 @@ export const CreateEventMutation = mutationWithClientMutationId({
     classification: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    price: {
-      type: new GraphQLNonNull(GraphQLString),
+    prices: {
+      type: new GraphQLNonNull(
+        new GraphQLList(
+          new GraphQLInputObjectType({
+            name: 'pricesObj',
+            fields: {
+              title: {
+                type: new GraphQLNonNull(GraphQLString),
+              },
+              value: {
+                type: new GraphQLNonNull(GraphQLString),
+              },
+              date: {
+                type: new GraphQLNonNull(GraphQLString),
+              },
+            },
+          }),
+        ),
+      ),
     },
   },
   mutateAndGetPayload: async (args: EventCreateArgs, ctx) => {
@@ -52,14 +70,10 @@ export const CreateEventMutation = mutationWithClientMutationId({
 
     if (!merchant) return { id: null, success: null, error: t('Unauthorized') };
 
-    const rest = {
-      status: true,
-      label: merchant._id,
-    };
-
     const newEvent = await new EventModel({
       ...args,
-      ...rest,
+      status: true,
+      label: merchant._id,
     }).save();
 
     if (!newEvent) {
