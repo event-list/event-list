@@ -51,36 +51,42 @@ const EventType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.classification,
     },
-    price: {
+    prices: {
+      type: new GraphQLList(
+        new GraphQLObjectType({
+          name: 'prices',
+          fields: {
+            title: {
+              type: new GraphQLNonNull(GraphQLString),
+              resolve: (prices) => prices.title,
+            },
+            value: {
+              type: new GraphQLNonNull(GraphQLString),
+              resolve: (prices) => prices.value,
+            },
+            date: {
+              type: new GraphQLNonNull(GraphQLString),
+              resolve: (prices) => prices.date,
+            },
+          },
+        }),
+      ),
+    },
+    currentPrice: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (event) => event.price,
+      resolve: (event) => event.prices.find((price) => new Date() < price.date)?.value,
     },
     status: {
       type: new GraphQLNonNull(GraphQLBoolean),
       resolve: (event) => event.status,
     },
     users: {
-      type: new GraphQLObjectType({
-        name: 'users',
-        fields: {
-          mas: {
-            type: new GraphQLList(GraphQLString),
-            resolve: (users: EventDocument['users']) => users.mas.sort(),
-          },
-          fem: {
-            type: new GraphQLList(GraphQLString),
-            resolve: (users: EventDocument['users']) => users.fem.sort(),
-          },
-          free: {
-            type: new GraphQLList(GraphQLString),
-            resolve: (users: EventDocument['users']) => users.free.sort(),
-          },
-        },
-      }),
+      type: new GraphQLList(GraphQLString),
+      resolve: (event: EventDocument) => event.users.sort(),
     },
     usersQtd: {
       type: GraphQLString,
-      resolve: (event: EventDocument) => event.users.mas.length + event.users.fem.length + event.users.free.length,
+      resolve: (event: EventDocument) => event.users.length,
     },
   }),
   interfaces: () => [nodeInterface],
