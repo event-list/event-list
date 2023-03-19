@@ -2,7 +2,7 @@ import { prompt } from '../prompt';
 import { connectMongo } from './connectMongo';
 
 const mongooseOptions = {
-  directConnection: true,
+  directConnection: false,
 };
 
 export const connectDatabaseK8s = async () => {
