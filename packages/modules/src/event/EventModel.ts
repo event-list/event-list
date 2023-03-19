@@ -3,7 +3,7 @@ import mongoose, { model, Schema } from 'mongoose';
 
 const { ObjectId } = mongoose.Schema.Types;
 
-type EventPrice = { title: string; value: string; date: DateMongoose };
+type EventPrice = { title: string; value: string; visible?: boolean; date: DateMongoose };
 type EventUsers = { name: string; role: string };
 
 type IEvent = {
@@ -79,6 +79,10 @@ const EventSchema = new Schema<EventDocument>(
         value: {
           type: String,
           required: true,
+        },
+        visible: {
+          type: Boolean,
+          default: true,
         },
         date: {
           type: Date,
