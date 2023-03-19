@@ -7,7 +7,11 @@
     "build": "esbuild ./src/index.ts --bundle --platform=node --target=node16.13.2 --outdir=dist --allow-overwrite",
     "es": "nodemon -T -r esbuild-register",
     "s": "ts-node -T -r esbuild-register",
-    "dev": "yarn es ./src/server.ts"
+    "dev": "yarn es ./src/server.ts",
+    "seed": "yarn seed:user && yarn seed:merchant",
+    "seed:merchant": "yarn s ./scripts/seed/seedMerchant.ts",
+    "seed:user": "yarn s ./scripts/seed/seedUser.ts",
+    "seed:event": "yarn s ./scripts/seed/seedEvent.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
