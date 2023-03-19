@@ -25,6 +25,10 @@
     "relay:web": "node ./scripts/generateArtifactDirectory.js && yarn workspace @event-list/web relay",
     "relay:admin": "node ./scripts/generateArtifactDirectory.js && yarn workspace @event-list/admin relay",
     "schema": "yarn es ./scripts/updateSchema.ts",
+    "server:seed": "yarn workspace @event-list/server seed",
+    "server:seed:user": "yarn workspace @event-list/server seed:user",
+    "server:seed:merchant": "yarn workspace @event-list/server seed:merchant",
+    "server:seed:event": "yarn workspace @event-list/server seed:event",
     "es": "node -r esbuild-register",
     "w": "yarn es webpackx.ts",
     "lint": "turbo run lint",
@@ -49,6 +53,7 @@
     "webpack": "^5.75.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@next/eslint-plugin-next": "^13.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

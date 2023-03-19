@@ -30,6 +30,7 @@ export type { UserDocument } from './user/UserModel';
 export { handleCreateUser, validateAndSanitizeCreateUser } from './user/create/handleCreateUser';
 export { UserEdge, UserType, UserConnection } from './user/UserType';
 export { meField } from './user/UserFields';
+export { createUser } from './user/fixture/createUser';
 
 // merchant
 export { default as MerchantModel } from './merchant/MerchantModel';
@@ -37,6 +38,7 @@ export type { MerchantDocument } from './merchant/MerchantModel';
 export { handleCreateMerchant, validateAndSanitizeCreateMerchant } from './merchant/create/handleCreateMerchant';
 export { MerchantConnection, MerchantEdge, MerchantType } from './merchant/MerchantType';
 export { meAdminField, merchantField } from './merchant/MerchantFields';
+export { createMerchant } from './merchant/fixture/createMerchant';
 
 // event
 export { default as EventModel } from './event/EventModel';
@@ -44,3 +46,4 @@ export type { EventDocument } from './event/EventModel';
 export { eventField, myEvents } from './event/EventFields';
 export { EventConnection, EventEdge, EventType } from './event/EventType';
 export { handleUpdateEvent } from './event/update/handleUpdateEvent';
+export { createEvent } from './event/fixture/createEvent';
