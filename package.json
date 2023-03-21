@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@fontsource/roboto": "^4.5.8",
-    "babel-jest": "^29.2.2",
+    "babel-jest": "^29.5.0",
     "brazilian-values": "^0.12.0",
     "graphql-fields": "^2.0.3",
     "graphql-relay": "^0.10.0",
