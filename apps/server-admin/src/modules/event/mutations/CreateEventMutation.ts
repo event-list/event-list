@@ -70,8 +70,19 @@ export const CreateEventMutation = mutationWithClientMutationId({
 
     if (!merchant) return { id: null, success: null, error: t('Unauthorized') };
 
+    const { prices, ...rest } = args;
+
     const newEvent = await new EventModel({
-      ...args,
+      ...rest,
+      prices: [
+        {
+          title: 'free',
+          value: '00.00',
+          visible: false,
+          date: rest.dateEnd,
+        },
+        ...prices,
+      ],
       status: true,
       merchant: merchant._id,
     }).save();

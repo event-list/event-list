@@ -35,7 +35,7 @@ const EnsurePresenceMutation = mutationWithClientMutationId({
       payload: {
         event,
         name: user.name,
-        role: event.getCurrentPrice().title,
+        role: event.getCurrentPrice(event.prices).title,
       },
       context,
     });
