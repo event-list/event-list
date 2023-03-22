@@ -14,7 +14,7 @@ const merchantField = () => ({
 
 const meAdminField = () => ({
   meAdmin: {
-    type: new GraphQLNonNull(MerchantType),
+    type: MerchantType,
     resolve: async (_, __, ctx: GraphQLContext) => await MerchantLoader.load(ctx, ctx.merchant?._id),
   },
 });
