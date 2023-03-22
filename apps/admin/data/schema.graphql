@@ -88,7 +88,7 @@ type Event implements Node {
   prices: [prices]
   currentPrice: String!
   status: Boolean!
-  users: [String]
+  users: [users]
   usersQtd: String
 }
 
@@ -96,6 +96,11 @@ type prices {
   title: String!
   value: String!
   date: String!
+}
+
+type users {
+  name: String!
+  role: String!
 }
 
 """All mutations"""

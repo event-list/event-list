@@ -1,6 +1,6 @@
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
-import { connectionDefinitions, globalIdField } from 'graphql-relay';
 import { GraphQLBoolean, GraphQLList } from 'graphql/type';
+import { connectionDefinitions, globalIdField } from 'graphql-relay';
 
 import type { EventDocument } from '@event-list/modules';
 import { EventLoader, MerchantLoader, MerchantType, nodeInterface, registerTypeLoader } from '@event-list/modules';
@@ -81,8 +81,21 @@ const EventType = new GraphQLObjectType({
       resolve: (event) => event.status,
     },
     users: {
-      type: new GraphQLList(GraphQLString),
-      resolve: (event: EventDocument) => event.users.sort(),
+      type: new GraphQLList(
+        new GraphQLObjectType({
+          name: 'users',
+          fields: {
+            name: {
+              type: new GraphQLNonNull(GraphQLString),
+              resolve: (users) => users.name,
+            },
+            role: {
+              type: new GraphQLNonNull(GraphQLString),
+              resolve: (users) => users.role,
+            },
+          },
+        }),
+      ),
     },
     usersQtd: {
       type: GraphQLString,

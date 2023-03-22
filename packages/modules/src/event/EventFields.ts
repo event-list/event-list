@@ -2,6 +2,7 @@ import { connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull } from 'graphql';
 
 import { EventLoader } from '@event-list/modules';
+import type { GraphQLContext } from '@event-list/types';
 
 import { EventConnection } from './EventType';
 
