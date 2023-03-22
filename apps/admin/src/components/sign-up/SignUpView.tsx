@@ -52,7 +52,7 @@ export default function SignUpView() {
     const file: File = event.target.files[0];
     const { url } = await uploadToS3(file);
 
-    values.logo = url;
+    await setFieldValue('logo', url);
   };
 
   const onSubmit = (values: SignUpParams) => {
@@ -120,7 +120,7 @@ export default function SignUpView() {
     onSubmit,
   });
 
-  const { handleSubmit, isValid, dirty, values } = formik;
+  const { handleSubmit, isValid, dirty, values, setFieldValue } = formik;
 
   const isDisabled = !isValid || isPending || !dirty;
 
