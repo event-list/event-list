@@ -56,15 +56,15 @@ const MerchantSignInMutation = mutationWithClientMutationId({
       };
     }
 
-    // const passwordMatch = merchant.authenticate(password);
-    //
-    // if (!passwordMatch) {
-    //   return {
-    //     merchant: null,
-    //     success: null,
-    //     error: t('CNPJ or password wrong'),
-    //   };
-    // }
+    const passwordMatch = merchant.authenticate(password);
+
+    if (!passwordMatch) {
+      return {
+        merchant: null,
+        success: null,
+        error: t('CNPJ or password wrong'),
+      };
+    }
 
     const merchantToken = generateToken<MerchantDocument>(merchant, MERCHANT_TOKEN_SCOPES.SESSION);
 
