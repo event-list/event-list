@@ -24,9 +24,9 @@ type IEvent = {
   updatedAt: DateMongoose;
   findUserInEvent: (name: string) => boolean;
   removeUserFromEvent: (name: string) => void;
-  eventIsPublished: () => boolean;
+  eventIsPublished: (date: DateMongoose) => boolean;
   capitilizeName: (str: string) => string;
-  getCurrentPrice: () => EventPrice;
+  getCurrentPrice: (prices: EventPrice[]) => EventPrice;
 };
 
 type EventDocument = Document & IEvent;
@@ -129,16 +129,16 @@ EventSchema.methods = {
     }
   },
 
-  eventIsPublished() {
-    return this.dateEnd > new Date();
+  eventIsPublished(dateEnd) {
+    return dateEnd > new Date();
   },
 
   capitilizeName(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   },
 
-  getCurrentPrice() {
-    return this.prices.find((price) => new Date() < price.date);
+  getCurrentPrice(prices) {
+    return prices.find((price) => new Date() < price.date);
   },
 };
 

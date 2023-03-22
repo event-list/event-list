@@ -33,7 +33,7 @@ const EventType = new GraphQLObjectType({
     },
     published: {
       type: new GraphQLNonNull(GraphQLBoolean),
-      resolve: (event) => event.dateEnd > new Date(),
+      resolve: (event) => event.eventIsPublished(event.dateEnd),
     },
     dateStart: {
       type: new GraphQLNonNull(GraphQLString),
@@ -74,7 +74,7 @@ const EventType = new GraphQLObjectType({
     },
     currentPrice: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (event) => event.prices.find((price) => new Date() < price.date)?.value,
+      resolve: (event) => event.getCurrentPrice(event.prices).value,
     },
     status: {
       type: new GraphQLNonNull(GraphQLBoolean),
