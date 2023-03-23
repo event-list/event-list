@@ -1,0 +1,32 @@
+import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
+import { connectionDefinitions, globalIdField } from 'graphql-relay';
+
+import { ParticipantLoader } from '@event-list/modules';
+
+import { nodeInterface, registerTypeLoader } from '../node/typeRegister';
+
+const ParticipantType = new GraphQLObjectType({
+  name: 'Participant',
+  description: 'Participant Type',
+  fields: () => ({
+    id: globalIdField('Participant'),
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (participant) => participant.title,
+    },
+    batch: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: (participant) => participant.description,
+    },
+  }),
+  interfaces: () => [nodeInterface],
+});
+
+registerTypeLoader(ParticipantType, ParticipantLoader.load);
+
+const { connectionType: ParticipantConnection, edgeType: ParticipantEdge } = connectionDefinitions({
+  name: 'Participant',
+  nodeType: ParticipantType,
+});
+
+export { ParticipantConnection, ParticipantEdge, ParticipantType };
