@@ -104,7 +104,9 @@ const seedEvent = async () => {
   const event2 = await createEvent(payload2);
 
   console.log(`Event created ${event}`);
+  console.log(`Event id ${event._id.toString()}`);
   console.log(`Event created ${event2}`);
+  console.log(`Event id ${event2._id.toString()}`);
 };
 
 (async () => {
