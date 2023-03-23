@@ -1,10 +1,20 @@
+import { connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
 import { GraphQLBoolean, GraphQLList } from 'graphql/type';
 import { connectionDefinitions, globalIdField } from 'graphql-relay';
 
 import type { EventDocument } from '@event-list/modules';
-import { EventLoader, MerchantLoader, MerchantType, nodeInterface, registerTypeLoader } from '@event-list/modules';
+import {
+  EventLoader,
+  MerchantLoader,
+  MerchantType,
+  nodeInterface,
+  registerTypeLoader,
+  ParticipantLoader,
+} from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
+
+import { ParticipantConnection } from '../participant/ParticipantType';
 
 const EventType = new GraphQLObjectType({
   name: 'Event',
@@ -100,6 +110,21 @@ const EventType = new GraphQLObjectType({
     usersQtd: {
       type: GraphQLString,
       resolve: (event: EventDocument) => event.users.length,
+    },
+    participants: {
+      type: ParticipantConnection,
+      args: { ...connectionArgs },
+      resolve: async (event, args, context: GraphQLContext) =>
+        await ParticipantLoader.loadAll(
+          context,
+          withFilter(args, {
+            event: event._id,
+          }),
+        ),
+    },
+    participantsQtd: {
+      type: GraphQLString,
+      resolve: (event: EventDocument) => event.participants.length,
     },
   }),
   interfaces: () => [nodeInterface],

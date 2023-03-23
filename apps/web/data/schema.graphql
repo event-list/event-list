@@ -83,6 +83,8 @@ type Event implements Node {
   status: Boolean!
   users: [users]
   usersQtd: String
+  participants(after: String, first: Int, before: String, last: Int): ParticipantConnection
+  participantsQtd: String
 }
 
 """Event list Merchant"""
@@ -111,6 +113,33 @@ type prices {
 type users {
   name: String!
   role: String!
+}
+
+"""A connection to a list of items."""
+type ParticipantConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ParticipantEdge]
+}
+
+"""An edge in a connection."""
+type ParticipantEdge {
+  """The item at the end of the edge"""
+  node: Participant
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Participant Type"""
+type Participant implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String!
+  event: Event!
+  batch: String!
 }
 
 """A connection to a list of items."""
