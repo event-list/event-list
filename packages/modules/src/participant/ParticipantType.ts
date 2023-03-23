@@ -12,7 +12,7 @@ const ParticipantType = new GraphQLObjectType({
     id: globalIdField('Participant'),
     name: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (participant) => participant.title,
+      resolve: (participant) => participant.name,
     },
     event: {
       type: new GraphQLNonNull(EventType),
@@ -20,7 +20,7 @@ const ParticipantType = new GraphQLObjectType({
     },
     batch: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (participant) => participant.description,
+      resolve: (participant) => participant.batch,
     },
   }),
   interfaces: () => [nodeInterface],
