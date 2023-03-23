@@ -1,7 +1,7 @@
 import { connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
 import { GraphQLObjectType } from 'graphql';
-import { connectionDefinitions, globalIdField } from 'graphql-relay';
 import { GraphQLNonNull, GraphQLString } from 'graphql/type';
+import { connectionDefinitions, globalIdField } from 'graphql-relay';
 
 import { EventConnection, EventLoader, MerchantLoader, nodeInterface, registerTypeLoader } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
@@ -58,7 +58,7 @@ const MerchantType = new GraphQLObjectType({
         await EventLoader.loadAll(
           ctx,
           withFilter(args, {
-            label: merchant._id,
+            merchant: merchant._id,
             status: true,
             published: true,
           }),
