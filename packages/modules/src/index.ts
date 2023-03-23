@@ -1,9 +1,10 @@
 // loaders
 import * as EventLoader from './event/EventLoader';
 import * as MerchantLoader from './merchant/MerchantLoader';
+import * as ParticipantLoader from './participant/ParticipantLoader';
 import * as UserLoader from './user/UserLoader';
 
-export { UserLoader, EventLoader, MerchantLoader };
+export { UserLoader, EventLoader, MerchantLoader, ParticipantLoader };
 
 // core
 export { GRAPHQL_TYPE } from './core/GRAPHQL_TYPE';
