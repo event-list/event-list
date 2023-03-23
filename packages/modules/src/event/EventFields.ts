@@ -17,9 +17,9 @@ const eventField = () => ({
 
 const myEvents = () => ({
   myEvents: {
-    type: new GraphQLNonNull(EventConnection),
+    type: EventConnection,
     args: { ...connectionArgs },
-    resolve: async (_, args, ctx) => await EventLoader.loadAll(ctx, withFilter(args, { label: ctx.merchant._id })),
+    resolve: async (_, args, ctx) => await EventLoader.loadAll(ctx, withFilter(args, { merchant: ctx.merchant._id })),
   },
 });
 
