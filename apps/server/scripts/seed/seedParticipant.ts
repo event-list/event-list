@@ -34,6 +34,10 @@ const seedParticipant = async () => {
   const participant = await createParticipant(payload1);
   const participant2 = await createParticipant(payload2);
 
+  event.participants = [participant._id, participant2._id];
+
+  await event.save();
+
   console.log(`Participant created ${participant}`);
   console.log(`Participant created ${participant2}`);
 };
