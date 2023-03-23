@@ -29,6 +29,7 @@
     "server:seed:user": "yarn workspace @event-list/server seed:user",
     "server:seed:merchant": "yarn workspace @event-list/server seed:merchant",
     "server:seed:event": "yarn workspace @event-list/server seed:event",
+    "server:seed:participant": "yarn workspace @event-list/server seed:participant",
     "es": "node -r esbuild-register",
     "w": "yarn es webpackx.ts",
     "lint": "turbo run lint",

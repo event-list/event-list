@@ -48,3 +48,9 @@ export { eventField, myEvents } from './event/EventFields';
 export { EventConnection, EventEdge, EventType } from './event/EventType';
 export { handleUpdateEvent } from './event/update/handleUpdateEvent';
 export { createEvent } from './event/fixture/createEvent';
+
+// event
+export { default as ParticipantModel } from './participant/ParticipantModel';
+export type { ParticipantDocument } from './participant/ParticipantModel';
+export { ParticipantConnection, ParticipantEdge, ParticipantType } from './participant/ParticipantType';
+export { createParticipant } from './participant/fixture/createParticipant';
