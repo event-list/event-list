@@ -32,7 +32,7 @@ const UserSignInMutation = mutationWithClientMutationId({
 
     const { email, password } = {
       password: args.password.trim(),
-      email: args.email.trim().toLowerCase(),
+      email: args.email.trim(),
     };
 
     if (!email || !password) {

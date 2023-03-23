@@ -53,12 +53,12 @@ async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateU
   }
 
   const userExistent = await UserModel.findOne({
-    email: email.trim().toLowerCase(),
+    email: email.trim(),
     removedAt: null,
   });
 
   const merchantExistent = await MerchantModel.findOne({
-    email: email.trim().toLowerCase(),
+    email: email.trim(),
     removedAt: null,
   });
 
