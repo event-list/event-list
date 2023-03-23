@@ -20,10 +20,13 @@ type IEvent = {
   prices: EventPrice[];
   status: boolean;
   users: EventUsers[];
+  participants: Types.ObjectId[];
   createdAt: DateMongoose;
   updatedAt: DateMongoose;
   findUserInEvent: (name: string) => boolean;
   removeUserFromEvent: (name: string) => void;
+  findParticipantInEvent: (name: string) => boolean;
+  removeParticipantFromEvent: (name: string) => void;
   eventIsPublished: (date: DateMongoose) => boolean;
   capitilizeName: (str: string) => string;
   getCurrentPrice: (prices: EventPrice[]) => EventPrice;
@@ -106,6 +109,13 @@ const EventSchema = new Schema<EventDocument>(
         },
       },
     ],
+    participants: [
+      {
+        type: ObjectId,
+        ref: 'Participant',
+        required: false,
+      },
+    ],
   },
   {
     collection: 'Event',
@@ -121,11 +131,23 @@ EventSchema.methods = {
     return this.users.some((user) => user.name === name);
   },
 
+  findParticipantInEvent(name) {
+    return this.participants.some((participant) => participant.name === name);
+  },
+
   removeUserFromEvent(name) {
     const data = this.users.find((user) => user.name === name);
     if (data) {
       const index = this.users.indexOf(data);
       this.users.splice(index, 1);
+    }
+  },
+
+  removeParticipantFromEvent(name) {
+    const data = this.participants.find((participant) => participant.name === name);
+    if (data) {
+      const index = this.participants.indexOf(data);
+      this.participants.splice(index, 1);
     }
   },
 

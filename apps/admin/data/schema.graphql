@@ -11,8 +11,8 @@ type Query {
     """The IDs of objects"""
     ids: [ID!]!
   ): [Node]!
-  meAdmin: Merchant!
-  myEvents(after: String, first: Int, before: String, last: Int): EventConnection!
+  meAdmin: Merchant
+  myEvents(after: String, first: Int, before: String, last: Int): EventConnection
 }
 
 """An object with an ID"""
@@ -90,6 +90,8 @@ type Event implements Node {
   status: Boolean!
   users: [users]
   usersQtd: String
+  participants(after: String, first: Int, before: String, last: Int): ParticipantConnection
+  participantsQtd: String
 }
 
 type prices {
@@ -101,6 +103,33 @@ type prices {
 type users {
   name: String!
   role: String!
+}
+
+"""A connection to a list of items."""
+type ParticipantConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ParticipantEdge]
+}
+
+"""An edge in a connection."""
+type ParticipantEdge {
+  """The item at the end of the edge"""
+  node: Participant
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Participant Type"""
+type Participant implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String!
+  event: Event!
+  batch: String!
 }
 
 """All mutations"""
@@ -184,7 +213,7 @@ input AddUserInEventMutationInput {
 }
 
 type MerchantSignUpMutationPayload {
-  meAdmin: Merchant!
+  meAdmin: Merchant
 
   """Default success field resolver."""
   success: String
@@ -205,7 +234,7 @@ input MerchantSignUpMutationInput {
 }
 
 type MerchantSignInMutationPayload {
-  meAdmin: Merchant!
+  meAdmin: Merchant
 
   """Default success field resolver."""
   success: String
@@ -235,7 +264,7 @@ input MerchantSignOutMutationInput {
 }
 
 type MerchantMeUpdateMutationPayload {
-  meAdmin: Merchant!
+  meAdmin: Merchant
 
   """Default success field resolver."""
   success: String
