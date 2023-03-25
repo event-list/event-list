@@ -17,15 +17,17 @@ async function validateAndSanitizeAddParticipantInEvent({
 
   if (!event) {
     return {
+      participant,
+      event,
       error: t('Event is required'),
-      ...payload,
     };
   }
 
   if (!participant) {
     return {
+      participant,
+      event,
       error: t('Participant is required'),
-      ...payload,
     };
   }
 
