@@ -1,7 +1,9 @@
 ## Event List
+
 Event List is a web application that enables users to share their events in a simple way and have access to their guest list whenever they want. With Event List, event organizers can easily control the number of participants, prepare for the event by buying the necessary resources, and avoid missing items.
 
 ### Technologies Used
+
 Event List is built with the following technologies:
 
 - Next.js: A popular React framework for building server-side rendered web applications.
@@ -12,6 +14,7 @@ Event List is built with the following technologies:
 - Turborepo: A tool for managing monorepos with ease.
 
 ### How to Use
+
 To use Event List, follow these steps:
 
 - Create an account on the Event List website.
@@ -21,7 +24,9 @@ To use Event List, follow these steps:
 - As guests RSVP, their names will appear on the guest list, which you can access at any time.
 
 ### Pain Points Solved
+
 Event List solves the pain point of manual event organization by automating the process of creating and managing a guest list. With Event List, event organizers can easily control the number of participants, prepare for the event by buying the necessary resources, and avoid missing items.
 
 ## Getting Started
+
 See our [playbook](https://playbook.evtlist.com) for instructions, how to run the project locally and more about the project.
