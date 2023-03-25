@@ -14,10 +14,12 @@ type HandleAddParticipantArgs = {
   context: GraphQLContext;
 };
 
-const handleAddParticipantInEvent = async ({
-  payload,
-  context,
-}: HandleAddParticipantArgs): Promise<{ error?: null; success: string } | { error: string; success?: null }> => {
+type HandleAddParticipantR = Promise<{
+  success: string | null;
+  error: string | null;
+}>;
+
+const handleAddParticipantInEvent = async ({ payload, context }: HandleAddParticipantArgs): HandleAddParticipantR => {
   const { t } = context;
   const {
     participant,
@@ -27,6 +29,7 @@ const handleAddParticipantInEvent = async ({
 
   if (errorParticipantValidatePayload) {
     return {
+      success: null,
       error: errorParticipantValidatePayload,
     };
   }
@@ -35,6 +38,7 @@ const handleAddParticipantInEvent = async ({
 
   if (!updatedEvent) {
     return {
+      success: null,
       error: t('Error on update existent event'),
     };
   }
