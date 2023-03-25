@@ -43,7 +43,7 @@ const EventType = new GraphQLObjectType({
     },
     published: {
       type: new GraphQLNonNull(GraphQLBoolean),
-      resolve: (event) => event.eventIsPublished(event.dateEnd),
+      resolve: (event) => event.isPublished(event.dateEnd),
     },
     dateStart: {
       type: new GraphQLNonNull(GraphQLString),

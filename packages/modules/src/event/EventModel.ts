@@ -22,7 +22,7 @@ type IEvent = {
   participants: Types.ObjectId[];
   createdAt: DateMongoose;
   updatedAt: DateMongoose;
-  eventIsPublished: (date: DateMongoose) => boolean;
+  isPublished: (date: DateMongoose) => boolean;
   getCurrentBatch: (batches: IBatch[]) => IBatch;
 };
 
@@ -93,7 +93,7 @@ const EventSchema = new Schema<EventDocument>(
 );
 
 EventSchema.methods = {
-  eventIsPublished(dateEnd) {
+  isPublished(dateEnd) {
     return dateEnd > new Date();
   },
 
