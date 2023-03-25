@@ -2,6 +2,8 @@ import type { EventDocument, ParticipantDocument } from '@event-list/modules';
 import { ParticipantModel } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
 
+import { validateAndSanitizeAddParticipant } from './validateAndSanitizeAddParticipant';
+
 type HandleAddParticipantPayload = {
   name: string;
   event: EventDocument;
@@ -13,57 +15,6 @@ type HandleAddParticipantArgs = {
   payload: HandleAddParticipantPayload;
   context: GraphQLContext;
 };
-
-async function validateAndSanitizeAddParticipant({ payload, context }: HandleAddParticipantArgs) {
-  const { t } = context;
-  const { name, event, batch } = payload;
-
-  if (!name) {
-    return {
-      error: t('Name is required'),
-      ...payload,
-    };
-  }
-
-  if (!event) {
-    return {
-      error: t('Event is required'),
-      ...payload,
-    };
-  }
-
-  if (!batch) {
-    return {
-      error: t('Batch is required'),
-      ...payload,
-    };
-  }
-
-  const nameSanitized = (name.charAt(0).toUpperCase() + name.slice(1)).trim();
-
-  const eventBatch = event.batches.find((eventBatch) => eventBatch.title === batch);
-
-  if (!eventBatch) {
-    return {
-      error: t('Batch not found'),
-      ...payload,
-    };
-  }
-
-  if (!event.status || !event.isPublished(event.dateEnd)) {
-    return {
-      error: t('This event is not available'),
-      ...payload,
-    };
-  }
-
-  return {
-    error: null,
-    name: nameSanitized,
-    event,
-    batch: eventBatch,
-  };
-}
 
 const handleAddParticipant = async ({
   payload,
@@ -138,4 +89,5 @@ const handleAddParticipant = async ({
   };
 };
 
-export { validateAndSanitizeAddParticipant, handleAddParticipant };
+export type { HandleAddParticipantArgs };
+export { handleAddParticipant };
