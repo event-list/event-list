@@ -22,7 +22,7 @@ async function validateAndSanitizeUpdateEvent({ payload, context }: HandleUpdate
   const { t } = context;
   const { event, merchantId, ...restPayload } = payload;
 
-  if (!event.eventIsPublished())
+  if (!event.isPublished(event.dateEnd))
     return {
       error: t('Your event is not published, please share a new event'),
       payload: restPayload,
