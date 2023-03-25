@@ -41,7 +41,7 @@ const handleAddParticipant = async ({ payload, context }: HandleAddParticipantAr
     };
   }
 
-  const existentParticipant = await ParticipantModel.findOne({ name });
+  const existentParticipant = await ParticipantModel.findOne({ name, event: event._id });
 
   if (!existentParticipant) {
     const participant = await new ParticipantModel({
