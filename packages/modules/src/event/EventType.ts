@@ -61,55 +61,38 @@ const EventType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       resolve: (event) => event.classification,
     },
-    prices: {
+    batches: {
       type: new GraphQLList(
         new GraphQLObjectType({
-          name: 'prices',
+          name: 'batches',
           fields: {
             title: {
               type: new GraphQLNonNull(GraphQLString),
-              resolve: (prices) => prices.title,
+              resolve: (batches) => batches.title,
             },
             value: {
               type: new GraphQLNonNull(GraphQLString),
-              resolve: (prices) => prices.value,
+              resolve: (batches) => batches.value,
             },
             date: {
               type: new GraphQLNonNull(GraphQLString),
-              resolve: (prices) => prices.date,
+              resolve: (batches) => batches.date,
+            },
+            visible: {
+              type: new GraphQLNonNull(GraphQLString),
+              resolve: (batches) => batches.visible,
             },
           },
         }),
       ),
     },
-    currentPrice: {
+    currentBatch: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (event) => event.getCurrentPrice(event.prices).value,
+      resolve: (event) => event.getCurrentBatch(event.batches).value,
     },
     status: {
       type: new GraphQLNonNull(GraphQLBoolean),
       resolve: (event) => event.status,
-    },
-    users: {
-      type: new GraphQLList(
-        new GraphQLObjectType({
-          name: 'users',
-          fields: {
-            name: {
-              type: new GraphQLNonNull(GraphQLString),
-              resolve: (users) => users.name,
-            },
-            role: {
-              type: new GraphQLNonNull(GraphQLString),
-              resolve: (users) => users.role,
-            },
-          },
-        }),
-      ),
-    },
-    usersQtd: {
-      type: GraphQLString,
-      resolve: (event: EventDocument) => event.users.length,
     },
     participants: {
       type: ParticipantConnection,
