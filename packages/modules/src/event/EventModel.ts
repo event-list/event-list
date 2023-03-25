@@ -98,7 +98,7 @@ EventSchema.methods = {
   },
 
   getCurrentBatch(batches) {
-    return batches.find((batch) => new Date() < batch.date);
+    return batches.find((batch) => batch.visible && new Date() < batch.date);
   },
 };
 
