@@ -2,6 +2,8 @@ import { EventModel } from '@event-list/modules';
 import type { EventDocument, ParticipantDocument } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
 
+import { validateAndSanitizeAddParticipantInEvent } from './validateAndSanitizeAddParticipantInEvent';
+
 type HandleAddParticipantPayload = {
   event: EventDocument;
   participant: ParticipantDocument;
@@ -11,31 +13,6 @@ type HandleAddParticipantArgs = {
   payload: HandleAddParticipantPayload;
   context: GraphQLContext;
 };
-
-async function validateAndSanitizeAddParticipantInEvent({ payload, context }: HandleAddParticipantArgs) {
-  const { t } = context;
-  const { event, participant } = payload;
-
-  if (!event) {
-    return {
-      error: t('Event is required'),
-      ...payload,
-    };
-  }
-
-  if (!participant) {
-    return {
-      error: t('Participant is required'),
-      ...payload,
-    };
-  }
-
-  return {
-    error: null,
-    participant,
-    event,
-  };
-}
 
 const handleAddParticipantInEvent = async ({
   payload,
@@ -68,4 +45,5 @@ const handleAddParticipantInEvent = async ({
   };
 };
 
-export { validateAndSanitizeAddParticipantInEvent, handleAddParticipantInEvent };
+export type { HandleAddParticipantArgs };
+export { handleAddParticipantInEvent };
