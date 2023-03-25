@@ -36,6 +36,10 @@ const AddParticipantInEventMutation = mutationWithClientMutationId({
 
     if (!event) return { id: null, success: null, error: t('Event not found') };
 
+    if (!event.status || !event.isPublished(event.dateEnd)) {
+      return { id: null, success: null, error: t('Event not available') };
+    }
+
     if (event.merchant._id.toString() !== merchant._id.toString()) {
       return { id: null, success: null, error: t('Unauthorized') };
     }

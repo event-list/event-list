@@ -23,6 +23,10 @@ const EventEnsurePresenceMutation = mutationWithClientMutationId({
 
     if (!event) return { id: null, success: null, error: t('Event not found') };
 
+    if (!event.status || !event.isPublished(event.dateEnd)) {
+      return { id: null, success: null, error: t('Event not available') };
+    }
+
     const user = await UserModel.findOne({
       _id: userCtx._id,
       removedAt: null,
