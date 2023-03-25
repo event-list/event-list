@@ -2,20 +2,19 @@ import { errorField, getObjectId, successField } from '@entria/graphql-mongo-hel
 import { GraphQLList, GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 
-import { EventModel } from '@event-list/modules';
-import { handleAddUserInEvent } from '@event-list/modules/src/event/addUser/handleAddUserInEvent';
+import { EventModel, handleAddParticipant, handleAddParticipantInEvent } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
 
-const AddUserInEventMutation = mutationWithClientMutationId({
-  name: 'AddUserInEventMutation',
+const AddParticipantInEventMutation = mutationWithClientMutationId({
+  name: 'AddParticipantInEventMutation',
   inputFields: {
     eventId: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
     names: {
       type: new GraphQLList(GraphQLString),
     },
-    role: {
+    batch: {
       type: new GraphQLNonNull(GraphQLString),
     },
   },
@@ -24,9 +23,7 @@ const AddUserInEventMutation = mutationWithClientMutationId({
 
     if (!merchant) return { id: null, success: null, error: t('Unauthorized') };
 
-    const { eventId, names, role } = args;
-
-    if (!names) return { id: null, success: null, error: t('Send at least one name') };
+    const { eventId, names, batch } = args;
 
     if (!Array.isArray(names))
       return {
@@ -34,8 +31,6 @@ const AddUserInEventMutation = mutationWithClientMutationId({
         success: null,
         error: t('Names must be array, send separated by lines'),
       };
-
-    if (!role) return { id: null, success: null, error: t('Send the role') };
 
     const event = await EventModel.findOne({ _id: getObjectId(eventId) });
 
@@ -45,18 +40,32 @@ const AddUserInEventMutation = mutationWithClientMutationId({
       return { id: null, success: null, error: t('Unauthorized') };
     }
 
+    // i don't like it
+    // https://dev.to/woovi/processing-promises-in-batch-2le6
     const responses = await Promise.all(
       names.map(async (name) => {
-        const { success, error } = await handleAddUserInEvent({
-          payload: { event, name, role, overwrite: true },
+        const {
+          participant,
+          isNewParticipant,
+          success: successP,
+          error: errorP,
+        } = await handleAddParticipant({
+          payload: { name, event, batch, overwrite: true },
+          context,
+        });
+
+        if (!participant || !isNewParticipant) {
+          return { success: successP, error: errorP };
+        }
+
+        const { success, error } = await handleAddParticipantInEvent({
+          payload: { event, participant },
           context,
         });
 
         return { success, error };
       }),
     );
-
-    await event.save();
 
     const responseWithError = responses.filter((response) => response.error !== null || undefined);
 
@@ -78,4 +87,4 @@ const AddUserInEventMutation = mutationWithClientMutationId({
   },
 });
 
-export { AddUserInEventMutation };
+export { AddParticipantInEventMutation };
