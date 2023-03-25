@@ -2,13 +2,15 @@ import { ObjectId } from 'mongodb';
 import type { Document, Types } from 'mongoose';
 import { model, Schema } from 'mongoose';
 
+import type { IBatch } from '../batch/BatchSchema';
+import { BatchSchema } from '../batch/BatchSchema';
 import type { EventDocument } from '../event/EventModel';
 
 type IParticipant = {
   _id: Types.ObjectId;
   name: string;
   event: EventDocument['_id'];
-  batch: string;
+  batch: IBatch;
 };
 
 type ParticipantDocument = Document & IParticipant;
@@ -25,7 +27,7 @@ const ParticipantSchema = new Schema<ParticipantDocument>(
       required: true,
     },
     batch: {
-      type: String,
+      type: BatchSchema,
       required: true,
     },
   },
