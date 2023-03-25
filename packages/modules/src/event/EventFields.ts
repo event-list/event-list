@@ -2,7 +2,6 @@ import { connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull } from 'graphql';
 
 import { EventLoader } from '@event-list/modules';
-import type { GraphQLContext } from '@event-list/types';
 
 import { EventConnection } from './EventType';
 
@@ -11,7 +10,7 @@ const eventField = () => ({
     type: new GraphQLNonNull(EventConnection),
     args: { ...connectionArgs },
     resolve: async (_, args, ctx) =>
-      await EventLoader.loadAll(ctx, withFilter(args, { status: true, published: true })),
+      await EventLoader.loadAll(ctx, withFilter(args, { status: true, dateEnd: { $gte: new Date() } })),
   },
 });
 
