@@ -63,7 +63,7 @@ const handleAddParticipantInEvent = async ({
   }
 
   return {
-    success: t('Presence successfully ensured'),
+    success: t('Event successfully updated'),
     error: null,
   };
 };
