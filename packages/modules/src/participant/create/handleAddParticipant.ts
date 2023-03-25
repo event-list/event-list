@@ -16,23 +16,14 @@ type HandleAddParticipantArgs = {
   context: GraphQLContext;
 };
 
-const handleAddParticipant = async ({
-  payload,
-  context,
-}: HandleAddParticipantArgs): Promise<
-  | {
-      error?: null;
-      success: string;
-      participant: ParticipantDocument;
-      isNewParticipant: boolean;
-    }
-  | {
-      error: string;
-      success?: null;
-      participant?: null;
-      isNewParticipant?: null;
-    }
-> => {
+type HandleAddParticipantR = Promise<{
+  error: string | null;
+  success: string | null;
+  participant: ParticipantDocument | null;
+  isNewParticipant: boolean | null;
+}>;
+
+const handleAddParticipant = async ({ payload, context }: HandleAddParticipantArgs): HandleAddParticipantR => {
   const { t } = context;
   const {
     name,
@@ -43,49 +34,59 @@ const handleAddParticipant = async ({
 
   if (errorParticipantValidatePayload) {
     return {
+      success: null,
+      participant: null,
+      isNewParticipant: null,
       error: errorParticipantValidatePayload,
     };
   }
 
   const existentParticipant = await ParticipantModel.findOne({ name });
 
-  if (existentParticipant) {
-    if (payload.overwrite) {
-      const updatedParticipant = await ParticipantModel.findOneAndUpdate(
-        { _id: existentParticipant._id },
-        { name, event, batch },
-      );
+  if (!existentParticipant) {
+    const participant = await new ParticipantModel({
+      name,
+      event: event._id,
+      batch,
+    }).save();
 
-      if (!updatedParticipant) {
-        return {
-          error: t('Error on update existent participant'),
-        };
-      }
+    return {
+      error: null,
+      isNewParticipant: true,
+      success: t('Participant successfully created'),
+      participant,
+    };
+  }
 
+  if (payload.overwrite) {
+    const updatedParticipant = await ParticipantModel.findOneAndUpdate(
+      { _id: existentParticipant._id },
+      { name, event, batch },
+      { new: true },
+    );
+
+    if (!updatedParticipant) {
       return {
-        error: null,
-        isNewParticipant: false,
-        success: t('Participant successfully added'),
-        participant: existentParticipant,
+        success: null,
+        participant: null,
+        isNewParticipant: null,
+        error: t('Error on update existent participant'),
       };
     }
 
     return {
-      error: t('Participant already goingo to this event'),
+      error: null,
+      isNewParticipant: false,
+      success: t('Participant successfully added'),
+      participant: updatedParticipant,
     };
   }
 
-  const participant = await new ParticipantModel({
-    name,
-    event: event._id,
-    batch,
-  }).save();
-
   return {
-    error: null,
-    isNewParticipant: true,
-    success: t('Participant successfully created'),
-    participant,
+    success: null,
+    participant: null,
+    isNewParticipant: false,
+    error: t('Participant already going to this event'),
   };
 };
 
