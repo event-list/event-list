@@ -1,7 +1,7 @@
-import { EnsurePresenceMutation } from './mutations/EnsurePresenceMutation';
+import { EventEnsurePresenceMutation } from './mutations/EventEnsurePresenceMutation';
 
 const EventMutations = {
-  EnsurePresenceMutation: EnsurePresenceMutation,
+  EventEnsurePresenceMutation,
 };
 
 export { EventMutations };

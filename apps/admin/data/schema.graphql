@@ -85,24 +85,18 @@ type Event implements Node {
   dateEnd: String!
   listAvailableAt: String!
   classification: String!
-  prices: [prices]
-  currentPrice: String!
+  batches: [batches]
+  currentBatch: String!
   status: Boolean!
-  users: [users]
-  usersQtd: String
   participants(after: String, first: Int, before: String, last: Int): ParticipantConnection
   participantsQtd: String
 }
 
-type prices {
+type batches {
   title: String!
   value: String!
   date: String!
-}
-
-type users {
-  name: String!
-  role: String!
+  visible: String!
 }
 
 """A connection to a list of items."""
@@ -136,7 +130,7 @@ type Participant implements Node {
 type Mutation {
   CreateEventMutation(input: CreateEventMutationInput!): CreateEventMutationPayload
   UpdateEventMutation(input: UpdateEventMutationInput!): UpdateEventMutationPayload
-  AddUserInEventMutation(input: AddUserInEventMutationInput!): AddUserInEventMutationPayload
+  AddParticipantInEventMutation(input: AddParticipantInEventMutationInput!): AddParticipantInEventMutationPayload
   MerchantSignUpMutation(input: MerchantSignUpMutationInput!): MerchantSignUpMutationPayload
   MerchantSignInMutation(input: MerchantSignInMutationInput!): MerchantSignInMutationPayload
   MerchantSignOutMutation(input: MerchantSignOutMutationInput!): MerchantSignOutMutationPayload
@@ -196,7 +190,7 @@ input UpdateEventMutationInput {
   clientMutationId: String
 }
 
-type AddUserInEventMutationPayload {
+type AddParticipantInEventMutationPayload {
   """Default success field resolver."""
   success: String
 
@@ -205,10 +199,10 @@ type AddUserInEventMutationPayload {
   clientMutationId: String
 }
 
-input AddUserInEventMutationInput {
-  eventId: String
+input AddParticipantInEventMutationInput {
+  eventId: String!
   names: [String]
-  role: String!
+  batch: String!
   clientMutationId: String
 }
 

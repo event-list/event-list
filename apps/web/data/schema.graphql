@@ -78,11 +78,9 @@ type Event implements Node {
   dateEnd: String!
   listAvailableAt: String!
   classification: String!
-  prices: [prices]
-  currentPrice: String!
+  batches: [batches]
+  currentBatch: String!
   status: Boolean!
-  users: [users]
-  usersQtd: String
   participants(after: String, first: Int, before: String, last: Int): ParticipantConnection
   participantsQtd: String
 }
@@ -104,15 +102,11 @@ type Merchant implements Node {
   events(after: String, first: Int, before: String, last: Int): EventConnection
 }
 
-type prices {
+type batches {
   title: String!
   value: String!
   date: String!
-}
-
-type users {
-  name: String!
-  role: String!
+  visible: String!
 }
 
 """A connection to a list of items."""
@@ -166,7 +160,6 @@ type Mutation {
   UserSignInMutation(input: UserSignInMutationInput!): UserSignInMutationPayload
   UserSignOutMutation(input: UserSignOutMutationInput!): UserSignOutMutationPayload
   UserMeUpdateMutation(input: UserMeUpdateMutationInput!): UserMeUpdateMutationPayload
-  EnsurePresenceMutation(input: EnsurePresenceMutationInput!): EnsurePresenceMutationPayload
 }
 
 type UserSignUpMutationPayload {
@@ -233,19 +226,5 @@ input UserMeUpdateMutationInput {
   name: String
   password: String
   gender: String
-  clientMutationId: String
-}
-
-type EnsurePresenceMutationPayload {
-  """Default success field resolver."""
-  success: String
-
-  """Default error field resolver."""
-  error: String
-  clientMutationId: String
-}
-
-input EnsurePresenceMutationInput {
-  eventId: String!
   clientMutationId: String
 }

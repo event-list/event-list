@@ -2,12 +2,11 @@ import { errorField, getObjectId, successField } from '@entria/graphql-mongo-hel
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 
-import { EventModel, UserModel } from '@event-list/modules';
-import { handleAddUserInEvent } from '@event-list/modules/src/event/addUser/handleAddUserInEvent';
+import { EventModel, UserModel, handleAddParticipant, handleAddParticipantInEvent } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
 
-const EnsurePresenceMutation = mutationWithClientMutationId({
-  name: 'EnsurePresenceMutation',
+const EventEnsurePresenceMutation = mutationWithClientMutationId({
+  name: 'EventEnsurePresenceMutation',
   inputFields: {
     eventId: {
       type: new GraphQLNonNull(GraphQLString),
@@ -16,9 +15,9 @@ const EnsurePresenceMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async (args, context: GraphQLContext) => {
     const { user: userCtx, t } = context;
 
-    const { eventId } = args;
-
     if (!userCtx) return { id: null, success: null, error: t('Unauthorized') };
+
+    const { eventId } = args;
 
     const event = await EventModel.findOne({ _id: getObjectId(eventId) });
 
@@ -31,21 +30,39 @@ const EnsurePresenceMutation = mutationWithClientMutationId({
 
     if (!user) return { id: null, success: null, error: t('User not found') };
 
-    const { success, error } = await handleAddUserInEvent({
+    const {
+      participant,
+      isNewParticipant,
+      error: errorP,
+    } = await handleAddParticipant({
       payload: {
-        event,
         name: user.name,
-        role: event.getCurrentPrice(event.prices).title,
+        event,
+        batch: event.getCurrentBatch(event.batches).title,
       },
       context,
     });
 
-    await event.save();
+    if (!participant || !isNewParticipant) {
+      return {
+        success: null,
+        error: errorP ?? 'Error on update existent participant',
+      };
+    }
 
-    return {
-      success,
-      error,
-    };
+    const { error } = await handleAddParticipantInEvent({
+      payload: { event, participant },
+      context,
+    });
+
+    if (error) {
+      return {
+        success: null,
+        error,
+      };
+    }
+
+    return { success: 'Presence successfully ensured for this event', error: null };
   },
   outputFields: {
     ...successField,
@@ -53,4 +70,4 @@ const EnsurePresenceMutation = mutationWithClientMutationId({
   },
 });
 
-export { EnsurePresenceMutation };
+export { EventEnsurePresenceMutation };
