@@ -1,10 +1,10 @@
 import type { Document, Types, Date as DateMongoose } from 'mongoose';
 import mongoose, { model, Schema } from 'mongoose';
 
-const { ObjectId } = mongoose.Schema.Types;
+import type { IBatch } from '../batch/BatchSchema';
+import { BatchSchema } from '../batch/BatchSchema';
 
-type EventPrice = { title: string; value: string; visible?: boolean; date: DateMongoose };
-type EventUsers = { name: string; role: string };
+const { ObjectId } = mongoose.Schema.Types;
 
 type IEvent = {
   _id: Types.ObjectId;
@@ -17,19 +17,13 @@ type IEvent = {
   dateEnd: DateMongoose;
   listAvailableAt: DateMongoose;
   classification: string;
-  prices: EventPrice[];
+  batches: IBatch[];
   status: boolean;
-  users: EventUsers[];
   participants: Types.ObjectId[];
   createdAt: DateMongoose;
   updatedAt: DateMongoose;
-  findUserInEvent: (name: string) => boolean;
-  removeUserFromEvent: (name: string) => void;
-  findParticipantInEvent: (name: string) => boolean;
-  removeParticipantFromEvent: (name: string) => void;
   eventIsPublished: (date: DateMongoose) => boolean;
-  capitilizeName: (str: string) => string;
-  getCurrentPrice: (prices: EventPrice[]) => EventPrice;
+  getCurrentBatch: (batches: IBatch[]) => IBatch;
 };
 
 type EventDocument = Document & IEvent;
@@ -73,42 +67,14 @@ const EventSchema = new Schema<EventDocument>(
       type: String,
       required: true,
     },
-    prices: [
-      {
-        title: {
-          type: String,
-          required: true,
-        },
-        value: {
-          type: String,
-          required: true,
-        },
-        visible: {
-          type: Boolean,
-          default: true,
-        },
-        date: {
-          type: Date,
-          required: true,
-        },
-      },
-    ],
+    batches: {
+      type: [BatchSchema],
+      required: true,
+    },
     status: {
       type: Boolean,
       required: true,
     },
-    users: [
-      {
-        name: {
-          type: String,
-          required: true,
-        },
-        role: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
     participants: [
       {
         type: ObjectId,
@@ -127,40 +93,12 @@ const EventSchema = new Schema<EventDocument>(
 );
 
 EventSchema.methods = {
-  findUserInEvent(name) {
-    return this.users.some((user) => user.name === name);
-  },
-
-  findParticipantInEvent(name) {
-    return this.participants.some((participant) => participant.name === name);
-  },
-
-  removeUserFromEvent(name) {
-    const data = this.users.find((user) => user.name === name);
-    if (data) {
-      const index = this.users.indexOf(data);
-      this.users.splice(index, 1);
-    }
-  },
-
-  removeParticipantFromEvent(name) {
-    const data = this.participants.find((participant) => participant.name === name);
-    if (data) {
-      const index = this.participants.indexOf(data);
-      this.participants.splice(index, 1);
-    }
-  },
-
   eventIsPublished(dateEnd) {
     return dateEnd > new Date();
   },
 
-  capitilizeName(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  },
-
-  getCurrentPrice(prices) {
-    return prices.find((price) => new Date() < price.date);
+  getCurrentBatch(batches) {
+    return batches.find((batch) => new Date() < batch.date);
   },
 };
 
