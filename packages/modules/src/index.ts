@@ -56,3 +56,6 @@ export type { ParticipantDocument } from './participant/ParticipantModel';
 export { ParticipantConnection, ParticipantEdge, ParticipantType } from './participant/ParticipantType';
 export { handleAddParticipant } from './participant/create/handleAddParticipant';
 export { createParticipant } from './participant/fixture/createParticipant';
+
+// batch
+export { IBatch } from './batch/BatchSchema';
