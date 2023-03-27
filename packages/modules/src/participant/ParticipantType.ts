@@ -20,7 +20,7 @@ const ParticipantType = new GraphQLObjectType({
     },
     batch: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (participant) => participant.batch,
+      resolve: (participant) => participant.batch.title,
     },
   }),
   interfaces: () => [nodeInterface],
