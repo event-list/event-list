@@ -62,28 +62,30 @@ const EventType = new GraphQLObjectType({
       resolve: (event) => event.classification,
     },
     batches: {
-      type: new GraphQLList(
-        new GraphQLObjectType({
-          name: 'batches',
-          fields: {
-            title: {
-              type: new GraphQLNonNull(GraphQLString),
-              resolve: (batches) => batches.title,
+      type: new GraphQLNonNull(
+        new GraphQLList(
+          new GraphQLObjectType({
+            name: 'batches',
+            fields: {
+              title: {
+                type: new GraphQLNonNull(GraphQLString),
+                resolve: (batches) => batches.title,
+              },
+              value: {
+                type: new GraphQLNonNull(GraphQLString),
+                resolve: (batches) => batches.value,
+              },
+              date: {
+                type: new GraphQLNonNull(GraphQLString),
+                resolve: (batches) => batches.date,
+              },
+              visible: {
+                type: new GraphQLNonNull(GraphQLString),
+                resolve: (batches) => batches.visible,
+              },
             },
-            value: {
-              type: new GraphQLNonNull(GraphQLString),
-              resolve: (batches) => batches.value,
-            },
-            date: {
-              type: new GraphQLNonNull(GraphQLString),
-              resolve: (batches) => batches.date,
-            },
-            visible: {
-              type: new GraphQLNonNull(GraphQLString),
-              resolve: (batches) => batches.visible,
-            },
-          },
-        }),
+          }),
+        ),
       ),
     },
     currentBatch: {
@@ -95,7 +97,7 @@ const EventType = new GraphQLObjectType({
       resolve: (event) => event.status,
     },
     participants: {
-      type: ParticipantConnection,
+      type: new GraphQLNonNull(ParticipantConnection),
       args: { ...connectionArgs },
       resolve: async (event, args, context: GraphQLContext) =>
         await ParticipantLoader.loadAll(
