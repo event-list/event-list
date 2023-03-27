@@ -3,6 +3,7 @@ import { GraphQLNonNull, GraphQLString, GraphQLList, GraphQLInputObjectType } fr
 import { mutationWithClientMutationId } from 'graphql-relay';
 import type { Date } from 'mongoose';
 
+import type { IBatch } from '@event-list/modules';
 import { eventField, EventModel } from '@event-list/modules';
 
 type EventCreateArgs = {
@@ -14,7 +15,7 @@ type EventCreateArgs = {
   dateEnd: Date;
   listAvailableAt: Date;
   classification: string;
-  prices: { title: string; value: string; date: Date }[];
+  batches: IBatch[];
 };
 
 export const CreateEventMutation = mutationWithClientMutationId({
@@ -44,11 +45,11 @@ export const CreateEventMutation = mutationWithClientMutationId({
     classification: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    prices: {
+    batches: {
       type: new GraphQLNonNull(
         new GraphQLList(
           new GraphQLInputObjectType({
-            name: 'pricesObj',
+            name: 'batchesCreate',
             fields: {
               title: {
                 type: new GraphQLNonNull(GraphQLString),
@@ -58,6 +59,9 @@ export const CreateEventMutation = mutationWithClientMutationId({
               },
               date: {
                 type: new GraphQLNonNull(GraphQLString),
+              },
+              visible: {
+                type: GraphQLString,
               },
             },
           }),
@@ -70,19 +74,8 @@ export const CreateEventMutation = mutationWithClientMutationId({
 
     if (!merchant) return { id: null, success: null, error: t('Unauthorized') };
 
-    const { prices, ...rest } = args;
-
     const newEvent = await new EventModel({
-      ...rest,
-      prices: [
-        {
-          title: 'free',
-          value: '00.00',
-          visible: false,
-          date: rest.dateEnd,
-        },
-        ...prices,
-      ],
+      ...args,
       status: true,
       merchant: merchant._id,
     }).save();
