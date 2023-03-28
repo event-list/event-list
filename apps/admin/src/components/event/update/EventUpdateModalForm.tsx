@@ -1,5 +1,4 @@
 import {
-  Box,
   Center,
   Flex,
   FormControl,
@@ -12,7 +11,6 @@ import {
   ModalFooter,
   ModalHeader,
   Stack,
-  Text,
   useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
@@ -31,14 +29,13 @@ import {
   InputSwitch,
   TextDecorated,
 } from '@event-list/ui';
-import TextFormLabel from '@event-list/ui/src/Text/TextFormLabel';
 
+import { UpdateEvent } from './mutations/UpdateEventMutation';
 import type { EventRowFragment_event$data } from '../../../../__generated__/EventRowFragment_event.graphql';
 import type {
   UpdateEventMutation,
   UpdateEventMutation$data,
 } from '../../../../__generated__/UpdateEventMutation.graphql';
-import { UpdateEvent } from './mutations/UpdateEventMutation';
 
 type EventUpdateParams = yup.InferType<typeof EventUpdateSchema>;
 
@@ -61,7 +58,7 @@ const EventUpdateModalForm = ({
 }: {
   event: EventRowFragment_event$data;
   onClose: () => void;
-  refetch: any;
+  refetch: () => void;
 }) => {
   const { uploadToS3 } = useS3Upload();
   const toast = useToast();

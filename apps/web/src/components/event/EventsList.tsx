@@ -4,9 +4,9 @@ import { graphql, usePaginationFragment } from 'react-relay';
 
 import ContainerPage from '@event-list/ui/src/Container/ContainerPage';
 
+import { EventCard } from './EventCard';
 import type { EventsListFragment_query$key } from '../../../__generated__/EventsListFragment_query.graphql';
 import type { EventsListPagination_query } from '../../../__generated__/EventsListPagination_query.graphql';
-import { EventCard } from './EventCard';
 
 const EventsListFragment = graphql`
   fragment EventsListFragment_query on Query

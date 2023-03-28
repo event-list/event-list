@@ -4,8 +4,8 @@ import timestampToDate from 'timestamp-to-date';
 
 import { Card, TextDecorated } from '@event-list/ui';
 
-import type { EventFragment_event$key } from '../../../__generated__/EventFragment_event.graphql';
 import { EventViewFragment } from './Event';
+import type { EventFragment_event$key } from '../../../__generated__/EventFragment_event.graphql';
 
 const EventCard = (props: { fragmentKey: EventFragment_event$key }) => {
   const event = useFragment<EventFragment_event$key>(EventViewFragment, props.fragmentKey);
