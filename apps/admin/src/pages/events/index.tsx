@@ -1,14 +1,15 @@
 import { graphql, usePreloadedQuery } from 'react-relay';
 
 import type { eventsViewQuery } from '../../../__generated__/eventsViewQuery.graphql';
+import EventsViewGenerated from '../../../__generated__/eventsViewQuery.graphql';
 import ProfileViewQueryGenerated from '../../../__generated__/ProfileViewQuery.graphql';
-import EventsTable from '../../components/event/EventsTable';
+import EventsList from '../../components/event/EventsList';
 import RootLayout from '../../components/RootLayout';
 import getPreloadedQuery from '../../relay/getPreloadedQuery';
 
 const EventsView = graphql`
   query eventsViewQuery {
-    ...EventsTableFragment_query
+    ...EventsListFragment_query
   }
 `;
 
@@ -17,7 +18,7 @@ export default function Page(props) {
 
   return (
     <RootLayout preloadedQuery={props.queryRefs.ProfileQuery}>
-      <EventsTable fragmentKey={key} />
+      <EventsList fragmentKey={key} />
     </RootLayout>
   );
 }
@@ -27,12 +28,7 @@ export async function getServerSideProps(ctx) {
     props: {
       preloadedQueries: {
         ProfileQuery: await getPreloadedQuery(ProfileViewQueryGenerated, {}, ctx),
-        EventsViewQuery: await getPreloadedQuery(
-          //@ts-expect-error todo
-          EventsView,
-          {},
-          ctx,
-        ),
+        EventsViewQuery: await getPreloadedQuery(EventsViewGenerated, {}, ctx),
       },
     },
   };
