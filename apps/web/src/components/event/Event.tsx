@@ -18,6 +18,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
+import NextLink from 'next/link';
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -28,7 +29,6 @@ import {
   WhatsappShareButton,
   WhatsappIcon,
 } from 'next-share';
-import NextLink from 'next/link';
 import type { ReactNode } from 'react';
 import { BsDoorClosedFill, BsDoorOpenFill } from 'react-icons/bs';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
@@ -40,12 +40,12 @@ import timestampToDate from 'timestamp-to-date';
 
 import { Button, TextDecorated } from '@event-list/ui';
 
+import { EnsurePresence } from './mutations/EnsurePresenceMutation';
 import type {
   EnsurePresenceMutation,
   EnsurePresenceMutation$data,
 } from '../../../__generated__/EnsurePresenceMutation.graphql';
 import type { EventFragment_event$key } from '../../../__generated__/EventFragment_event.graphql';
-import { EnsurePresence } from './mutations/EnsurePresenceMutation';
 
 export const EventViewFragment = graphql`
   fragment EventFragment_event on Event {
@@ -63,7 +63,7 @@ export const EventViewFragment = graphql`
     dateEnd
     listAvailableAt
     classification
-    currentPrice
+    currentBatch
     place
   }
 `;
@@ -85,8 +85,8 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
           },
         },
 
-        onCompleted: ({ EnsurePresenceMutation }: EnsurePresenceMutation$data) => {
-          if (typeof EnsurePresenceMutation === 'undefined') {
+        onCompleted: ({ EventEnsurePresenceMutation }: EnsurePresenceMutation$data) => {
+          if (typeof EventEnsurePresenceMutation === 'undefined') {
             toast({
               title: 'Something was wrong',
               status: 'error',
@@ -96,9 +96,9 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
             return;
           }
 
-          if (EnsurePresenceMutation?.error) {
+          if (EventEnsurePresenceMutation?.error) {
             toast({
-              title: EnsurePresenceMutation?.error,
+              title: EventEnsurePresenceMutation?.error,
               status: 'error',
               duration: 5000,
               isClosable: true,
@@ -107,7 +107,7 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
           }
 
           toast({
-            title: EnsurePresenceMutation?.success,
+            title: EventEnsurePresenceMutation?.success,
             status: 'success',
             duration: 5000,
             isClosable: true,
@@ -206,7 +206,7 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
             </Stack>
             <Stack>
               <SimpleGrid columns={{ base: 2 }} spacing={{ base: 5, lg: 8 }}>
-                <StatsCard title={'Price'} stat={event.currentPrice ?? '00,00'} icon={<FaMoneyCheckAlt />} />
+                <StatsCard title={'Price'} stat={event.currentBatch ?? '00,00'} icon={<FaMoneyCheckAlt />} />
                 <StatsCard title={'Classification'} stat={event.classification ?? '18'} icon={<SiAdblock />} />
                 <StatsCard
                   title={'Start'}
