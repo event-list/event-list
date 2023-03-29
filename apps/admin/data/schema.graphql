@@ -85,10 +85,10 @@ type Event implements Node {
   dateEnd: String!
   listAvailableAt: String!
   classification: String!
-  batches: [batches]
+  batches: [batches!]!
   currentBatch: String!
   status: Boolean!
-  participants(after: String, first: Int, before: String, last: Int): ParticipantConnection
+  participants(after: String, first: Int, before: String, last: Int): ParticipantConnection!
   participantsQtd: String
 }
 
@@ -157,14 +157,15 @@ input CreateEventMutationInput {
   dateEnd: String!
   listAvailableAt: String!
   classification: String!
-  prices: [pricesObj]!
+  batches: [batchesCreate]!
   clientMutationId: String
 }
 
-input pricesObj {
+input batchesCreate {
   title: String!
   value: String!
   date: String!
+  visible: String
 }
 
 type UpdateEventMutationPayload {
