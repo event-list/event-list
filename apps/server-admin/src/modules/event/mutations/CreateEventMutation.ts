@@ -61,7 +61,7 @@ export const CreateEventMutation = mutationWithClientMutationId({
                 type: new GraphQLNonNull(GraphQLString),
               },
               visible: {
-                type: GraphQLString,
+                type: GraphQLBoolean,
               },
             },
           }),
