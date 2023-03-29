@@ -2,7 +2,6 @@ import {
   Center,
   Text,
   Box,
-  Flex,
   ModalHeader,
   ModalCloseButton,
   ModalBody,
@@ -23,35 +22,34 @@ import * as yup from 'yup';
 
 import { Button, InputArea, InputSelect, TextDecorated } from '@event-list/ui';
 
+import { AddParticipantInEvent } from './mutations/AddParticipantInEventMutation';
+import { ParticipantsList } from './ParticipantsList';
 import type {
-  AddUserInEventMutation,
-  AddUserInEventMutation$data,
-} from '../../../../__generated__/AddUserInEventMutation.graphql';
-import type { EventRowFragment_event$data } from '../../../../__generated__/EventRowFragment_event.graphql';
-import { AddUserInEvent } from './mutations/AddUserInEventMutation';
+  AddParticipantInEventMutation,
+  AddParticipantInEventMutation$data,
+} from '../../../__generated__/AddParticipantInEventMutation.graphql';
+import type { EventRowFragment_event$data } from '../../../__generated__/EventRowFragment_event.graphql';
 
-type AddUserInEventParams = yup.InferType<typeof AddUserInEventSchema>;
+type AddParticipantInEventParams = yup.InferType<typeof AddParticipantInEventSchema>;
 
-const AddUserInEventSchema = yup.object({
+const AddParticipantInEventSchema = yup.object({
   names: yup.string().required('Names is required'),
-  role: yup.string().required('Role is required'),
+  batch: yup.string().required('Batch is required'),
 });
 
-const EventSheetModal = ({
-  users,
-  title,
-  eventId,
-  onClose: onCloseOuside,
-  onCompleted,
-  refetch,
-}: {
-  users: EventRowFragment_event$data['users'];
-  title: string;
-  eventId: string;
+type ParticipantsModalProps = {
+  event: EventRowFragment_event$data;
   onClose: () => void;
-  onCompleted?: () => any;
-  refetch: any;
-}) => {
+  onCompleted?: () => void;
+  refetchEventQuery: () => void;
+};
+
+const ParticipantsModal = ({
+  event,
+  onClose: onCloseOutside,
+  onCompleted,
+  refetchEventQuery,
+}: ParticipantsModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const componentRef = useRef(null);
@@ -59,22 +57,24 @@ const EventSheetModal = ({
     content: () => componentRef.current,
   });
 
-  const [HandleAddUserInEvent, isPending] = useMutation<AddUserInEventMutation>(AddUserInEvent);
+  const [HandleAddParticipantInEvent, isPending] = useMutation<AddParticipantInEventMutation>(AddParticipantInEvent);
 
-  const onSubmit = async (values: AddUserInEventParams) => {
+  const onSubmit = async (values: AddParticipantInEventParams) => {
     const arrayNames = values.names.split('\n');
+
+    console.log('values', values);
 
     const config = {
       variables: {
         input: {
           names: arrayNames,
-          role: values.role,
-          eventId,
+          batch: values.batch,
+          eventId: event.id,
         },
       },
 
-      onCompleted: ({ AddUserInEventMutation }: AddUserInEventMutation$data) => {
-        if (typeof AddUserInEventMutation === 'undefined') {
+      onCompleted: ({ AddParticipantInEventMutation }: AddParticipantInEventMutation$data) => {
+        if (typeof AddParticipantInEventMutation === 'undefined') {
           toast({
             title: 'Something was wrong',
             status: 'error',
@@ -84,9 +84,9 @@ const EventSheetModal = ({
           return;
         }
 
-        if (AddUserInEventMutation?.error) {
+        if (AddParticipantInEventMutation?.error) {
           toast({
-            title: AddUserInEventMutation?.error,
+            title: AddParticipantInEventMutation?.error,
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -95,7 +95,7 @@ const EventSheetModal = ({
         }
 
         toast({
-          title: AddUserInEventMutation?.success,
+          title: AddParticipantInEventMutation?.success,
           status: 'success',
           duration: 5000,
           isClosable: true,
@@ -105,21 +105,23 @@ const EventSheetModal = ({
       },
     };
 
-    HandleAddUserInEvent(config);
+    HandleAddParticipantInEvent(config);
   };
 
   const formikAddUserInEvent = useFormik({
     initialValues: {
       names: '',
-      role: '',
+      batch: '',
     },
-    validationSchema: AddUserInEventSchema,
+    validationSchema: AddParticipantInEventSchema,
     onSubmit,
   });
 
   const { handleSubmit: handleSubmitAddUserInEvent, isValid, dirty } = formikAddUserInEvent;
 
   const isDisabled = !isValid || isPending || !dirty;
+
+  const options = event.batches.map((batch) => ({ value: batch.title, label: batch.title }));
 
   return (
     <Box>
@@ -135,15 +137,11 @@ const EventSheetModal = ({
               <FormControl id="names" isRequired>
                 <InputArea name="names" label="Names:" placeholder="Write the names separed by lines" />
               </FormControl>
-              <FormControl id="role" isRequired mt={8}>
+              <FormControl id="batch" isRequired mt={8}>
                 <InputSelect
-                  name="role"
-                  label="Role:"
-                  options={[
-                    { value: 'mas', label: 'Mas' },
-                    { value: 'fem', label: 'Fem' },
-                    { value: 'free', label: 'Free' },
-                  ]}
+                  name="batch"
+                  label="Batch:"
+                  options={options}
                   _placeholder={{
                     color: 'gray.400',
                   }}
@@ -167,70 +165,24 @@ const EventSheetModal = ({
         <ModalHeader>
           <Center>
             <Text as={'h2'} fontFamily={'Noto Sans'} fontSize={{ base: 'lg', sm: '5xl' }}>
-              {title}
+              {event.title}
             </Text>
           </Center>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody ref={componentRef}>
-          <Flex>
-            <Box w="100%" borderColor={'gray.200'}>
-              <Center mb={8}>
-                <Text fontFamily={'Noto Sans'} fontSize={{ base: 'lg', sm: 'xl' }}>
-                  Mas
-                </Text>
-              </Center>
-              <Box>
-                {users &&
-                  users.mas?.map((masUser) => (
-                    <Text fontFamily={'Noto Sans'} key={masUser}>
-                      {masUser}
-                    </Text>
-                  ))}
-              </Box>
-            </Box>
-            <Box w="100%">
-              <Center mb={8}>
-                <Text fontFamily={'Noto Sans'} fontSize={{ base: 'lg', sm: 'xl' }}>
-                  Fem
-                </Text>
-              </Center>
-              <Box>
-                {users &&
-                  users.fem?.map((femUser) => (
-                    <Text fontFamily={'Noto Sans'} key={femUser}>
-                      {femUser}
-                    </Text>
-                  ))}
-              </Box>
-            </Box>
-            <Box w="100%">
-              <Center mb={8}>
-                <Text fontFamily={'Noto Sans'} fontSize={{ base: 'lg', sm: 'xl' }}>
-                  Free
-                </Text>
-              </Center>
-              <Box>
-                {users &&
-                  users.free?.map((freeUser) => (
-                    <Text fontFamily={'Noto Sans'} key={freeUser}>
-                      {freeUser}
-                    </Text>
-                  ))}
-              </Box>
-            </Box>
-          </Flex>
+          <ParticipantsList participants={event.participants} batches={event.batches} />
         </ModalBody>
 
         <ModalFooter>
           <Button onClick={handlePrint} isSubmitting={false} text={<AiFillPrinter />} mr={3} />
-          <Button onClick={() => refetch()} isSubmitting={false} text={<AiOutlineReload />} mr={3} />
+          <Button onClick={() => refetchEventQuery()} isSubmitting={false} text={<AiOutlineReload />} mr={3} />
           <Button onClick={onOpen} isSubmitting={false} text={'Add'} mr={3} />
-          <Button onClick={onCloseOuside} isSubmitting={false} text={'Close'} />
+          <Button onClick={onCloseOutside} isSubmitting={false} text={'Close'} />
         </ModalFooter>
       </ModalContent>
     </Box>
   );
 };
 
-export { EventSheetModal };
+export { ParticipantsModal };
