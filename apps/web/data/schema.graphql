@@ -78,10 +78,10 @@ type Event implements Node {
   dateEnd: String!
   listAvailableAt: String!
   classification: String!
-  batches: [batches]
+  batches: [batches!]!
   currentBatch: String!
   status: Boolean!
-  participants(after: String, first: Int, before: String, last: Int): ParticipantConnection
+  participants(after: String, first: Int, before: String, last: Int): ParticipantConnection!
   participantsQtd: String
 }
 
@@ -160,6 +160,7 @@ type Mutation {
   UserSignInMutation(input: UserSignInMutationInput!): UserSignInMutationPayload
   UserSignOutMutation(input: UserSignOutMutationInput!): UserSignOutMutationPayload
   UserMeUpdateMutation(input: UserMeUpdateMutationInput!): UserMeUpdateMutationPayload
+  EventEnsurePresenceMutation(input: EventEnsurePresenceMutationInput!): EventEnsurePresenceMutationPayload
 }
 
 type UserSignUpMutationPayload {
@@ -226,5 +227,19 @@ input UserMeUpdateMutationInput {
   name: String
   password: String
   gender: String
+  clientMutationId: String
+}
+
+type EventEnsurePresenceMutationPayload {
+  """Default success field resolver."""
+  success: String
+
+  """Default error field resolver."""
+  error: String
+  clientMutationId: String
+}
+
+input EventEnsurePresenceMutationInput {
+  eventId: String!
   clientMutationId: String
 }
