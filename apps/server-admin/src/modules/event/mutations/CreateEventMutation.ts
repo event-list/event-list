@@ -1,5 +1,5 @@
 import { errorField, successField } from '@entria/graphql-mongo-helpers';
-import { GraphQLNonNull, GraphQLString, GraphQLList, GraphQLInputObjectType } from 'graphql';
+import { GraphQLNonNull, GraphQLString, GraphQLList, GraphQLInputObjectType, GraphQLBoolean } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
 import type { Date } from 'mongoose';
 
@@ -72,7 +72,13 @@ export const CreateEventMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async (args: EventCreateArgs, ctx) => {
     const { merchant, t } = ctx;
 
+    const { dateEnd, batches } = args;
+
     if (!merchant) return { id: null, success: null, error: t('Unauthorized') };
+
+    if (!batches.some((batch) => batch.date === dateEnd)) {
+      return { id: null, success: null, error: t('At least one batch must have a date equal to the event end date') };
+    }
 
     const newEvent = await new EventModel({
       ...args,
