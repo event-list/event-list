@@ -25,31 +25,4 @@ const ParticipantsList = ({ participants, batches }: ParticipantsListProps) => {
   );
 };
 
-// const asa = () => {
-//   return (
-//     <TableContainer>
-//       <Table variant="simple" size="sm">
-//         <Thead>
-//           <Tr></Tr>
-//         </Thead>
-//         <Tbody>
-//           {participants?.edges?.map((participant, index) => (
-//             <Tr key={index}>
-//               {batches.map((batch) => {
-//                 return (
-//                   <ParticipantTd
-//                     key={batch?.date}
-//                     fragmentKey={participant?.node}
-//                     batch={batch}
-//                   />
-//                 );
-//               })}
-//             </Tr>
-//           ))}
-//         </Tbody>
-//       </Table>
-//     </TableContainer>
-//   );
-// };
-
 export { ParticipantsList };
