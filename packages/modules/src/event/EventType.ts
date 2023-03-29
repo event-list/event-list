@@ -43,7 +43,7 @@ const EventType = new GraphQLObjectType({
     },
     published: {
       type: new GraphQLNonNull(GraphQLBoolean),
-      resolve: (event) => event.isPublished(event.dateEnd),
+      resolve: (event) => event.dateEnd > new Date(),
     },
     dateStart: {
       type: new GraphQLNonNull(GraphQLString),
@@ -64,33 +64,35 @@ const EventType = new GraphQLObjectType({
     batches: {
       type: new GraphQLNonNull(
         new GraphQLList(
-          new GraphQLObjectType({
-            name: 'batches',
-            fields: {
-              title: {
-                type: new GraphQLNonNull(GraphQLString),
-                resolve: (batches) => batches.title,
+          new GraphQLNonNull(
+            new GraphQLObjectType({
+              name: 'batches',
+              fields: {
+                title: {
+                  type: new GraphQLNonNull(GraphQLString),
+                  resolve: (batches) => batches.title,
+                },
+                value: {
+                  type: new GraphQLNonNull(GraphQLString),
+                  resolve: (batches) => batches.value,
+                },
+                date: {
+                  type: new GraphQLNonNull(GraphQLString),
+                  resolve: (batches) => batches.date,
+                },
+                visible: {
+                  type: new GraphQLNonNull(GraphQLString),
+                  resolve: (batches) => batches.visible,
+                },
               },
-              value: {
-                type: new GraphQLNonNull(GraphQLString),
-                resolve: (batches) => batches.value,
-              },
-              date: {
-                type: new GraphQLNonNull(GraphQLString),
-                resolve: (batches) => batches.date,
-              },
-              visible: {
-                type: new GraphQLNonNull(GraphQLString),
-                resolve: (batches) => batches.visible,
-              },
-            },
-          }),
+            }),
+          ),
         ),
       ),
     },
     currentBatch: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (event) => event.getCurrentBatch(event.batches).value,
+      resolve: (event) => event.batches.find((batch) => batch.visible && new Date() < batch.date)?.title,
     },
     status: {
       type: new GraphQLNonNull(GraphQLBoolean),
