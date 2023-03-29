@@ -2,9 +2,9 @@ import { Modal, ModalOverlay, Td, useDisclosure } from '@chakra-ui/react';
 import { startTransition } from 'react';
 import { HiDocumentText } from 'react-icons/hi';
 
-import { EventSheetModal } from './EventSheetModal';
+import { ParticipantsModal } from '../../participant/ParticipantsModal';
 
-const EventSheetTd = ({ event, refetch }) => {
+const EventParticipantsTd = ({ event, refetch }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const refetchQuery = () => {
@@ -19,12 +19,10 @@ const EventSheetTd = ({ event, refetch }) => {
     <Td color={event.published ? 'white' : 'grey'}>
       <Modal isOpen={isOpen} onClose={onClose} size={'full'}>
         <ModalOverlay />
-        <EventSheetModal
-          users={event.users}
-          title={event.title}
-          eventId={event.id}
+        <ParticipantsModal
+          event={event}
           onClose={onClose}
-          refetch={refetchQuery}
+          refetchEventQuery={refetchQuery}
           onCompleted={refetchQuery}
         />
       </Modal>
@@ -33,4 +31,4 @@ const EventSheetTd = ({ event, refetch }) => {
   );
 };
 
-export { EventSheetTd };
+export { EventParticipantsTd };

@@ -2,7 +2,7 @@ import { Modal, ModalOverlay, Td, useDisclosure } from '@chakra-ui/react';
 import { startTransition } from 'react';
 import { BsPencilFill } from 'react-icons/bs';
 
-import { EventUpdateModalForm } from './EventUpdateModalForm';
+import { EventUpdateModalForm } from '../update/EventUpdateModalForm';
 
 const EventUpdateTd = ({ event, refetch }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
