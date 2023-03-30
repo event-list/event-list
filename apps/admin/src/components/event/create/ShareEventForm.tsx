@@ -1,25 +1,7 @@
-import {
-  Box,
-  FormControl,
-  HStack,
-  Image,
-  Stack,
-  useToast,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Heading,
-  Text,
-  Flex,
-} from '@chakra-ui/react';
-import { FormikProvider, useFormik } from 'formik';
-import { useS3Upload } from 'next-s3-upload';
+import { Box, FormControl, HStack, Image, Stack, useToast } from '@chakra-ui/react';
+import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
+import { useS3Upload } from 'next-s3-upload';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -33,11 +15,10 @@ import {
   InputAge,
   InputPrice,
   ContainerPage,
-  TextDecorated,
 } from '@event-list/ui';
 
-import type { ShareEventMutation, ShareEventMutation$data } from '../../../../__generated__/ShareEventMutation.graphql';
 import { ShareEvent } from './mutations/ShareEventMutation';
+import type { ShareEventMutation, ShareEventMutation$data } from '../../../../__generated__/ShareEventMutation.graphql';
 
 type ShareEventParams = yup.InferType<typeof ShareEventSchema>;
 
@@ -49,30 +30,27 @@ const ShareEventSchema = yup.object({
   dateEnd: yup.string().required('Date End is required'),
   listAvailableAt: yup.string().required('List available at is required'),
   classification: yup.string().required('Classification is required'),
-  price: yup.string().required('Price is required'),
+  batches: yup
+    .array()
+    .of(
+      yup.object({
+        title: yup.string().required('Batch title is required'),
+        value: yup.string().required('Batch value is required'),
+        date: yup.string().required('Batch date is required'),
+        visible: yup.boolean().notRequired(),
+      }),
+    )
+    .required('Batches ate required')
+    .max(6, 'Maximum of 6 batches'),
   flyer: yup.string().required('Flyer is required'),
 });
 
 const googleMapsApiToken = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-const EventInformationRow = ({ title, text }) => {
-  return (
-    <Flex alignItems={'center'} gap={1}>
-      <TextDecorated fontSize={'sm'} fontWeight={'bold'}>
-        {title}
-      </TextDecorated>
-      <Text fontSize={'sm'} fontFamily={'Noto Sans'}>
-        {text}
-      </Text>
-    </Flex>
-  );
-};
-
 export default function ShareEventForm() {
   const { uploadToS3 } = useS3Upload();
   const router = useRouter();
   const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [EventShareEvent, isPending] = useMutation<ShareEventMutation>(ShareEvent);
 
@@ -80,10 +58,14 @@ export default function ShareEventForm() {
     const file: File = event.target.files[0];
     const { url } = await uploadToS3(file);
 
+    console.log(url);
+
     await setFieldValue('flyer', url);
   };
 
   const onSubmit = (values: ShareEventParams) => {
+    console.log('ooasdasdsadoi');
+
     const config = {
       variables: {
         input: {
@@ -94,7 +76,7 @@ export default function ShareEventForm() {
           dateEnd: values.dateEnd,
           listAvailableAt: values.listAvailableAt,
           classification: values.classification,
-          price: values.price,
+          batches: values.batches,
           flyer: values.flyer,
         },
       },
@@ -142,7 +124,14 @@ export default function ShareEventForm() {
       place: '',
       listAvailableAt: '',
       classification: '',
-      price: '',
+      batches: [
+        {
+          date: '',
+          title: 'First batch',
+          value: '',
+          visible: true,
+        },
+      ],
       flyer: '',
     },
     validationSchema: ShareEventSchema,
@@ -156,42 +145,6 @@ export default function ShareEventForm() {
   return (
     <FormikProvider value={formik}>
       <ContainerPage title={'Share an Event'}>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>
-              <Heading>
-                <TextDecorated>Event Confirmation</TextDecorated>
-              </Heading>
-            </ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Box>Do you confirm all these data? You will not be able to change some information after sharing!</Box>
-              <Stack mt={4}>
-                <EventInformationRow title={'Title: '} text={values.title} />
-                <EventInformationRow title={'Place: '} text={values.place} />
-                <EventInformationRow title={'Price: '} text={values.price} />
-                <EventInformationRow title={'Date Start: '} text={values.dateStart} />
-                <EventInformationRow title={'Date End: '} text={values.dateEnd} />
-                <EventInformationRow title={'List Available At: '} text={values.listAvailableAt} />
-                <EventInformationRow title={'Classification: '} text={values.classification} />
-                <EventInformationRow title={'Description: '} text={values.description} />
-              </Stack>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                mr={3}
-                onClick={() => {
-                  handleSubmit();
-                  onClose();
-                }}
-                isSubmitting={false}
-                text={'Send'}
-              />
-              <Button onClick={onClose} isSubmitting={false} text={'Close'} />
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
         <Box as={'form'} rounded={'lg'}>
           <Stack spacing={8}>
             <HStack spacing={8}>
@@ -207,11 +160,6 @@ export default function ShareEventForm() {
               </Box>
             </HStack>
             <HStack spacing={8}>
-              <Box w="full">
-                <FormControl id="price" isRequired>
-                  <InputPrice name="price" label="Price:" labelProps={{ tooltip: 'Informative event price' }} />
-                </FormControl>
-              </Box>
               <Box w="full">
                 <FormControl id="dateStart" isRequired>
                   <InputDate label="Date Start:" name="dateStart" />
@@ -241,7 +189,7 @@ export default function ShareEventForm() {
               />
             </FormControl>
             <HStack>
-              <Box>
+              <Box w={'full'}>
                 <FormControl id="flyer" isRequired>
                   <InputFile name="flyer" label="Flyer:" onChange={handleFileChange} />
                 </FormControl>
@@ -251,12 +199,53 @@ export default function ShareEventForm() {
                   <Image src={values.flyer} alt="flyer-preview" borderRadius="10px" />
                 </Box>
               )}
+              <FieldArray
+                name="batches"
+                render={(arrayHelpers) => (
+                  <Stack w={'full'} spacing={8}>
+                    {values.batches.map((batch, index) => (
+                      <HStack spacing={5} key={index}>
+                        <FormControl id={`batches.${index}.title`} isRequired>
+                          <InputField name={`batches.${index}.title`} label="Batch Title:" />
+                        </FormControl>
+                        <FormControl id={`batches.${index}.value`} isRequired>
+                          <InputPrice name={`batches.${index}.value`} label="Batch Price:" />
+                        </FormControl>
+                        <FormControl id={`batches.${index}.date`} isRequired>
+                          <InputDate name={`batches.${index}.date`} label="Batch Date:" />
+                        </FormControl>
+                        <Button
+                          type="button"
+                          onClick={() => arrayHelpers.remove(index)}
+                          isDisabled={values.batches.length <= 1}
+                          text={'-'}
+                          isSubmitting={false}
+                        />
+                        <Button
+                          type="button"
+                          isDisabled={values.batches.length > 5}
+                          onClick={() =>
+                            arrayHelpers.insert(index, {
+                              date: '',
+                              title: '',
+                              value: '',
+                              visible: true,
+                            })
+                          }
+                          text={'+'}
+                          isSubmitting={false}
+                        />
+                      </HStack>
+                    ))}
+                  </Stack>
+                )}
+              />
             </HStack>
             <Stack spacing={10} pt={2}>
               <Button
                 loadingText="Submitting"
                 size="lg"
-                onClick={() => onOpen()}
+                onClick={() => handleSubmit()}
                 disabled={isDisabled}
                 text={'Share Event'}
                 isSubmitting={isPending}

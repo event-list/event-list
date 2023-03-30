@@ -165,7 +165,7 @@ input batchesCreate {
   title: String!
   value: String!
   date: String!
-  visible: String
+  visible: Boolean
 }
 
 type UpdateEventMutationPayload {
