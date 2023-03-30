@@ -2,6 +2,7 @@ import { Box, FormControl, HStack, Image, Stack, useToast } from '@chakra-ui/rea
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useS3Upload } from 'next-s3-upload';
+import { BsFillTrashFill } from 'react-icons/bs';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -15,6 +16,7 @@ import {
   InputAge,
   InputPrice,
   ContainerPage,
+  TextFormLabel,
 } from '@event-list/ui';
 
 import { ShareEvent } from './mutations/ShareEventMutation';
@@ -214,29 +216,31 @@ export default function ShareEventForm() {
                         <FormControl id={`batches.${index}.date`} isRequired>
                           <InputDate name={`batches.${index}.date`} label="Batch Date:" />
                         </FormControl>
-                        <Button
-                          type="button"
-                          onClick={() => arrayHelpers.remove(index)}
-                          isDisabled={values.batches.length <= 1}
-                          text={'-'}
-                          isSubmitting={false}
-                        />
-                        <Button
-                          type="button"
-                          isDisabled={values.batches.length > 5}
-                          onClick={() =>
-                            arrayHelpers.insert(index, {
-                              date: '',
-                              title: '',
-                              value: '',
-                              visible: true,
-                            })
-                          }
-                          text={'+'}
-                          isSubmitting={false}
-                        />
+                        <Box>
+                          <TextFormLabel mt={'2'} fontSize={{ base: '13px', md: 'sm' }} label={'Actions'} />
+                          <Button
+                            type="button"
+                            onClick={() => arrayHelpers.remove(index)}
+                            isDisabled={values.batches.length <= 1}
+                            text={<BsFillTrashFill />}
+                            isSubmitting={false}
+                          />
+                        </Box>
                       </HStack>
                     ))}
+                    <Button
+                      type="button"
+                      isDisabled={values.batches.length > 5}
+                      onClick={() =>
+                        arrayHelpers.insert(values.batches.length + 1, {
+                          date: '',
+                          title: '',
+                          value: '',
+                        })
+                      }
+                      text={'New Batch'}
+                      isSubmitting={false}
+                    />
                   </Stack>
                 )}
               />
