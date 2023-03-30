@@ -66,8 +66,6 @@ export default function ShareEventForm() {
   };
 
   const onSubmit = (values: ShareEventParams) => {
-    console.log('ooasdasdsadoi');
-
     const config = {
       variables: {
         input: {
