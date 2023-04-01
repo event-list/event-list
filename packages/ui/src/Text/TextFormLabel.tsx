@@ -15,7 +15,7 @@ const TextFormLabel = (props: TextDecoratedProps) => {
   const { label, decorated, tooltip, ...restProps } = props;
 
   return (
-    <FormLabel {...restProps}>
+    <FormLabel fontSize={{ base: '13px', md: '15px' }} fontWeight={'bold'} {...restProps}>
       <Tooltip label={tooltip}>{decorated ? <TextDecorated>{label}</TextDecorated> : label}</Tooltip>
     </FormLabel>
   );

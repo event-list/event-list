@@ -54,7 +54,7 @@ const InputArea = (props: InputAreaProps) => {
 
   return (
     <>
-      {label && <TextFormLabel label={label} fontSize={{ base: '13px', md: 'sm' }} {...props.labelProps} />}
+      {label && <TextFormLabel label={label} {...props.labelProps} />}
       <Textarea
         name={name}
         fontSize={{ base: '13px', md: 'sm' }}

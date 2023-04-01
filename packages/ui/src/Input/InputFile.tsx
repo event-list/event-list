@@ -14,7 +14,7 @@ export default function InputFile(props: InputFileProps) {
 
   return (
     <>
-      {label && <TextFormLabel fontSize={{ base: '13px', md: 'sm' }} label={label} {...props.labelProps} />}
+      {label && <TextFormLabel label={label} {...props.labelProps} />}
       <Input type="file" accept="image/*" {...props} border="none" />
     </>
   );
