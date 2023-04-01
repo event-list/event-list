@@ -9717,7 +9717,7 @@ mongodb-memory-server-global@^8.10.2:
     mongodb-memory-server-core "8.12.1"
     tslib "^2.5.0"
 
-mongodb@4.14.0, mongodb@^4.11.0, mongodb@^4.13.0:
+mongodb@4.14.0, mongodb@^4.13.0:
   version "4.14.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.14.0.tgz#3a21ca602069b2494b7066a7709056c8cece6bf6"
   integrity sha512-coGKkWXIBczZPr284tYKFLg+KbGPPLlSbdgfKAb6QqCFt5bo5VFZ50O3FFzsw4rnkqjwT6D8Qcoo9nshYKM7Mg==
@@ -9729,7 +9729,7 @@ mongodb@4.14.0, mongodb@^4.11.0, mongodb@^4.13.0:
     "@aws-sdk/credential-providers" "^3.186.0"
     saslprep "^1.0.3"
 
-mongodb@5.1.0:
+mongodb@5.1.0, mongodb@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-5.1.0.tgz#e551f9e496777bde9173e51d16c163ab2c805b9d"
   integrity sha512-qgKb7y+EI90y4weY3z5+lIgm8wmexbonz0GalHkSElQXVKtRuwqXuhXKccyvIjXCJVy9qPV82zsinY0W1FBnJw==
