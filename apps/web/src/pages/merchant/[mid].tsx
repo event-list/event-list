@@ -43,7 +43,7 @@ export async function getServerSideProps(ctx) {
         LabelViewQuery: await getPreloadedQuery(
           MidLabelViewQueryGenerated,
           {
-            id: ctx.params.lid,
+            id: ctx.params.mid,
           },
           ctx,
         ),
