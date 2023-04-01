@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "esbuild ./src/server.ts --bundle --platform=node --target=node16.13.2 --outdir=dist --allow-overwrite",
+    "start": "node ./dist/server.js",
     "es": "nodemon -T -r esbuild-register",
     "s": "ts-node -T -r esbuild-register",
     "dev": "yarn es ./src/server.ts",
