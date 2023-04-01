@@ -12,11 +12,11 @@ import { useFragment, usePreloadedQuery } from 'react-relay';
 
 import { Footer, Header, Layout } from '@event-list/ui';
 
+import { ProfileViewQuery } from './user/ProfileView';
 import type { ProfileViewQuery as ProfileViewQueryType } from '../../__generated__/ProfileViewQuery.graphql';
 import type { useAuthFragment_user$key } from '../../__generated__/useAuthFragment_user.graphql';
 import { useAuthFragment } from '../auth/useAuth';
 import { useLogout } from '../auth/useLogout';
-import { ProfileViewQuery } from './user/ProfileView';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -29,8 +29,8 @@ const Links = () => (
     <NavItem key={'Home'} icon={HiOutlineTicket} href={'/'}>
       <Text fontWeight={'600'}>Events</Text>
     </NavItem>
-    <NavItem key={'Label'} icon={GiPartyPopper} href={'/label'}>
-      <Text fontWeight={'600'}>Labels</Text>
+    <NavItem key={'Merchant'} icon={GiPartyPopper} href={'/merchant'}>
+      <Text fontWeight={'600'}>Merchants</Text>
     </NavItem>
   </Box>
 );
