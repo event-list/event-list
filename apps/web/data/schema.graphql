@@ -99,6 +99,7 @@ type Merchant implements Node {
   facebookAccount: String
   twitterAccount: String
   website: String
+  features: [String]
   events(after: String, first: Int, before: String, last: Int): EventConnection
 }
 
