@@ -4,9 +4,9 @@ import { graphql, usePaginationFragment } from 'react-relay';
 
 import { ContainerPage } from '@event-list/ui';
 
+import { MerchantCard } from './MerchantCard';
 import type { MerchantListFragment_query$key } from '../../../__generated__/MerchantListFragment_query.graphql';
 import type { MerchantListPagination_query } from '../../../__generated__/MerchantListPagination_query.graphql';
-import { MerchantCard } from './MerchantCard';
 
 const MerchantListFragment = graphql`
   fragment MerchantListFragment_query on Query
@@ -62,7 +62,7 @@ const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) =>
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage title={'Merchants'}>
+      <ContainerPage title={'Merchants'} description={'Find your favorite event creators'}>
         <SimpleGrid
           minChildWidth="350px"
           templateColumns={{

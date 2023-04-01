@@ -63,7 +63,12 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage title={'Events'}>
+      <ContainerPage
+        title={'Events'}
+        description={
+          'See all the events available for you to attend. Open one of the events to see more information about it'
+        }
+      >
         <SimpleGrid
           minChildWidth="350px"
           templateColumns={{
