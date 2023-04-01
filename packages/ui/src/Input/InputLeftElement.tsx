@@ -55,7 +55,7 @@ const InputLeftElement = (props: InputLeftElementProps) => {
 
   return (
     <>
-      {label && <TextFormLabel mt={'2'} fontSize={{ base: '13px', md: 'sm' }} label={label} {...props.labelProps} />}
+      {label && <TextFormLabel mt={'2'} label={label} {...props.labelProps} />}
       <InputGroup>
         <InputLeftElementChakra pointerEvents="none">{props.leftElementChildren}</InputLeftElementChakra>
         <Input

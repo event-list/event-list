@@ -54,7 +54,7 @@ const InputField = (props: InputFieldProps) => {
 
   return (
     <>
-      {label && <TextFormLabel mt={'2'} fontSize={{ base: '13px', md: 'sm' }} label={label} {...props.labelProps} />}
+      {label && <TextFormLabel mt={'2'} label={label} {...props.labelProps} />}
       <Input
         name={name}
         fontSize={{ base: '13px', md: 'sm' }}
