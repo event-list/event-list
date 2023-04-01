@@ -86,7 +86,12 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
       }
       useWindow
     >
-      <ContainerPage title={'My events'}>
+      <ContainerPage
+        title={'My events'}
+        description={
+          'All your events in one place. View the guest list, edit your information, add names, this is where you take control of your event'
+        }
+      >
         <TableContainer>
           <Table variant="simple">
             <Thead>
