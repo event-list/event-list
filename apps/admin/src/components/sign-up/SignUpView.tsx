@@ -17,18 +17,18 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
-import { useS3Upload } from 'next-s3-upload';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useS3Upload } from 'next-s3-upload';
 import { HiUser } from 'react-icons/hi';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
 import { Button, InputField, InputFile, TextDecorated } from '@event-list/ui';
 
+import { SignUp } from './SignUpMutation';
 import type { SignUpMutation, SignUpMutation$data } from '../../../__generated__/SignUpMutation.graphql';
 import Logo from '../../../data/logo.svg';
-import { SignUp } from './SignUpMutation';
 
 type SignUpParams = yup.InferType<typeof SignUpSchema>;
 
