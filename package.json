@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "turbo run build --scope=@event-list/server",
+    "start": "yarn workspace @event-list/server start",
     "dev": "turbo run dev --parallel",
     "web": "turbo run dev --scope=@event-list/web",
     "admin": "turbo run dev --scope=@event-list/admin",
