@@ -7,6 +7,7 @@ export const useAdminAuthFragment = graphql`
     description
     logo
     biography
+    features
     facebookAccount
     instagramAccount
     phoneNumber

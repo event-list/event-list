@@ -1,8 +1,9 @@
 import { Box, Flex, Heading, HStack, Stack, Text } from '@chakra-ui/react';
 import { useFragment, usePreloadedQuery } from 'react-relay';
 
-import { LinkDecorated, TextDecorated } from '@event-list/ui';
+import { LinkDecorated } from '@event-list/ui';
 
+import type { ProfileViewQuery as ProfileViewQueryPreloaded } from '../../__generated__/ProfileViewQuery.graphql';
 import ProfileViewQueryGenerated from '../../__generated__/ProfileViewQuery.graphql';
 import type { useAdminAuthFragment_user$key } from '../../__generated__/useAdminAuthFragment_user.graphql';
 import EventsImage from '../../data/images/EventsImage';
@@ -10,14 +11,23 @@ import ProfileImage from '../../data/images/ProfileImage';
 import QuestionImage from '../../data/images/QuestionImage';
 import ShareEventImage from '../../data/images/ShareEventImage';
 import { useAdminAuthFragment } from '../auth/useAdminAuth';
+import { BetaView } from '../components/features/BetaView';
 import { ProfileViewQuery } from '../components/merchant/ProfileView';
 import RootLayout from '../components/RootLayout';
 import getPreloadedQuery from '../relay/getPreloadedQuery';
 
 export default function Page(props) {
-  // @ts-expect-error no type
-  const { meAdmin } = usePreloadedQuery(ProfileViewQuery, props.queryRefs.ProfileQuery);
+  const { meAdmin } = usePreloadedQuery<ProfileViewQueryPreloaded>(ProfileViewQuery, props.queryRefs.ProfileQuery);
+
   const merchant = useFragment<useAdminAuthFragment_user$key>(useAdminAuthFragment, meAdmin);
+
+  if (!merchant?.features?.includes('BETA')) {
+    return (
+      <RootLayout preloadedQuery={props.queryRefs.ProfileQuery}>
+        <BetaView />
+      </RootLayout>
+    );
+  }
 
   return (
     <RootLayout preloadedQuery={props.queryRefs.ProfileQuery}>
