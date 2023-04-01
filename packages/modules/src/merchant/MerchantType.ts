@@ -1,6 +1,6 @@
 import { connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
 import { GraphQLObjectType } from 'graphql';
-import { GraphQLNonNull, GraphQLString } from 'graphql/type';
+import { GraphQLList, GraphQLNonNull, GraphQLString } from 'graphql/type';
 import { connectionDefinitions, globalIdField } from 'graphql-relay';
 
 import { EventConnection, EventLoader, MerchantLoader, nodeInterface, registerTypeLoader } from '@event-list/modules';
@@ -50,6 +50,10 @@ const MerchantType = new GraphQLObjectType({
     website: {
       type: GraphQLString,
       resolve: (merchant) => merchant.website,
+    },
+    features: {
+      type: new GraphQLList(GraphQLString),
+      resolve: (merchant) => merchant.features,
     },
     events: {
       type: EventConnection,

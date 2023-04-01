@@ -15,6 +15,7 @@ interface IMerchant {
   facebookAccount: string;
   twitterAccount: string;
   website: string;
+  features: string[];
   createdAt: Date;
   updatedAt: Date;
   encryptPassword: (password: string) => string;
@@ -79,6 +80,11 @@ const MerchantSchema = new Schema<MerchantDocument>(
     },
     website: {
       type: String,
+      required: false,
+      index: true,
+    },
+    features: {
+      type: [String],
       required: false,
       index: true,
     },
