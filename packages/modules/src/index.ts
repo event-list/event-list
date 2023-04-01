@@ -49,6 +49,8 @@ export { EventConnection, EventEdge, EventType } from './event/EventType';
 export { handleUpdateEvent } from './event/update/handleUpdateEvent';
 export { handleAddParticipantInEvent } from './event/addParticipant/handleAddParticipantInEvent';
 export { createEvent } from './event/fixture/createEvent';
+export { handleCreateEvent } from './event/create/handleCreateEvent';
+export { validateAndSanitizeCreateEvent } from './event/create/validateAndSanitizeCreateEvent';
 
 // participant
 export { default as ParticipantModel } from './participant/ParticipantModel';

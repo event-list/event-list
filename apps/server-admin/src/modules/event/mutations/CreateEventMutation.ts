@@ -4,7 +4,7 @@ import { mutationWithClientMutationId } from 'graphql-relay';
 import type { Date } from 'mongoose';
 
 import type { IBatch } from '@event-list/modules';
-import { eventField, EventModel } from '@event-list/modules';
+import { eventField, handleCreateEvent } from '@event-list/modules';
 
 type EventCreateArgs = {
   title: string;
@@ -72,30 +72,25 @@ export const CreateEventMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async (args: EventCreateArgs, ctx) => {
     const { merchant, t } = ctx;
 
-    const { dateEnd, batches } = args;
-
     if (!merchant) return { id: null, success: null, error: t('Unauthorized') };
 
-    if (!batches.some((batch) => batch.date === dateEnd)) {
-      return { id: null, success: null, error: t('At least one batch must have a date equal to the event end date') };
-    }
+    console.log('date end args', args.dateEnd);
 
-    const newEvent = await new EventModel({
-      ...args,
-      status: true,
-      merchant: merchant._id,
-    }).save();
+    const { event, error } = await handleCreateEvent({
+      payload: { merchantId: merchant._id, ...args },
+      context: ctx,
+    });
 
-    if (!newEvent) {
+    if (!event) {
       return {
         id: null,
         success: null,
-        error: t('Something went wrong'),
+        error,
       };
     }
 
     return {
-      id: newEvent._id,
+      id: event._id,
       success: t('Event successfully created'),
       error: null,
     };
