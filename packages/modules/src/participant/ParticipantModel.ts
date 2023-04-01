@@ -1,6 +1,7 @@
-import { ObjectId } from 'mongodb';
 import type { Document, Types } from 'mongoose';
-import { model, Schema } from 'mongoose';
+import mongoose, { model, Schema } from 'mongoose';
+
+const { ObjectId } = mongoose.Schema.Types;
 
 import type { IBatch } from '../batch/BatchSchema';
 import { BatchSchema } from '../batch/BatchSchema';
@@ -9,7 +10,7 @@ import type { EventDocument } from '../event/EventModel';
 type IParticipant = {
   _id: Types.ObjectId;
   name: string;
-  event: EventDocument['_id'];
+  event: EventDocument;
   batch: IBatch;
 };
 

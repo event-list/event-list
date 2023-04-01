@@ -1,6 +1,8 @@
 import type { Document, Types, Date as DateMongoose } from 'mongoose';
 import mongoose, { model, Schema } from 'mongoose';
 
+import type { MerchantDocument, ParticipantDocument } from '@event-list/modules';
+
 import type { IBatch } from '../batch/BatchSchema';
 import { BatchSchema } from '../batch/BatchSchema';
 
@@ -11,7 +13,7 @@ type IEvent = {
   title: string;
   description: string;
   flyer: string;
-  merchant: Types.ObjectId;
+  merchant: MerchantDocument;
   place: string;
   dateStart: DateMongoose;
   dateEnd: DateMongoose;
@@ -19,7 +21,7 @@ type IEvent = {
   classification: string;
   batches: IBatch[];
   status: boolean;
-  participants: Types.ObjectId[];
+  participants: ParticipantDocument[];
   createdAt: DateMongoose;
   updatedAt: DateMongoose;
   isPublished: (date: DateMongoose) => boolean;
