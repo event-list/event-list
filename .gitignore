@@ -32,7 +32,7 @@ yarn-error.log*
 # turbo
 .turbo
 
-__generated__
+**/__generated__/*.ts
 
 .env
 
