@@ -16,7 +16,7 @@
     ]
   },
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --scope=@event-list/server",
     "dev": "turbo run dev --parallel",
     "web": "turbo run dev --scope=@event-list/web",
     "admin": "turbo run dev --scope=@event-list/admin",
