@@ -22,6 +22,7 @@ import * as yup from 'yup';
 
 import { Button, InputArea, InputField, InputFile } from '@event-list/ui';
 
+import { MerchantMeUpdate } from './mutations/MerchantMeUpdateMutation';
 import type {
   MerchantMeUpdateMutation,
   MerchantMeUpdateMutation$data,
@@ -29,7 +30,6 @@ import type {
 import type { ProfileViewQuery as ProfileViewQueryType } from '../../../__generated__/ProfileViewQuery.graphql';
 import type { useAdminAuthFragment_user$key } from '../../../__generated__/useAdminAuthFragment_user.graphql';
 import { useAdminAuthFragment } from '../../auth/useAdminAuth';
-import { MerchantMeUpdate } from './mutations/MerchantMeUpdateMutation';
 
 export const ProfileViewQuery = graphql`
   query ProfileViewQuery {

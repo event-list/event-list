@@ -9,11 +9,11 @@ import { useFragment, usePreloadedQuery } from 'react-relay';
 
 import { Footer, Header, Layout } from '@event-list/ui';
 
+import { ProfileViewQuery } from './merchant/ProfileView';
 import type { ProfileViewQuery as ProfileViewQueryType } from '../../__generated__/ProfileViewQuery.graphql';
 import type { useAdminAuthFragment_user$key } from '../../__generated__/useAdminAuthFragment_user.graphql';
 import { useAdminAuthFragment } from '../auth/useAdminAuth';
 import { useLogout } from '../auth/useLogout';
-import { ProfileViewQuery } from './merchant/ProfileView';
 
 type LayoutProps = {
   children: React.ReactNode;
