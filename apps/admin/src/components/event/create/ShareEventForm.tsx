@@ -1,8 +1,27 @@
-import { Box, FormControl, HStack, Image, Stack, useToast } from '@chakra-ui/react';
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Box,
+  Flex,
+  FormControl,
+  HStack,
+  Image,
+  Stack,
+  Text,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useS3Upload } from 'next-s3-upload';
-import { BsFillTrashFill } from 'react-icons/bs';
+import { useRef } from 'react';
+import { AiOutlineArrowDown } from 'react-icons/ai';
+import { BsFillTrashFill, BsPlusCircleFill } from 'react-icons/bs';
+import { RiFolderUploadFill } from 'react-icons/ri';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -17,9 +36,11 @@ import {
   InputPrice,
   ContainerPage,
   TextFormLabel,
+  TextDecorated,
 } from '@event-list/ui';
 
 import { ShareEvent } from './mutations/ShareEventMutation';
+import { ShareEventPreview } from './ShareEventPreview';
 import type { ShareEventMutation, ShareEventMutation$data } from '../../../../__generated__/ShareEventMutation.graphql';
 
 type ShareEventParams = yup.InferType<typeof ShareEventSchema>;
@@ -53,6 +74,8 @@ export default function ShareEventForm() {
   const { uploadToS3 } = useS3Upload();
   const router = useRouter();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef(null);
 
   const [EventShareEvent, isPending] = useMutation<ShareEventMutation>(ShareEvent);
 
@@ -144,9 +167,14 @@ export default function ShareEventForm() {
 
   return (
     <FormikProvider value={formik}>
-      <ContainerPage title={'Share an Event'}>
-        <Box as={'form'} rounded={'lg'}>
-          <Stack spacing={8}>
+      <ContainerPage
+        title={'Share an Event'}
+        description={
+          'Fill in all the fields and share your event in the best way. Only a few fields can be edited later, check all data before sharing, such as date, price and batches.'
+        }
+      >
+        <Box as={'form'} rounded={'lg'} border={'1px'} borderColor={'gray.700'} p={10} boxShadow={'2xl'}>
+          <Stack spacing={10}>
             <HStack spacing={8}>
               <Box w="full">
                 <FormControl id="title" isRequired>
@@ -159,6 +187,13 @@ export default function ShareEventForm() {
                 </FormControl>
               </Box>
             </HStack>
+            <FormControl id="description" isRequired>
+              <InputArea
+                name="description"
+                label="Description:"
+                placeholder="Describe your event, the attractions, the place..."
+              />
+            </FormControl>
             <HStack spacing={8}>
               <Box w="full">
                 <FormControl id="dateStart" isRequired>
@@ -181,80 +216,178 @@ export default function ShareEventForm() {
                 </FormControl>
               </Box>
             </HStack>
-            <FormControl id="description" isRequired>
-              <InputArea
-                name="description"
-                label="Description:"
-                placeholder="Describe your event, the attractions, the place..."
-              />
-            </FormControl>
-            <HStack>
+            <HStack alignItems={'stretch'} spacing={8}>
               <Box w={'full'}>
+                <Box display={'none'}>
+                  <InputFile name="flyer" id={'flyer-input'} onChange={handleFileChange} />
+                </Box>
                 <FormControl id="flyer" isRequired>
-                  <InputFile name="flyer" label="Flyer:" onChange={handleFileChange} />
+                  <TextFormLabel mt={'2'} label={'Flyer:'} />
+                  <Flex
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    flexDirection={'column'}
+                    gap={2}
+                    cursor={'pointer'}
+                    mt={6}
+                    onClick={() => document.getElementById('flyer-input')?.click()}
+                  >
+                    <RiFolderUploadFill size={'2.5rem'} />
+                    <Text fontSize={'lg'} fontWeight={'bold'}>
+                      Upload a new Flyer
+                    </Text>
+                  </Flex>
                 </FormControl>
               </Box>
-              {values.flyer && (
-                <Box maxW="100px">
-                  <Image src={values.flyer} alt="flyer-preview" borderRadius="10px" />
-                </Box>
-              )}
               <FieldArray
                 name="batches"
                 render={(arrayHelpers) => (
                   <Stack w={'full'} spacing={8}>
-                    {values.batches.map((batch, index) => (
-                      <HStack spacing={5} key={index}>
-                        <FormControl id={`batches.${index}.title`} isRequired>
-                          <InputField name={`batches.${index}.title`} label="Batch Title:" />
-                        </FormControl>
-                        <FormControl id={`batches.${index}.value`} isRequired>
-                          <InputPrice name={`batches.${index}.value`} label="Batch Price:" />
-                        </FormControl>
-                        <FormControl id={`batches.${index}.date`} isRequired>
-                          <InputDate name={`batches.${index}.date`} label="Batch Date:" />
-                        </FormControl>
-                        <Box>
-                          <TextFormLabel mt={'2'} fontSize={{ base: '13px', md: 'sm' }} label={'Actions'} />
-                          <Button
-                            type="button"
-                            onClick={() => arrayHelpers.remove(index)}
-                            isDisabled={values.batches.length <= 1}
-                            text={<BsFillTrashFill />}
-                            isSubmitting={false}
-                          />
-                        </Box>
-                      </HStack>
-                    ))}
-                    <Button
-                      type="button"
-                      isDisabled={values.batches.length > 5}
-                      onClick={() =>
-                        arrayHelpers.insert(values.batches.length + 1, {
-                          date: '',
-                          title: '',
-                          value: '',
-                        })
-                      }
-                      text={'New Batch'}
-                      isSubmitting={false}
-                    />
+                    <FormControl id={'batches'} isRequired>
+                      <TextFormLabel mt={'2'} label={'Batches:'} />
+                      {values.batches.map((batch, index) => (
+                        <HStack spacing={5} key={index}>
+                          <FormControl id={`batches.${index}.title`} isRequired>
+                            <InputField
+                              name={`batches.${index}.title`}
+                              labelProps={{
+                                fontSize: '13px',
+                                fontWeight: 'medium',
+                              }}
+                              label="Batch Title:"
+                            />
+                          </FormControl>
+                          <FormControl id={`batches.${index}.value`} isRequired>
+                            <InputPrice
+                              name={`batches.${index}.value`}
+                              labelProps={{
+                                fontSize: '13px',
+                                fontWeight: 'medium',
+                              }}
+                              label="Batch Price:"
+                            />
+                          </FormControl>
+                          <FormControl id={`batches.${index}.date`} isRequired>
+                            <InputDate
+                              name={`batches.${index}.date`}
+                              labelProps={{
+                                fontSize: '13px',
+                                fontWeight: 'medium',
+                              }}
+                              label="Batch Date:"
+                            />
+                          </FormControl>
+                          <Box>
+                            <TextFormLabel fontSize={'13px'} fontWeight={'medium'} label={'Actions'} />
+                            <Flex gap={1}>
+                              <Button
+                                type="button"
+                                onClick={() => arrayHelpers.remove(index)}
+                                isDisabled={values.batches.length <= 1}
+                                text={<BsFillTrashFill />}
+                                isSubmitting={false}
+                              />
+                              <Button
+                                type="button"
+                                isDisabled={values.batches.length > 5}
+                                onClick={() =>
+                                  arrayHelpers.insert(index + 1, {
+                                    date: '',
+                                    title: '',
+                                    value: '',
+                                  })
+                                }
+                                text={<BsPlusCircleFill />}
+                                isSubmitting={false}
+                              />
+                            </Flex>
+                          </Box>
+                        </HStack>
+                      ))}
+                    </FormControl>
                   </Stack>
                 )}
               />
             </HStack>
             <Stack spacing={10} pt={2}>
               <Button
-                loadingText="Submitting"
+                mt={8}
                 size="lg"
-                onClick={() => handleSubmit()}
-                disabled={isDisabled}
-                text={'Share Event'}
-                isSubmitting={isPending}
+                onClick={() => router.push('#share-event-preview')}
+                text={
+                  <Flex alignItems={'center'}>
+                    Continue <AiOutlineArrowDown />
+                  </Flex>
+                }
+                isSubmitting={false}
               />
             </Stack>
           </Stack>
         </Box>
+        <Stack spacing={4}>
+          <TextDecorated fontSize={'3xl'} fontWeight={'bold'}>
+            Preview
+          </TextDecorated>
+          <Text color={'gray.200'}>
+            Confirm all event data, your event will look like this when shared and some information cannot be changed
+          </Text>
+          <Box
+            rounded={'lg'}
+            border={'1px'}
+            borderColor={'gray.700'}
+            p={10}
+            boxShadow={'2xl'}
+            id={'share-event-preview'}
+          >
+            <ShareEventPreview
+              title={values.title}
+              listAvailableAt={values.listAvailableAt}
+              description={values.description}
+              place={values.place}
+              price={values.batches[0].value}
+              dateStart={values.dateStart}
+              dateEnd={values.dateEnd}
+              classification={values.classification}
+              flyer={values.flyer}
+            />
+            <Stack spacing={10} pt={2}>
+              <Button
+                mt={8}
+                loadingText="Submitting"
+                size="lg"
+                onClick={onOpen}
+                disabled={isDisabled}
+                text={'Share Event'}
+                isSubmitting={isPending}
+              />
+              <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
+                <AlertDialogOverlay>
+                  <AlertDialogContent>
+                    <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                      Share Event
+                    </AlertDialogHeader>
+
+                    <AlertDialogBody>
+                      Are you sure about all the data you filled in? some data cannot be changed
+                    </AlertDialogBody>
+
+                    <AlertDialogFooter>
+                      <Button onClick={onClose} isSubmitting={false} text={'Cancel'} />
+                      <Button
+                        onClick={() => handleSubmit()}
+                        ml={3}
+                        loadingText="Submitting"
+                        isSubmitting={isPending}
+                        disabled={isDisabled}
+                        text={'Share Event'}
+                      />
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialogOverlay>
+              </AlertDialog>
+            </Stack>
+          </Box>
+        </Stack>
       </ContainerPage>
     </FormikProvider>
   );
