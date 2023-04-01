@@ -22,8 +22,9 @@ import { useFragment, useMutation, usePreloadedQuery } from 'react-relay';
 import { graphql } from 'relay-runtime';
 import * as yup from 'yup';
 
-import { Button, InputArea, InputField } from '@event-list/ui';
+import { Button, InputField } from '@event-list/ui';
 
+import { UserMeUpdate } from './mutations/UserMeUpdateMutation';
 import type { ProfileViewQuery as ProfileViewQueryType } from '../../../__generated__/ProfileViewQuery.graphql';
 import type { useAuthFragment_user$key } from '../../../__generated__/useAuthFragment_user.graphql';
 import type {
@@ -31,7 +32,6 @@ import type {
   UserMeUpdateMutation$data,
 } from '../../../__generated__/UserMeUpdateMutation.graphql';
 import { useAuthFragment } from '../../auth/useAuth';
-import { UserMeUpdate } from './mutations/UserMeUpdateMutation';
 
 export const ProfileViewQuery = graphql`
   query ProfileViewQuery {

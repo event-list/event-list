@@ -21,15 +21,14 @@ import {
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
 import { Button, InputField, TextDecorated } from '@event-list/ui';
 
+import { SignUp } from './SignUpMutation';
 import type { SignUpMutation, SignUpMutation$data } from '../../../__generated__/SignUpMutation.graphql';
 import Logo from '../../../data/logo.svg';
-import { SignUp } from './SignUpMutation';
 
 type SignUpParams = yup.InferType<typeof SignUpSchema>;
 
