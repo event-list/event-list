@@ -268,7 +268,7 @@ const ProfileView = (props: ProfileViewProps) => {
               text="Update informations"
               w={'full'}
               isSubmitting={isPending}
-              disabled={isDisabled}
+              isDisabled={isDisabled}
               onClick={() => handleSubmit()}
             />
           </Stack>

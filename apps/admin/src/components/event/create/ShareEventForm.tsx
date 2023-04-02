@@ -356,7 +356,7 @@ export default function ShareEventForm() {
                 loadingText="Submitting"
                 size="lg"
                 onClick={onOpen}
-                disabled={isDisabled}
+                isDisabled={isDisabled}
                 text={'Share Event'}
                 isSubmitting={isPending}
               />
@@ -378,7 +378,7 @@ export default function ShareEventForm() {
                         ml={3}
                         loadingText="Submitting"
                         isSubmitting={isPending}
-                        disabled={isDisabled}
+                        isDisabled={isDisabled}
                         text={'Share Event'}
                       />
                     </AlertDialogFooter>

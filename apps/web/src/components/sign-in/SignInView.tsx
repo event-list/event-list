@@ -172,7 +172,7 @@ export default function SignInView() {
                   mt={8}
                   w={'full'}
                   isSubmitting={isPending}
-                  disabled={isDisabled}
+                  isDisabled={isDisabled}
                   onClick={() => handleSubmit()}
                 />
               </Box>
