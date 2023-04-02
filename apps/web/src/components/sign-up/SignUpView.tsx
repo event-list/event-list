@@ -34,8 +34,8 @@ type SignUpParams = yup.InferType<typeof SignUpSchema>;
 
 const SignUpSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().required('Password is required'),
-  name: yup.string().required('Full Name is required'),
+  password: yup.string().required('Password is required').min(8, 'Password should be 8 chars minimum.'),
+  name: yup.string().required('Full Name is required').min(2, 'Name should be 2 chars minimum.'),
   gender: yup.string().required('Gender is required'),
 });
 
