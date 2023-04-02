@@ -14,7 +14,7 @@ export const setSessionTokenCookie = async (
   token: string | null,
 ) => {
   try {
-    const domain = config.EVENT_LIST_ENV === 'production' ? config.EVENT_LIST_DOMAIN : undefined;
+    const domain = config.EVENT_LIST_ENV === 'production' ? 'evtlist.com' : undefined;
 
     const options = {
       domain,
