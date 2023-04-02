@@ -29,7 +29,7 @@ import Logo from '../../../data/logo.svg';
 type SignInParams = yup.InferType<typeof SignInSchema>;
 
 const SignInSchema = yup.object({
-  email: yup.string().required('Email is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
 });
 
@@ -172,7 +172,7 @@ export default function SignInView() {
                   mt={8}
                   w={'full'}
                   isSubmitting={isPending}
-                  disabled={isDisabled}
+                  isDisabled={isDisabled}
                   onClick={() => handleSubmit()}
                 />
               </Box>

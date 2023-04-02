@@ -267,7 +267,7 @@ export default function SignUpView() {
                   mt={8}
                   w={'full'}
                   isSubmitting={isPending}
-                  disabled={isDisabled}
+                  isDisabled={isDisabled}
                   onClick={() => handleSubmit()}
                 />
               </Box>
