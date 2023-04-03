@@ -1,6 +1,9 @@
 import type { CacheConfig, RequestParameters, Variables } from 'relay-runtime';
 import { Network, QueryResponseCache } from 'relay-runtime';
 
+import { sendToDiscord } from '@event-list/modules';
+import { config } from '@event-list/shared';
+
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export function createNetwork() {
@@ -16,12 +19,12 @@ export function createNetwork() {
 
     const isQuery = operation.operationKind === 'query';
     const forceFetch = cacheConfig && cacheConfig.force;
-    if (isQuery && !forceFetch) {
-      const fromCache = responseCache.get(queryID, variables);
-      if (fromCache != null) {
-        return Promise.resolve(fromCache);
-      }
-    }
+    // if (isQuery && !forceFetch) {
+    //   const fromCache = responseCache.get(queryID, variables);
+    //   if (fromCache != null) {
+    //     return Promise.resolve(fromCache);
+    //   }
+    // }
 
     return networkFetch(operation, variables);
   }
