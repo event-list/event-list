@@ -1,4 +1,5 @@
-import { MerchantModel } from '@event-list/modules';
+import { MerchantModel, sendToDiscord } from '@event-list/modules';
+import { config } from '@event-list/shared';
 import type { GraphQLContext } from '@event-list/types';
 
 import type { UserDocument } from '../UserModel';
@@ -96,12 +97,21 @@ const handleCreateUser = async ({
     };
   }
 
-  const user = await new UserModel({
+  const data = {
     email,
     password,
     name,
     gender,
-  }).save();
+  };
+
+  const user = await new UserModel(data).save();
+
+  if (config.EVENT_LIST_ENV === 'production') {
+    await sendToDiscord({
+      url: config.DISCORD_ENTRIES_WEBHOOK,
+      content: `**new user** - ${JSON.stringify(data)}`,
+    });
+  }
 
   return {
     error: null,

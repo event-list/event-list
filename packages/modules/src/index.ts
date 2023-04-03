@@ -61,3 +61,6 @@ export { createParticipant } from './participant/fixture/createParticipant';
 
 // batch
 export { IBatch } from './batch/BatchSchema';
+
+// observability
+export { sendToDiscord } from './observability/sendToDiscord';
