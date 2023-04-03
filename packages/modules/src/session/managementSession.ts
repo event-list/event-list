@@ -19,7 +19,8 @@ export const setSessionTokenCookie = async (
     const options = {
       domain,
       httpOnly: true,
-      secure: config.EVENT_LIST_ENV !== 'development',
+      secure: false,
+      // secure: config.EVENT_LIST_ENV !== 'development',
       sameSite: 'lax',
       path: '/',
       maxAge,
