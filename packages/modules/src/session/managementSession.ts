@@ -14,10 +14,10 @@ export const setSessionTokenCookie = async (
   token: string | null,
 ) => {
   try {
-    const domain = config.EVENT_LIST_ENV === 'production' ? 'evtlist.com' : undefined;
+    const domain = config.EVENT_LIST_ENV === 'production' ? config.EVENT_LIST_DOMAIN : undefined;
 
     const options = {
-      // domain,
+      domain,
       httpOnly: true,
       secure: config.EVENT_LIST_ENV !== 'development',
       sameSite: 'lax',
