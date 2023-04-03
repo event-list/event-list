@@ -1,5 +1,6 @@
 import type { MerchantDocument } from '@event-list/modules';
-import { MerchantModel } from '@event-list/modules';
+import { MerchantModel, sendToDiscord } from '@event-list/modules';
+import { config } from '@event-list/shared';
 import type { GraphQLContext } from '@event-list/types';
 
 import UserModel from '../../user/UserModel';
@@ -165,14 +166,23 @@ const handleCreateMerchant = async ({
     };
   }
 
-  const merchant = await new MerchantModel({
+  const data = {
     email,
     password,
     name,
     description,
     logo,
     phoneNumber,
-  }).save();
+  };
+
+  const merchant = await new MerchantModel(data).save();
+
+  if (config.EVENT_LIST_ENV === 'production') {
+    await sendToDiscord({
+      url: config.DISCORD_ENTRIES_WEBHOOK,
+      content: `**new merchant** - ${JSON.stringify(data)}`,
+    });
+  }
 
   return {
     error: null,

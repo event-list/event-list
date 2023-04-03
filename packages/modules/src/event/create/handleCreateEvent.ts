@@ -1,7 +1,8 @@
 import type { Date } from 'mongoose';
 
-import { EventModel } from '@event-list/modules';
+import { EventModel, sendToDiscord } from '@event-list/modules';
 import type { IBatch, MerchantDocument, EventDocument } from '@event-list/modules';
+import { config } from '@event-list/shared';
 import type { GraphQLContext } from '@event-list/types';
 
 import { validateAndSanitizeCreateEvent } from './validateAndSanitizeCreateEvent';
@@ -56,6 +57,13 @@ const handleCreateEvent = async ({ payload, context }: HandleCreateEventArgs): H
       success: null,
       error: t('Something went wrong'),
     };
+  }
+
+  if (config.EVENT_LIST_ENV === 'production') {
+    await sendToDiscord({
+      url: config.DISCORD_ENTRIES_WEBHOOK,
+      content: `**new event** - ${JSON.stringify(data)}`,
+    });
   }
 
   return {
