@@ -1,6 +1,8 @@
 import type { CacheConfig, RequestParameters, Variables } from 'relay-runtime';
 import { Network, QueryResponseCache } from 'relay-runtime';
 
+import { sendToDiscord } from '@event-list/modules';
+
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export function createNetwork() {
@@ -16,12 +18,12 @@ export function createNetwork() {
 
     const isQuery = operation.operationKind === 'query';
     const forceFetch = cacheConfig && cacheConfig.force;
-    if (isQuery && !forceFetch) {
-      const fromCache = responseCache.get(queryID, variables);
-      if (fromCache != null) {
-        return Promise.resolve(fromCache);
-      }
-    }
+    // if (isQuery && !forceFetch) {
+    //   const fromCache = responseCache.get(queryID, variables);
+    //   if (fromCache != null) {
+    //     return Promise.resolve(fromCache);
+    //   }
+    // }
 
     return networkFetch(operation, variables);
   }
@@ -33,6 +35,10 @@ export function createNetwork() {
 }
 
 export async function networkFetch(params: RequestParameters, variables: Variables, headers = {}) {
+  await sendToDiscord({
+    uri: config.DISCORD_GENERAL_WEBHOOK,
+    content: `fetch url - ${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT}`,
+  });
   const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ?? 'http://localhost:4000/graphql', {
     method: 'POST',
     headers: {
