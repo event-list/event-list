@@ -178,9 +178,11 @@ const handleCreateMerchant = async ({
   const merchant = await new MerchantModel(data).save();
 
   if (config.EVENT_LIST_ENV === 'production') {
+    const { password, logo, ...rest } = data;
+
     await sendToDiscord({
       url: config.DISCORD_ENTRIES_WEBHOOK,
-      content: `**new merchant** - ${JSON.stringify(data)}`,
+      content: `**new merchant** - ${JSON.stringify(rest)}`,
     });
   }
 
