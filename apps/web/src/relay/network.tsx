@@ -35,10 +35,6 @@ export function createNetwork() {
 }
 
 export async function networkFetch(params: RequestParameters, variables: Variables, headers = {}) {
-  await sendToDiscord({
-    uri: config.DISCORD_GENERAL_WEBHOOK,
-    content: `fetch url - ${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT}`,
-  });
   const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ?? 'http://localhost:4000/graphql', {
     method: 'POST',
     headers: {

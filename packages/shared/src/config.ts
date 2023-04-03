@@ -21,6 +21,6 @@ export const {
 
 export const EVENT_LIST_ENV = process.env.EVENT_LIST_ENV || 'development';
 
-export const EVENT_LIST_DOMAIN = process.env.EVENT_LIST_DOMAIN || '.evtlist.com'
+export const EVENT_LIST_DOMAIN = process.env.EVENT_LIST_DOMAIN || '.evtlist.com';
 
 export const API_PORT = process.env.API_PORT || 4000;
