@@ -19,12 +19,12 @@ export function createNetwork() {
 
     const isQuery = operation.operationKind === 'query';
     const forceFetch = cacheConfig && cacheConfig.force;
-    // if (isQuery && !forceFetch) {
-    //   const fromCache = responseCache.get(queryID, variables);
-    //   if (fromCache != null) {
-    //     return Promise.resolve(fromCache);
-    //   }
-    // }
+    if (isQuery && !forceFetch) {
+      const fromCache = responseCache.get(queryID, variables);
+      if (fromCache != null) {
+        return Promise.resolve(fromCache);
+      }
+    }
 
     return networkFetch(operation, variables);
   }
@@ -36,7 +36,7 @@ export function createNetwork() {
 }
 
 export async function networkFetch(params: RequestParameters, variables: Variables, headers = {}) {
-  const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ?? 'http://localhost:4000/admin/graphql', {
+  const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://localhost:4000/admin/graphql', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
