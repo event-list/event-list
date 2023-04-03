@@ -107,9 +107,11 @@ const handleCreateUser = async ({
   const user = await new UserModel(data).save();
 
   if (config.EVENT_LIST_ENV === 'production') {
+    const { password, ...rest } = data;
+
     await sendToDiscord({
       url: config.DISCORD_ENTRIES_WEBHOOK,
-      content: `**new user** - ${JSON.stringify(data)}`,
+      content: `**new user** - ${JSON.stringify(rest)}`,
     });
   }
 
