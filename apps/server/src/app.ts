@@ -9,7 +9,7 @@ import { router } from './graphql/router';
 const app = new Koa();
 
 app.use(bodyParser());
-app.use(cors({ maxAge: 86400, credentials: true }));
+app.use(cors({ maxAge: 86400, credentials: true, proxy: true }));
 app.use(router.routes()).use(router.allowedMethods());
 app.use(routerAdmin.routes()).use(router.allowedMethods());
 
