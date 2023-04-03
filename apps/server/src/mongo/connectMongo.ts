@@ -1,14 +1,21 @@
 import mongoose from 'mongoose';
 import type { ConnectOptions } from 'mongoose';
 
+import { sendToDiscord } from '@event-list/modules';
 import { config } from '@event-list/shared';
 
 export const connectMongo = (options: ConnectOptions) =>
   new Promise<void>((resolve, reject) => {
     mongoose.connection
       // Reject if an error ocurred when trying to connect to MongoDB
-      .on('error', (error) => {
+      .on('error', async (error) => {
         // eslint-disable-next-line
+        if (config.EVENT_LIST_ENV === 'production') {
+          await sendToDiscord({
+            url: config.DISCORD_GENERAL_WEBHOOK,
+            content: `**mongodb connection error** - ${error}`,
+          });
+        }
         console.log('ERROR: Connection to MongoDB failed');
         reject(error);
       })
