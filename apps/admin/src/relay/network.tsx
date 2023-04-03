@@ -1,9 +1,6 @@
 import type { CacheConfig, RequestParameters, Variables } from 'relay-runtime';
 import { Network, QueryResponseCache } from 'relay-runtime';
 
-import { sendToDiscord } from '@event-list/modules';
-import { config } from '@event-list/shared';
-
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export function createNetwork() {
@@ -36,7 +33,7 @@ export function createNetwork() {
 }
 
 export async function networkFetch(params: RequestParameters, variables: Variables, headers = {}) {
-  const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://localhost:4000/admin/graphql', {
+  const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'https://server.evtlist.com/admin/graphql', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
