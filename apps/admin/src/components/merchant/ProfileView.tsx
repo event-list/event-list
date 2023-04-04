@@ -69,6 +69,10 @@ const ProfileView = (props: ProfileViewProps) => {
 
   const handleFileChange = async (event) => {
     const file: File = event.target.files[0];
+    if (file.size > 1048576) {
+      alert('File is too big! 1MB Max');
+    }
+
     const { url } = await uploadToS3(file);
 
     await setFieldValue('logo', url);
