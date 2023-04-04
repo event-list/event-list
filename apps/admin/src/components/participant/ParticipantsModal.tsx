@@ -12,10 +12,13 @@ import {
   Modal,
   ModalOverlay,
   FormControl,
+  Flex,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import { useRef } from 'react';
-import { AiFillPrinter, AiOutlineReload } from 'react-icons/ai';
+import { AiFillPrinter } from 'react-icons/ai';
+import { HiPlus, HiUpload } from 'react-icons/hi';
+import { TbReload } from 'react-icons/tb';
 import { useMutation } from 'react-relay';
 import { useReactToPrint } from 'react-to-print';
 import * as yup from 'yup';
@@ -130,7 +133,7 @@ const ParticipantsModal = ({
         <FormikProvider value={formikAddUserInEvent}>
           <ModalContent>
             <ModalHeader>
-              <TextDecorated>Add users in this list</TextDecorated>
+              <TextDecorated fontWeight={700}>Add participants in this guest list</TextDecorated>
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
@@ -148,15 +151,19 @@ const ParticipantsModal = ({
                 />
               </FormControl>
             </ModalBody>
-            <ModalFooter>
+            <ModalFooter display={'flex'} justifyContent={'space-between'}>
+              <Button onClick={onClose} text={'Close'} isSubmitting={false} />
               <Button
                 onClick={() => handleSubmitAddUserInEvent()}
-                text={'Send names'}
+                text={
+                  <Flex alignItems={'center'} gap={1}>
+                    Send Participants
+                    <HiUpload />
+                  </Flex>
+                }
                 isSubmitting={isPending}
                 isDisabled={isDisabled}
-                mr={3}
               />
-              <Button onClick={onClose} text={'Cancel'} isSubmitting={false} />
             </ModalFooter>
           </ModalContent>
         </FormikProvider>
@@ -174,11 +181,51 @@ const ParticipantsModal = ({
           <ParticipantsList participants={event.participants} batches={event.batches} />
         </ModalBody>
 
-        <ModalFooter>
-          <Button onClick={handlePrint} isSubmitting={false} text={<AiFillPrinter />} mr={3} />
-          <Button onClick={() => refetchEventQuery()} isSubmitting={false} text={<AiOutlineReload />} mr={3} />
-          <Button onClick={onOpen} isSubmitting={false} text={'Add'} mr={3} />
-          <Button onClick={onCloseOutside} isSubmitting={false} text={'Close'} />
+        <ModalFooter display={'flex'} justifyContent={'space-between'}>
+          <Button
+            onClick={onCloseOutside}
+            isSubmitting={false}
+            text={'Close'}
+            bgGradient={'none'}
+            _hover={{
+              bgGradient: 'none',
+            }}
+          />
+          <Box>
+            <Button
+              onClick={handlePrint}
+              isSubmitting={false}
+              text={
+                <Flex alignItems={'center'} gap={1}>
+                  Print
+                  <AiFillPrinter />
+                </Flex>
+              }
+              mr={3}
+            />
+            <Button
+              onClick={() => refetchEventQuery()}
+              isSubmitting={false}
+              text={
+                <Flex alignItems={'center'} gap={1}>
+                  Reload
+                  <TbReload />
+                </Flex>
+              }
+              mr={3}
+            />
+            <Button
+              onClick={onOpen}
+              isSubmitting={false}
+              text={
+                <Flex alignItems={'center'} gap={1}>
+                  Add Participants
+                  <HiPlus />
+                </Flex>
+              }
+              mr={3}
+            />
+          </Box>
         </ModalFooter>
       </ModalContent>
     </Box>
