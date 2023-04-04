@@ -1,4 +1,5 @@
 import {
+  Box,
   Center,
   Flex,
   FormControl,
@@ -10,11 +11,15 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  ModalOverlay,
   Stack,
   useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import { useS3Upload } from 'next-s3-upload';
+import { BsPencilFill } from 'react-icons/bs';
+import { FiX } from 'react-icons/fi';
+import { HiUpload } from 'react-icons/hi';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -22,7 +27,6 @@ import {
   Button,
   InputAge,
   InputArea,
-  InputDate,
   InputField,
   InputFile,
   InputMaps,
@@ -43,7 +47,6 @@ const EventUpdateSchema = yup.object({
   title: yup.string().required('Title is required'),
   description: yup.string().min(12, 'Your description must have min 12 characters').required('Description is required'),
   place: yup.string().required('Place is required'),
-  listAvailableAt: yup.string().required('List available at is required'),
   classification: yup.string().required('Classification is required'),
   flyer: yup.string().required('Flyer is required'),
   status: yup.boolean().required('Status is required'),
@@ -81,7 +84,6 @@ const EventUpdateModalForm = ({
           description: values.description,
           flyer: values.flyer,
           place: values.place,
-          listAvailableAt: values.listAvailableAt,
           classification: values.classification,
           status: values.status,
         },
@@ -128,7 +130,6 @@ const EventUpdateModalForm = ({
       description: event.description,
       flyer: event.flyer,
       place: event.place,
-      listAvailableAt: event.listAvailableAt,
       classification: event.classification,
       status: event.status,
     },
@@ -142,6 +143,7 @@ const EventUpdateModalForm = ({
 
   return (
     <FormikProvider value={formik}>
+      <ModalOverlay backdropFilter="blur(2px) hue-rotate(90deg)" />
       <ModalContent>
         <ModalHeader>
           <Center>
@@ -156,19 +158,17 @@ const EventUpdateModalForm = ({
             <FormControl id="flyer">
               <InputFile id={'flyer-input'} name="flyer" display={'none'} onChange={handleFileChange} />
             </FormControl>
-            <Flex flexDirection={'column'} alignItems={'center'}>
+            <Flex flexDirection={'column'} alignItems={'center'} gap={2}>
               <Image
                 borderRadius={'lg'}
-                w={'50%'}
                 src={values.flyer}
                 color={'gray.700'}
                 cursor={'pointer'}
                 onClick={() => document.getElementById('flyer-input')?.click()}
               />
-
               <FormControl id="status">
                 <Center>
-                  <InputSwitch name="status" label="Status:" />
+                  <InputSwitch colorScheme={'red'} name="status" label="Status:" />
                 </Center>
               </FormControl>
             </Flex>
@@ -176,16 +176,13 @@ const EventUpdateModalForm = ({
               <FormControl id="title">
                 <InputField name="title" label="Title:" placeholder="Event name" />
               </FormControl>
-              <FormControl id="place">
-                <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
-              </FormControl>
             </HStack>
             <HStack spacing={8}>
               <FormControl id="classification">
                 <InputAge name="classification" label="Classification:" />
               </FormControl>
-              <FormControl id="listAvailableAt">
-                <InputDate name="listAvailableAt" label="List Available At:" />
+              <FormControl id="place">
+                <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
               </FormControl>
             </HStack>
             <HStack>
@@ -199,15 +196,28 @@ const EventUpdateModalForm = ({
             </HStack>
           </Stack>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter display={'flex'} justifyContent={'space-between'}>
+          <Button
+            bgGradient={'none'}
+            _hover={{
+              bgGradient: 'none',
+            }}
+            onClick={onClose}
+            isSubmitting={false}
+            mr={3}
+            text={'Close'}
+          />
           <Button
             onClick={() => handleSubmit()}
             isSubmitting={isPendingMutation}
             isDisabled={isDisabled}
-            text={'Update'}
-            mr={3}
+            text={
+              <Flex alignItems={'center'} gap={1}>
+                Update
+                <HiUpload />
+              </Flex>
+            }
           />
-          <Button onClick={onClose} isSubmitting={false} text={'Close'} />
         </ModalFooter>
       </ModalContent>
     </FormikProvider>
