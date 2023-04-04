@@ -33,6 +33,14 @@ export function createNetwork() {
 }
 
 export async function networkFetch(params: RequestParameters, variables: Variables, headers = {}) {
+  console.log('fetch url', process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'https://server.evtlist.com/graphql');
+  await fetch(process.env.NEXT_PUBLIC_DISCORD_WEBHOOK, {
+    method: 'POST',
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      content: `fetch url - ${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'https://server.evtlist.com/graphql'}`,
+    }),
+  });
   const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'https://server.evtlist.com/graphql', {
     method: 'POST',
     headers: {
