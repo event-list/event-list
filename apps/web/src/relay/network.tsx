@@ -1,4 +1,3 @@
-import axios from 'axios';
 import type { CacheConfig, RequestParameters, Variables } from 'relay-runtime';
 import { Network, QueryResponseCache } from 'relay-runtime';
 
@@ -34,18 +33,6 @@ export function createNetwork() {
 }
 
 export async function networkFetch(params: RequestParameters, variables: Variables, headers = {}) {
-  await axios.post(
-    'https://discord.com/api/webhooks/1092604192218165319/2bhiOik9nTbYRXbLpfG_fcN8uciszxNOVW5NtCw0Jk7gtFf2k7sp4RM5u6uAb2ZJ11UP',
-    {
-      content: `${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'https://server.evtlist.com/graphql'}`,
-    },
-    {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    },
-  );
   const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'https://server.evtlist.com/graphql', {
     method: 'POST',
     headers: {
