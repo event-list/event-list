@@ -25,9 +25,6 @@ const UserSignUpMutation = mutationWithClientMutationId({
     password: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    gender: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
   },
   mutateAndGetPayload: async (args, context: GraphQLContext) => {
     const { t } = context;

@@ -8,7 +8,6 @@ const seedUser = async () => {
     name: faker.name.firstName(),
     email: faker.internet.email(),
     password: '123456',
-    gender: 'M',
   };
 
   const user = await createUser(payload);

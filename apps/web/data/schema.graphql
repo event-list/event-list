@@ -28,7 +28,6 @@ type User {
   id: ID!
   email: String!
   name: String!
-  gender: String!
 }
 
 """A connection to a list of items."""
@@ -179,7 +178,6 @@ input UserSignUpMutationInput {
   name: String!
   email: String!
   password: String!
-  gender: String!
   clientMutationId: String
 }
 
@@ -227,7 +225,6 @@ type UserMeUpdateMutationPayload {
 input UserMeUpdateMutationInput {
   name: String
   password: String
-  gender: String
   clientMutationId: String
 }
 

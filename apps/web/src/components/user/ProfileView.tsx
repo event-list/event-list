@@ -49,7 +49,6 @@ type UserMeUpdateParams = yup.InferType<typeof UserMeUpdateSchema>;
 
 const UserMeUpdateSchema = yup.object({
   name: yup.string(),
-  gender: yup.string(),
 });
 
 const ProfileView = (props: ProfileViewProps) => {
@@ -68,7 +67,6 @@ const ProfileView = (props: ProfileViewProps) => {
       variables: {
         input: {
           name: values.name,
-          gender: values.gender,
         },
       },
 
@@ -119,7 +117,6 @@ const ProfileView = (props: ProfileViewProps) => {
   const formik = useFormik<UserMeUpdateParams>({
     initialValues: {
       name: user.name,
-      gender: user.gender,
     },
     validationSchema: UserMeUpdateSchema,
     onSubmit,
@@ -163,28 +160,6 @@ const ProfileView = (props: ProfileViewProps) => {
             <HStack>
               <FormControl id="name" isRequired>
                 <InputField name="name" label="Full Name:" placeholder="Full Name" defaultValue={user.name} />
-              </FormControl>
-              <FormControl id="gender" isRequired>
-                <FormLabel mt={'2'} fontSize={{ base: '13px', md: 'sm' }}>
-                  Gender:
-                </FormLabel>
-                <RadioGroup
-                  onChange={(data) => {
-                    setFieldValue('gender', data);
-                  }}
-                  defaultValue={user.gender}
-                  value={values.gender}
-                  mt="0.5rem"
-                >
-                  <Stack direction="row">
-                    <Radio value="mas" colorScheme="red" borderColor="gray.400">
-                      Male
-                    </Radio>
-                    <Radio value="fem" colorScheme="red" borderColor="gray.400">
-                      Female
-                    </Radio>
-                  </Stack>
-                </RadioGroup>
               </FormControl>
             </HStack>
             <Button

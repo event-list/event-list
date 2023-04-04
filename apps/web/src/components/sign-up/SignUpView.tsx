@@ -36,7 +36,6 @@ const SignUpSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required').min(8, 'Password should be 8 chars minimum.'),
   name: yup.string().required('Full Name is required').min(2, 'Name should be 2 chars minimum.'),
-  gender: yup.string().required('Gender is required'),
 });
 
 export default function SignUpView() {
@@ -52,7 +51,6 @@ export default function SignUpView() {
         input: {
           email: values.email,
           password: values.password,
-          gender: values.gender,
           name: values.name,
         },
       },
@@ -96,7 +94,6 @@ export default function SignUpView() {
     initialValues: {
       email: '',
       password: '',
-      gender: 'mas',
       name: '',
     },
     validationSchema: SignUpSchema,
@@ -189,26 +186,6 @@ export default function SignUpView() {
                           color: 'gray.400',
                         }}
                       />
-                    </FormControl>
-                    <FormControl id="gender" isRequired>
-                      <FormLabel color={'gray.700'}>Gender:</FormLabel>
-                      <RadioGroup
-                        onChange={(data) => {
-                          setFieldValue('gender', data);
-                        }}
-                        value={values.gender}
-                        color={'gray.700'}
-                        mt="0.5rem"
-                      >
-                        <Stack direction="row">
-                          <Radio value="mas" colorScheme="red" borderColor="gray.400">
-                            Male
-                          </Radio>
-                          <Radio value="fem" colorScheme="red" borderColor="gray.400">
-                            Female
-                          </Radio>
-                        </Stack>
-                      </RadioGroup>
                     </FormControl>
                   </HStack>
                 </Stack>

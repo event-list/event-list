@@ -9,7 +9,6 @@ type HandleCreateUserPayload = {
   email: string;
   name: string;
   password: string;
-  gender: string;
 };
 
 type HandleCreateUserArgs = {
@@ -17,13 +16,9 @@ type HandleCreateUserArgs = {
   context: GraphQLContext;
 };
 
-function validateGender(gender: string) {
-  return gender.toLowerCase() === 'mas' || gender.toLowerCase() === 'fem';
-}
-
 async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateUserArgs) {
   const { t } = context;
-  const { email, name, password, gender } = payload;
+  const { email, name, password } = payload;
 
   if (!email) {
     return {
@@ -42,13 +37,6 @@ async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateU
   if (!password) {
     return {
       error: t('Password is required'),
-      ...payload,
-    };
-  }
-
-  if (!gender || !validateGender(gender)) {
-    return {
-      error: t('Gender is required'),
       ...payload,
     };
   }
@@ -75,7 +63,6 @@ async function validateAndSanitizeCreateUser({ payload, context }: HandleCreateU
     email,
     password,
     name,
-    gender,
   };
 }
 
@@ -87,7 +74,6 @@ const handleCreateUser = async ({
     email,
     name,
     password,
-    gender,
     error: errorUserValidatePayload,
   } = await validateAndSanitizeCreateUser({ payload, context });
 
@@ -101,7 +87,6 @@ const handleCreateUser = async ({
     email,
     password,
     name,
-    gender,
   };
 
   const user = await new UserModel(data).save();

@@ -7,7 +7,6 @@ interface IUser {
   email: string;
   name: string;
   password: string;
-  gender: 'mas' | 'fem';
   createdAt: Date;
   updatedAt: Date;
   encryptPassword: (password: string) => string;
@@ -31,10 +30,6 @@ const UserSchema = new Schema<UserDocument>(
     password: {
       type: String,
       hidden: true,
-      required: true,
-    },
-    gender: {
-      type: String,
       required: true,
     },
   },
