@@ -17,11 +17,9 @@ import {
   useDisclosure,
   VStack,
   Button as ButtonChakra,
-  useColorMode,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FiChevronDown, FiLogIn, FiLogOut, FiMenu, FiUser } from 'react-icons/fi';
-import { HiMoon, HiSun } from 'react-icons/hi';
 
 //@ts-expect-error it not have type
 import Logo from '../logo.svg';
@@ -36,7 +34,6 @@ type Props = {
 };
 
 export default function Header(props: Props) {
-  const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -68,13 +65,6 @@ export default function Header(props: Props) {
           <ButtonChakra display={{ base: 'flex', md: 'none' }} p={1} mx={1} bgColor={'transparent'} onClick={onOpen}>
             <FiMenu />
           </ButtonChakra>
-
-          <Box>
-            <ButtonChakra onClick={toggleColorMode} p={1} mx={1} bgColor={'transparent'}>
-              {colorMode === 'light' ? <HiMoon /> : <HiSun />}
-            </ButtonChakra>
-          </Box>
-
           {props.searchBar}
         </HStack>
 
