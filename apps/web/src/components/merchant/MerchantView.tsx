@@ -12,6 +12,7 @@ import {
   Link,
   Box,
   Divider,
+  Center,
 } from '@chakra-ui/react';
 import { BsFacebook, BsInstagram, BsTwitter, BsWhatsapp } from 'react-icons/bs';
 import { graphql, useFragment } from 'react-relay';
@@ -115,9 +116,11 @@ const MerchantView = (props: { fragmentKey: MerchantViewFragment_merchant$key })
               )}
             </Stack>
           </Stack>
-          <Flex display={{ base: 'none', sm: 'flex' }}>
-            <Image rounded={'md'} w={'full'} alt={'merchant logo'} src={merchant.logo ?? ''} objectFit={'cover'} />
-          </Flex>
+          <Center display={{ base: 'none', sm: 'flex' }}>
+            <Box rounded={'lg'} pos={'relative'}>
+              <Image rounded={'lg'} height={{ base: 300, md: 500 }} objectFit={'cover'} src={merchant.logo ?? ''} />
+            </Box>
+          </Center>
         </SimpleGrid>
         <Divider />
         <Box>
