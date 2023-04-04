@@ -128,13 +128,7 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }} py={{ base: 1, md: 7 }}>
         <Center>
           <Box rounded={'lg'} pos={'relative'}>
-            <Image
-              rounded={'lg'}
-              min-width={632}
-              height={{ base: 500, md: 700 }}
-              objectFit={'cover'}
-              src={event?.flyer ?? ''}
-            />
+            <Image rounded={'lg'} height={{ base: 500, md: 700 }} objectFit={'cover'} src={event?.flyer ?? ''} />
           </Box>
         </Center>
         <Stack spacing={{ base: 2 }} direction={'column'} divider={<StackDivider borderColor={'transparent'} py={1} />}>

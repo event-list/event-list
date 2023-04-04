@@ -13,7 +13,7 @@ const MerchantCard = (props: { fragmentKey: MerchantViewFragment_merchant$key })
 
   return (
     <Card linkNavigation={`/merchant/${merchant.id}`} urlImage={merchant.logo ?? ''} title={merchant.name}>
-      <Text>{merchant.description}</Text>
+      <Text textAlign={'center'}>{merchant.description}</Text>
     </Card>
   );
 };
