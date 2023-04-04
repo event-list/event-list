@@ -1,4 +1,4 @@
-import { Container } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import Layout from '@event-list/ui/src/layout/Layout';
 
@@ -8,9 +8,9 @@ import SignInView from '../../components/sign-in/SignInView';
 export default function SignIn() {
   return (
     <Layout title="Sign In">
-      <Container maxW="full" mt={0} overflow="hidden">
+      <Box maxW="full" mt={0} overflow="hidden">
         <SignInView />
-      </Container>
+      </Box>
     </Layout>
   );
 }

@@ -1,4 +1,3 @@
-import type { IconProps } from '@chakra-ui/react';
 import {
   Box,
   Center,
@@ -6,12 +5,10 @@ import {
   Flex,
   FormControl,
   Heading,
-  Icon,
   Link,
   SimpleGrid,
   Stack,
   Text,
-  useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
@@ -99,7 +96,15 @@ export default function SignInView() {
 
   return (
     <FormikProvider value={formik}>
-      <Box position={'relative'} minH={'100vh'}>
+      <Box
+        position={'relative'}
+        minH={'100vh'}
+        bgImage={"linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url('/login-register-banner.jpg')"}
+        bgPosition="center"
+        bgSize={'cover'}
+        bgRepeat="no-repeat"
+        bgAttachment={'fixed'}
+      >
         <Container
           as={SimpleGrid}
           maxW={'7xl'}
@@ -184,35 +189,7 @@ export default function SignInView() {
             </Center>
           </Flex>
         </Container>
-        <Blur
-          position={'absolute'}
-          top={useBreakpointValue({ base: 300, md: 100, lg: -10 })}
-          left={useBreakpointValue({ base: 70, md: 30, lg: -10 })}
-          style={{ filter: 'blur(70px)' }}
-        />
       </Box>
     </FormikProvider>
   );
 }
-
-export const Blur = (props: IconProps) => {
-  return (
-    <Icon
-      width={useBreakpointValue({ base: '80vw', md: '40vw', lg: '30vw' })}
-      zIndex="-1"
-      height="560px"
-      viewBox="0 0 528 560"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <circle cx="71" cy="61" r="111" fill="#F56565" />
-      <circle cx="244" cy="106" r="139" fill="#ED64A6" />
-      <circle cy="291" r="139" fill="#ED64A6" />
-      <circle cx="80.5" cy="189.5" r="101.5" fill="#ed5136" />
-      <circle cx="196.5" cy="317.5" r="101.5" fill="#ec4b4b" />
-      <circle cx="70.5" cy="458.5" r="101.5" fill="#bb4883" />
-      <circle cx="426.5" cy="-0.5" r="101.5" fill="#e1428c" />
-    </Icon>
-  );
-};
