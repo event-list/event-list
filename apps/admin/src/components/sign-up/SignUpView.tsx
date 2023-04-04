@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Center,
+  CircularProgress,
   Container,
   Flex,
   FormControl,
@@ -20,6 +21,7 @@ import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useS3Upload } from 'next-s3-upload';
+import { useState } from 'react';
 import { HiUser } from 'react-icons/hi';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
@@ -42,6 +44,7 @@ const SignUpSchema = yup.object({
 });
 
 export default function SignUpView() {
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const { uploadToS3 } = useS3Upload();
   const router = useRouter();
   const toast = useToast();
@@ -53,8 +56,9 @@ export default function SignUpView() {
     if (file.size > 1048576) {
       alert('File is too big! 1MB Max');
     }
-
+    setIsLoadingImage(true);
     const { url } = await uploadToS3(file);
+    setIsLoadingImage(false);
 
     await setFieldValue('logo', url);
   };
@@ -261,8 +265,14 @@ export default function SignUpView() {
                       />
                     </FormControl>
                     <Avatar
-                      size={'md'}
-                      icon={<HiUser size={'4rem'} />}
+                      size={'xl'}
+                      icon={
+                        isLoadingImage ? (
+                          <CircularProgress isIndeterminate color={'#E53E3E'} />
+                        ) : (
+                          <HiUser size={'4rem'} />
+                        )
+                      }
                       src={values.logo}
                       color={'gray.700'}
                       bgColor={'transparent'}
