@@ -18,7 +18,7 @@ import {
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useS3Upload } from 'next-s3-upload';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { BsFillTrashFill, BsPlusCircleFill } from 'react-icons/bs';
 import { RiFolderUploadFill } from 'react-icons/ri';
@@ -150,7 +150,7 @@ export default function ShareEventForm() {
       batches: [
         {
           date: '',
-          title: 'First batch',
+          title: '',
           value: '',
           visible: true,
         },
@@ -164,6 +164,11 @@ export default function ShareEventForm() {
   const { handleSubmit, isValid, dirty, values, setFieldValue } = formik;
 
   const isDisabled = !isValid || isPending || !dirty;
+
+  useEffect(() => {
+    const batchesLength = values.batches.length;
+    setFieldValue(`batches.${batchesLength - 1}.date`, values.dateEnd);
+  }, [values.dateEnd]);
 
   return (
     <FormikProvider value={formik}>
@@ -271,10 +276,16 @@ export default function ShareEventForm() {
                             <InputDate
                               name={`batches.${index}.date`}
                               labelProps={{
+                                tooltip:
+                                  index === values.batches.length - 1
+                                    ? 'Last batch date is defined by event end date'
+                                    : 'Define batch date available',
                                 fontSize: '13px',
                                 fontWeight: 'medium',
                               }}
                               label="Batch Date:"
+                              color={index === values.batches.length - 1 ? 'gray.600' : 'white'}
+                              readOnly={index === values.batches.length - 1}
                             />
                           </FormControl>
                           <Box>
