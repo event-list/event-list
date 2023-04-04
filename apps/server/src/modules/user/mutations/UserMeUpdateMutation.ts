@@ -1,6 +1,6 @@
 import { errorField, successField } from '@entria/graphql-mongo-helpers';
-import { mutationWithClientMutationId } from 'graphql-relay';
 import { GraphQLString } from 'graphql/type';
+import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { meField, UserModel } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
@@ -12,9 +12,6 @@ const UserMeUpdateMutation = mutationWithClientMutationId({
       type: GraphQLString,
     },
     password: {
-      type: GraphQLString,
-    },
-    gender: {
       type: GraphQLString,
     },
   },
