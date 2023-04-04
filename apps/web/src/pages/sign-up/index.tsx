@@ -1,4 +1,4 @@
-import { Container } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import { Layout } from '@event-list/ui';
 
@@ -8,9 +8,9 @@ import SignUpView from '../../components/sign-up/SignUpView';
 export default function SignUp() {
   return (
     <Layout title="Sign Up">
-      <Container maxW="full" mt={0} overflow="hidden">
+      <Box maxW="full" mt={0} overflow="hidden">
         <SignUpView />
-      </Container>
+      </Box>
     </Layout>
   );
 }

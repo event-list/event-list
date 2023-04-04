@@ -99,7 +99,15 @@ export default function SignInView() {
 
   return (
     <FormikProvider value={formik}>
-      <Box position={'relative'}>
+      <Box
+        position={'relative'}
+        minH={'100vh'}
+        bgImage={"linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url('/login-register-banner.jpg')"}
+        bgPosition="center"
+        bgSize={'cover'}
+        bgRepeat="no-repeat"
+        bgAttachment={'fixed'}
+      >
         <Container
           as={SimpleGrid}
           maxW={'7xl'}
