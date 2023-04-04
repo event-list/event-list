@@ -1,7 +1,7 @@
 import { errorField, getObjectId, successField } from '@entria/graphql-mongo-helpers';
 import { GraphQLBoolean, GraphQLNonNull } from 'graphql';
-import { mutationWithClientMutationId } from 'graphql-relay';
 import { GraphQLString } from 'graphql/type';
+import { mutationWithClientMutationId } from 'graphql-relay';
 
 import { EventModel, handleUpdateEvent } from '@event-list/modules';
 import type { GraphQLContext } from '@event-list/types';
@@ -22,15 +22,6 @@ export const UpdateEventMutation = mutationWithClientMutationId({
       type: GraphQLString,
     },
     place: {
-      type: GraphQLString,
-    },
-    eventOpenAt: {
-      type: GraphQLString,
-    },
-    eventEndAt: {
-      type: GraphQLString,
-    },
-    listAvailableAt: {
       type: GraphQLString,
     },
     classification: {

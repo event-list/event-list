@@ -8,7 +8,6 @@ type HandleUpdateEventPayload = {
   description: string;
   flyer: string;
   place: string;
-  listAvailableAt: Date;
   classification: string;
   status: boolean;
 };
