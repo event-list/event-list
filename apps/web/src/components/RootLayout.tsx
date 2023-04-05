@@ -56,11 +56,9 @@ export default function RootLayout(props: LayoutProps) {
   return (
     <Layout title={props.title}>
       <Header user={user} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />}>
-        <Container maxW="full" overflow="hidden">
-          <Box mb={'5rem'}>{props.children}</Box>
-          <Footer />
-        </Container>
+        {props.children}
       </Header>
+      <Footer />
     </Layout>
   );
 }

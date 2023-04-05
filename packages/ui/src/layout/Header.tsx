@@ -117,7 +117,7 @@ export default function Header(props: Props) {
           </Flex>
         </HStack>
       </Flex>
-      <Box ml={{ base: 0, md: 60 }} p="4" minH={'100vh'} pb={'3rem'}>
+      <Box ml={{ base: 0, md: 60 }} p="6" minH={'100vh'}>
         {props.children}
       </Box>
     </Box>

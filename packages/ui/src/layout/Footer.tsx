@@ -38,10 +38,7 @@ export default function Footer() {
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
       role="contentinfo"
-      position="absolute"
-      bottom={'0'}
-      left={'0'}
-      right={'0'}
+      ml={{ base: 0, md: 60 }}
       borderTop="1px"
       borderTopColor={useColorModeValue('gray.200', 'gray.700')}
     >
