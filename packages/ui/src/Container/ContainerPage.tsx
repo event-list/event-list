@@ -12,7 +12,7 @@ const ContainerPage = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Stack spacing={8} px={'2rem'}>
+    <Stack spacing={8}>
       <Stack>
         <TextDecorated fontSize={'5xl'} fontWeight={'bold'}>
           {title}
