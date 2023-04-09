@@ -8,7 +8,7 @@ const merchantField = () => ({
   merchants: {
     type: new GraphQLNonNull(MerchantConnection),
     args: { ...connectionArgs },
-    resolve: async (_, args, ctx) => await MerchantLoader.loadAll(ctx, withFilter(args, {})),
+    resolve: async (_, args, ctx) => await MerchantLoader.loadAll(ctx, withFilter(args, { hasEventPublished: true })),
   },
 });
 
