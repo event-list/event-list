@@ -17,6 +17,7 @@ type HandleCreateEventPayload = {
   listAvailableAt: Date;
   classification: string;
   batches: IBatch[];
+  private?: boolean;
   merchantId: MerchantDocument['_id'];
 };
 

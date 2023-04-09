@@ -16,6 +16,7 @@ type EventCreateArgs = {
   listAvailableAt: Date;
   classification: string;
   batches: IBatch[];
+  private?: boolean;
 };
 
 export const CreateEventMutation = mutationWithClientMutationId({
@@ -68,13 +69,14 @@ export const CreateEventMutation = mutationWithClientMutationId({
         ),
       ),
     },
+    private: {
+      type: GraphQLBoolean,
+    },
   },
   mutateAndGetPayload: async (args: EventCreateArgs, ctx) => {
     const { merchant, t } = ctx;
 
     if (!merchant) return { id: null, success: null, error: t('Unauthorized') };
-
-    console.log('date end args', args.dateEnd);
 
     const { event, error } = await handleCreateEvent({
       payload: { merchantId: merchant._id, ...args },
