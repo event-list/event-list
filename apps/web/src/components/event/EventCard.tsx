@@ -22,32 +22,24 @@ const EventCard = (props: { fragmentKey: EventFragment_event$key }) => {
       subTitle={event.merchant?.name}
       imageHeight={{ base: 300, sm: 370 }}
     >
-      <Flex alignItems="center" justifyContent="space-between" w="60%">
+      <Flex alignItems="center" justifyContent="space-between" w="75%">
         <Box>
           <VStack spacing={0}>
-            <TextDecorated fontSize={'sm'}>Open At</TextDecorated>
-            <Text fontWeight={700} fontSize={'sm'}>
+            <TextDecorated fontSize={'sm'}>Date</TextDecorated>
+            <Text fontWeight={'bold'} fontSize={'lg'}>
               {timestampToDate(event.dateStart, 'dd/MM HH:mm')}
             </Text>
           </VStack>
         </Box>
         <Box>
           <VStack spacing={0}>
-            <TextDecorated fontSize={'sm'}>End At</TextDecorated>
-            <Text fontWeight={700} fontSize={'sm'}>
-              {timestampToDate(event.dateEnd, 'dd/MM HH:mm')}
+            <TextDecorated fontSize={'sm'}>Value</TextDecorated>
+            <Text fontWeight={'bold'} fontSize={'lg'}>
+              {event.currentBatch}
             </Text>
           </VStack>
         </Box>
       </Flex>
-      <Box>
-        <TextDecorated fontSize={'sm'}>List available at</TextDecorated>
-        <Center>
-          <Text fontWeight={700} fontSize={'sm'}>
-            {timestampToDate(event.listAvailableAt, 'dd/MM HH:mm')}
-          </Text>
-        </Center>
-      </Box>
     </Card>
   );
 };
