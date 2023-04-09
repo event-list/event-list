@@ -184,9 +184,6 @@ input UpdateEventMutationInput {
   description: String
   flyer: String
   place: String
-  eventOpenAt: String
-  eventEndAt: String
-  listAvailableAt: String
   classification: String
   status: Boolean
   clientMutationId: String

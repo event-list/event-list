@@ -1,6 +1,6 @@
 import type { Date } from 'mongoose';
 
-import { EventModel, sendToDiscord } from '@event-list/modules';
+import { EventModel, MerchantModel, sendToDiscord } from '@event-list/modules';
 import type { IBatch, MerchantDocument, EventDocument } from '@event-list/modules';
 import { config } from '@event-list/shared';
 import type { GraphQLContext } from '@event-list/types';
@@ -57,6 +57,16 @@ const handleCreateEvent = async ({ payload, context }: HandleCreateEventArgs): H
       success: null,
       error: t('Something went wrong'),
     };
+  }
+
+  const merchant = await MerchantModel.findOneAndUpdate({ _id: payload.merchantId }, { hasEventPublished: true })
+
+  if (!merchant) {
+    return {
+      event: null,
+      success: null,
+      error: t('Something went wrong in find merchant')
+    }
   }
 
   if (config.EVENT_LIST_ENV === 'production') {
