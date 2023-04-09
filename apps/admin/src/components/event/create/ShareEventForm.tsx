@@ -37,6 +37,7 @@ import {
   ContainerPage,
   TextFormLabel,
   TextDecorated,
+  InputSwitch,
 } from '@event-list/ui';
 
 import { ShareEvent } from './mutations/ShareEventMutation';
@@ -172,7 +173,8 @@ export default function ShareEventForm() {
   useEffect(() => {
     const batchesLength = values.batches.length;
     setFieldValue(`batches.${batchesLength - 1}.date`, values.dateEnd);
-  }, [values.dateEnd]);
+    setFieldValue(`batches.${batchesLength - 1}.visible`, true);
+  }, [values.dateEnd, values.batches.length]);
 
   return (
     <FormikProvider value={formik}>
@@ -245,6 +247,7 @@ export default function ShareEventForm() {
                     <Text fontSize={'lg'} fontWeight={'bold'}>
                       Upload a new Flyer
                     </Text>
+                    {values.flyer && <Text fontSize={'sm'}>See your uploaded flyer below</Text>}
                   </Flex>
                 </FormControl>
               </Box>
@@ -290,6 +293,18 @@ export default function ShareEventForm() {
                               label="Batch Date:"
                               color={index === values.batches.length - 1 ? 'gray.600' : 'white'}
                               readOnly={index === values.batches.length - 1}
+                            />
+                          </FormControl>
+                          <FormControl id={`batches.${index}.visible`} isRequired>
+                            <InputSwitch
+                              colorScheme={'red'}
+                              labelProps={{
+                                fontSize: '13px',
+                                fontWeight: 'medium',
+                              }}
+                              isReadOnly={index === values.batches.length - 1}
+                              name={`batches.${index}.visible`}
+                              label="Batch Visible:"
                             />
                           </FormControl>
                           <Box>
