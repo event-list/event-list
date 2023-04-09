@@ -27,21 +27,12 @@ export const setSessionTokenCookie = async (
     };
 
     context.ctx.cookies.set(COLLECTION_SESSION_COOKIE, token, options);
-
-    if (config.EVENT_LIST_ENV === 'production') {
-      await sendToDiscord({
-        url: config.DISCORD_COOKIES_WEBHOOK,
-        content: `**cookie name** - ${COLLECTION_SESSION_COOKIE} \n**cookie value** - ${token} \n**cookie option** - ${JSON.stringify(
-          options,
-        )} \n**cookie ctx** - ${context.ctx.cookies.get(COLLECTION_SESSION_COOKIE)}`,
-      });
-    }
   } catch (err) {
     console.log('set cookie failed: ', err);
 
     if (config.EVENT_LIST_ENV === 'production') {
       await sendToDiscord({
-        url: config.DISCORD_COOKIES_WEBHOOK,
+        url: config.DISCORD_GENERAL_WEBHOOK,
         content: `cookies err - ${COLLECTION_SESSION_COOKIE} - ${err}`,
       });
     }
