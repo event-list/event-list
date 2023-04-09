@@ -59,14 +59,14 @@ const handleCreateEvent = async ({ payload, context }: HandleCreateEventArgs): H
     };
   }
 
-  const merchant = await MerchantModel.findOneAndUpdate({ _id: payload.merchantId }, { hasEventPublished: true })
+  const merchant = await MerchantModel.findOneAndUpdate({ _id: payload.merchantId }, { hasEventPublished: true });
 
   if (!merchant) {
     return {
       event: null,
       success: null,
-      error: t('Something went wrong in find merchant')
-    }
+      error: t('Something went wrong in find merchant'),
+    };
   }
 
   if (config.EVENT_LIST_ENV === 'production') {

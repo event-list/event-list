@@ -16,7 +16,7 @@ interface IMerchant {
   twitterAccount: string;
   website: string;
   features: string[];
-  hasEventPublished: boolean
+  hasEventPublished: boolean;
   createdAt: Date;
   updatedAt: Date;
   encryptPassword: (password: string) => string;
@@ -93,8 +93,8 @@ const MerchantSchema = new Schema<MerchantDocument>(
       type: Boolean,
       default: false,
       required: true,
-      index: true
-    }
+      index: true,
+    },
     // ...taxIDFields,
   },
   {
