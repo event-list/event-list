@@ -6,82 +6,68 @@ async function validateAndSanitizeCreateEvent({ payload, context }: HandleCreate
   const { t } = context;
   const { title, place, listAvailableAt, flyer, description, dateStart, dateEnd, classification, batches } = payload;
 
-  const data = {
-    title,
-    place,
-    listAvailableAt,
-    flyer,
-    description,
-    dateStart,
-    dateEnd,
-    classification,
-    batches,
-  };
-
   if (!title) {
     return {
-      ...data,
+      ...payload,
       error: t('Title is required'),
     };
   }
 
   if (!place) {
     return {
-      ...data,
+      ...payload,
       error: t('Place is required'),
     };
   }
 
   if (!listAvailableAt) {
     return {
-      ...data,
+      ...payload,
       error: t('List available at is required'),
     };
   }
 
   if (!flyer) {
     return {
-      ...data,
+      ...payload,
       error: t('Fyler is required'),
     };
   }
 
   if (!description) {
     return {
-      ...data,
+      ...payload,
       error: t('Description is required'),
     };
   }
 
   if (!dateStart) {
     return {
-      ...data,
+      ...payload,
       error: t('Date start is required'),
     };
   }
 
   if (!dateEnd) {
     return {
-      ...data,
+      ...payload,
       error: t('Date end is required'),
     };
   }
 
   if (!classification) {
     return {
-      ...data,
+      ...payload,
       error: t('Classification is required'),
     };
   }
 
   if (!batches) {
     return {
-      ...data,
+      ...payload,
       error: t('Batches is required'),
     };
   }
-
-  console.log('date end', dateEnd);
 
   const dateStartMoment = moment(dateStart.toLocaleString(), 'YYYY-MM-DDTHH:mm');
   const dateEndMoment = moment(dateEnd.toLocaleString(), 'YYYY-MM-DDTHH:mm');
@@ -93,48 +79,48 @@ async function validateAndSanitizeCreateEvent({ payload, context }: HandleCreate
     listAvailableAtMoment.isSameOrBefore(moment())
   ) {
     return {
-      ...data,
+      ...payload,
       error: t('One of the dates is less than or equal to the current date'),
     };
   }
 
   if (!batches.some((batch) => moment(batch.date.toLocaleString(), 'YYYY-MM-DDTHH:mm').isSame(dateEndMoment))) {
     return {
-      ...data,
+      ...payload,
       error: t('At least one batch must have a date equal to the event end date'),
     };
   }
 
   if (batches.some((batch) => moment(batch.date.toLocaleString(), 'YYYY-MM-DDTHH:mm') > dateEndMoment)) {
     return {
-      ...data,
+      ...payload,
       error: t('Event date batch cannot be greater than event end date'),
     };
   }
 
   if (dateEndMoment.isSameOrBefore(dateStartMoment)) {
     return {
-      ...data,
+      ...payload,
       error: t('Event start date cannot be greater than or equal event end date'),
     };
   }
 
   if (listAvailableAtMoment.isSameOrAfter(dateEndMoment)) {
     return {
-      ...data,
+      ...payload,
       error: t('List available at cannot be greater than or equal event end date'),
     };
   }
 
   if (listAvailableAtMoment.isSameOrBefore(dateStartMoment)) {
     return {
-      ...data,
+      ...payload,
       error: t('List available at cannot be less than or equal event start date'),
     };
   }
 
   return {
-    ...data,
+    ...payload,
     error: null,
   };
 }

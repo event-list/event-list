@@ -22,6 +22,7 @@ type IEvent = {
   batches: IBatch[];
   status: boolean;
   participants: ParticipantDocument[];
+  private: boolean;
   createdAt: DateMongoose;
   updatedAt: DateMongoose;
   isPublished: (date: DateMongoose) => boolean;
@@ -84,6 +85,11 @@ const EventSchema = new Schema<EventDocument>(
         required: false,
       },
     ],
+    private: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     collection: 'Event',

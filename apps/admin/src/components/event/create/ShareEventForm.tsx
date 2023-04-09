@@ -14,6 +14,7 @@ import {
   Text,
   useDisclosure,
   useToast,
+  VStack,
 } from '@chakra-ui/react';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -67,6 +68,7 @@ const ShareEventSchema = yup.object({
     .required('Batches ate required')
     .max(6, 'Maximum of 6 batches'),
   flyer: yup.string().required('Flyer is required'),
+  private: yup.boolean().notRequired(),
 });
 
 const googleMapsApiToken = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -106,6 +108,7 @@ export default function ShareEventForm() {
           classification: values.classification,
           batches: values.batches,
           flyer: values.flyer,
+          private: values.private,
         },
       },
       onCompleted: ({ CreateEventMutation }: ShareEventMutation$data) => {
@@ -161,6 +164,7 @@ export default function ShareEventForm() {
         },
       ],
       flyer: '',
+      private: false,
     },
     validationSchema: ShareEventSchema,
     onSubmit,
@@ -196,6 +200,16 @@ export default function ShareEventForm() {
                 <FormControl id="place" isRequired>
                   <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
                 </FormControl>
+              </Box>
+              <Box>
+                <InputSwitch
+                  colorScheme={'red'}
+                  name={'private'}
+                  label="Private:"
+                  labelProps={{
+                    tooltip: 'Defines whether your event will appear in the catalog',
+                  }}
+                />
               </Box>
             </HStack>
             <FormControl id="description" isRequired>
