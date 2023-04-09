@@ -16,7 +16,6 @@ export const {
   GRAPHQL_ENDPOINT,
   DISCORD_GENERAL_WEBHOOK,
   DISCORD_ENTRIES_WEBHOOK,
-  DISCORD_COOKIES_WEBHOOK,
 } = process.env;
 
 export const EVENT_LIST_ENV = process.env.EVENT_LIST_ENV || 'development';
