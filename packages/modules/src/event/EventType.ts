@@ -92,7 +92,7 @@ const EventType = new GraphQLObjectType({
     },
     currentBatch: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (event) => event.batches.find((batch) => batch.visible && new Date() < batch.date)?.title,
+      resolve: (event) => event.batches.find((batch) => batch.visible && new Date() < batch.date)?.value,
     },
     status: {
       type: new GraphQLNonNull(GraphQLBoolean),
