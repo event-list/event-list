@@ -9,6 +9,7 @@ import {
   Tr,
   Th,
   Tbody,
+  Center,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -114,6 +115,11 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
               })}
             </Tbody>
           </Table>
+          {events.edges.length < 1 && (
+            <TextDecorated display={'flex'} fontWeight={'700'} justifyContent={'center'} mt={6}>
+              You do not have events yet, share one to see it here
+            </TextDecorated>
+          )}
         </TableContainer>
       </ContainerPage>
     </InfiniteScroll>
