@@ -159,6 +159,7 @@ input CreateEventMutationInput {
   listAvailableAt: String!
   classification: String!
   batches: [batchesCreate]!
+  private: Boolean
   clientMutationId: String
 }
 

@@ -26,7 +26,7 @@ import Logo from '../logo.svg';
 
 type Props = {
   children: React.ReactNode;
-  user: { name: string };
+  user: { name: string } | null;
   onLogout: () => void;
   links: JSX.Element;
   subMenuItems: JSX.Element;

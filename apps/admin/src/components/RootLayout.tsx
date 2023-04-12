@@ -7,7 +7,7 @@ import { RiShareForwardLine } from 'react-icons/ri';
 import type { PreloadedQuery } from 'react-relay';
 import { useFragment, usePreloadedQuery } from 'react-relay';
 
-import { Footer, Header, Layout } from '@event-list/ui';
+import { Footer, Header, Layout, TextDecorated } from '@event-list/ui';
 
 import { ProfileViewQuery } from './merchant/ProfileView';
 import type { ProfileViewQuery as ProfileViewQueryType } from '../../__generated__/ProfileViewQuery.graphql';
@@ -62,15 +62,23 @@ export default function RootLayout(props: LayoutProps) {
   const { meAdmin } = usePreloadedQuery(ProfileViewQuery, props.preloadedQuery);
   const merchant = useFragment<useAdminAuthFragment_user$key>(useAdminAuthFragment, meAdmin);
 
-  if (!merchant) {
-    return <Box>Unauthorized</Box>;
-  }
-
   return (
     <Layout title={props.title}>
       <Header user={merchant} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />}>
         <Container maxW="full" overflow="hidden">
-          <Box mb={'5rem'}>{props.children}</Box>
+          {
+            <Box mb={'5rem'}>
+              {merchant ? (
+                props.children
+              ) : (
+                <Flex justifyContent={'center'} alignItems={'center'}>
+                  <TextDecorated fontSize={'2xl'} fontWeight={'bold'}>
+                    Unauthorized, please login again
+                  </TextDecorated>
+                </Flex>
+              )}
+            </Box>
+          }
         </Container>
       </Header>
       <Footer />
