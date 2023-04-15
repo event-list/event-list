@@ -1,4 +1,5 @@
-import { Box, Center, Flex, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text, VStack } from '@chakra-ui/react';
+import { useTranslation } from 'next-i18next';
 import { useFragment } from 'react-relay';
 import timestampToDate from 'timestamp-to-date';
 
@@ -8,6 +9,8 @@ import { EventViewFragment } from './Event';
 import type { EventFragment_event$key } from '../../../__generated__/EventFragment_event.graphql';
 
 const EventCard = (props: { fragmentKey: EventFragment_event$key }) => {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   const event = useFragment<EventFragment_event$key>(EventViewFragment, props.fragmentKey);
 
   if (!event) {
@@ -25,7 +28,7 @@ const EventCard = (props: { fragmentKey: EventFragment_event$key }) => {
       <Flex alignItems="center" justifyContent="space-between" w="75%">
         <Box>
           <VStack spacing={0}>
-            <TextDecorated fontSize={'sm'}>Date</TextDecorated>
+            <TextDecorated fontSize={'sm'}>{t('date')}</TextDecorated>
             <Text fontWeight={'bold'} fontSize={'lg'}>
               {timestampToDate(event.dateStart, 'dd/MM HH:mm')}
             </Text>
@@ -33,7 +36,7 @@ const EventCard = (props: { fragmentKey: EventFragment_event$key }) => {
         </Box>
         <Box>
           <VStack spacing={0}>
-            <TextDecorated fontSize={'sm'}>Value</TextDecorated>
+            <TextDecorated fontSize={'sm'}>{t('value')}</TextDecorated>
             <Text fontWeight={'bold'} fontSize={'lg'}>
               {event.currentBatch}
             </Text>

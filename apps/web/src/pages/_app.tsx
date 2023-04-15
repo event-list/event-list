@@ -1,5 +1,6 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
+import { appWithTranslation } from 'next-i18next';
 import NextNProgress from 'nextjs-progressbar';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -7,7 +8,7 @@ import { theme } from '@event-list/ui';
 
 import { ReactRelayContainer } from '../relay/ReactRelayContainer';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <ErrorBoundary fallbackRender={({ error }) => <div>{error.message}</div>}>
@@ -18,3 +19,5 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </ChakraProvider>
   );
 }
+
+export default appWithTranslation(MyApp);

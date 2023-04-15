@@ -1,3 +1,4 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { graphql, usePreloadedQuery } from 'react-relay';
 
 import { getPreloadedQuery } from '@event-list/relay';
@@ -38,6 +39,7 @@ export async function getServerSideProps(ctx) {
           ctx,
         ),
       },
+      ...(await serverSideTranslations(ctx.locale, ['en', 'ptBR'])),
     },
   };
 }

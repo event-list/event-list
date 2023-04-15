@@ -4,18 +4,15 @@ import {
   Center,
   Flex,
   FormControl,
-  FormLabel,
   Heading,
   HStack,
-  Radio,
-  RadioGroup,
   Stack,
   Text,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
-import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { HiUser } from 'react-icons/hi';
 import type { PreloadedQuery } from 'react-relay';
 import { useFragment, useMutation, usePreloadedQuery } from 'react-relay';
@@ -52,6 +49,8 @@ const UserMeUpdateSchema = yup.object({
 });
 
 const ProfileView = (props: ProfileViewProps) => {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   const [HandleUserMeUpdate, isPending] = useMutation<UserMeUpdateMutation>(UserMeUpdate);
 
   const { me } = usePreloadedQuery<ProfileViewQueryType>(ProfileViewQuery, props.preloadedQuery);
@@ -59,8 +58,6 @@ const ProfileView = (props: ProfileViewProps) => {
   const user = useFragment<useAuthFragment_user$key>(useAuthFragment, me);
 
   const toast = useToast();
-
-  const color = useColorModeValue('white', 'gray.800');
 
   const onSubmit = (values: UserMeUpdateParams) => {
     const config = {
@@ -73,7 +70,7 @@ const ProfileView = (props: ProfileViewProps) => {
       onCompleted: ({ UserMeUpdateMutation }: UserMeUpdateMutation$data) => {
         if (typeof UserMeUpdateMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('something_was_wrong'!),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -107,7 +104,7 @@ const ProfileView = (props: ProfileViewProps) => {
     return (
       <Box textAlign="center" py={10} px={6}>
         <Heading as="h2" size="xl" mt={6} mb={2}>
-          No user found
+          {t('no_user_found')!}
         </Heading>
       </Box>
     );
@@ -122,7 +119,7 @@ const ProfileView = (props: ProfileViewProps) => {
     onSubmit,
   });
 
-  const { handleSubmit, isValid, dirty, setFieldValue, values } = formik;
+  const { handleSubmit, isValid, dirty } = formik;
 
   const isDisabled = !isValid || isPending || !dirty;
 
@@ -149,7 +146,7 @@ const ProfileView = (props: ProfileViewProps) => {
             size={'2xl'}
             icon={<HiUser size={'4rem'} />}
             color={'gray.700'}
-            bg={color}
+            bg="gray.800"
             border="4px solid"
             borderColor="gray.800"
           />
@@ -159,13 +156,18 @@ const ProfileView = (props: ProfileViewProps) => {
           <Stack spacing={5}>
             <HStack>
               <FormControl id="name" isRequired>
-                <InputField name="name" label="Full Name:" placeholder="Full Name" defaultValue={user.name} />
+                <InputField
+                  name="name"
+                  label={t('full_name')!}
+                  placeholder={t('full_name')!}
+                  defaultValue={user.name}
+                />
               </FormControl>
             </HStack>
             <Button
               size="lg"
-              text="Update informations"
-              w={'full'}
+              text={t('update_informations')!}
+              w="full"
               isSubmitting={isPending}
               isDisabled={isDisabled}
               onClick={() => handleSubmit()}

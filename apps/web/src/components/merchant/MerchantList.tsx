@@ -1,4 +1,5 @@
 import { CircularProgress, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { useTranslation } from 'next-i18next';
 import InfiniteScroll from 'react-infinite-scroller';
 import { graphql, usePaginationFragment } from 'react-relay';
 
@@ -26,6 +27,8 @@ const MerchantListFragment = graphql`
 `;
 
 const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) => {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   const { data, loadNext, isLoadingNext } = usePaginationFragment<
     MerchantListPagination_query,
     MerchantListFragment_query$key
@@ -36,7 +39,7 @@ const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) =>
   if (!merchants.edges) {
     return (
       <SimpleGrid minChildWidth="350px" spacing="20px">
-        <Text>Merchants not found</Text>
+        <Text>{t('merchants_not_found')}</Text>
       </SimpleGrid>
     );
   }
@@ -62,7 +65,7 @@ const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) =>
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage title={'Merchants'} description={'Find your favorite event creators'}>
+      <ContainerPage title={t('merchants')} description={t('find_your_favorite_event_creators')!}>
         <SimpleGrid
           minChildWidth="350px"
           templateColumns={{
