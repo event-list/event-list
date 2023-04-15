@@ -1,3 +1,5 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import { getPreloadedQuery } from '@event-list/relay';
 
 import ProfileViewQueryGenerated from '../../../__generated__/ProfileViewQuery.graphql';
@@ -18,6 +20,7 @@ export async function getServerSideProps(ctx) {
       preloadedQueries: {
         ProfileViewQuery: await getPreloadedQuery(ProfileViewQueryGenerated, {}, ctx),
       },
+      ...(await serverSideTranslations(ctx.locale, ['en', 'ptBR'])),
     },
   };
 }

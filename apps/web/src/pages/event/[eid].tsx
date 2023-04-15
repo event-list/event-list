@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { usePreloadedQuery } from 'react-relay';
 import { graphql } from 'relay-runtime';
 
@@ -49,6 +50,7 @@ export async function getServerSideProps(ctx) {
           ctx,
         ),
       },
+      ...(await serverSideTranslations(ctx.locale, ['en', 'ptBR'])),
     },
   };
 }

@@ -1,4 +1,5 @@
 import { CircularProgress, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { useTranslation } from 'next-i18next';
 import InfiniteScroll from 'react-infinite-scroller';
 import { graphql, usePaginationFragment } from 'react-relay';
 
@@ -31,13 +32,14 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
     EventsListPagination_query,
     EventsListFragment_query$key
   >(EventsListFragment, props.fragmentKey);
+  const { t } = useTranslation(['en', 'ptBR']);
 
   const events = data.events;
 
   if (!events.edges) {
     return (
       <SimpleGrid minChildWidth="350px" spacing="20px">
-        <Text>Events not found</Text>
+        <Text>{t('events_not_found')}</Text>
       </SimpleGrid>
     );
   }
@@ -63,12 +65,7 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage
-        title={'Events'}
-        description={
-          'See all the events available for you to attend. Open one of the events to see more information about it'
-        }
-      >
+      <ContainerPage title={t('events')} description={t('see_all_the_events_available_for_you_to_')!}>
         <SimpleGrid
           minChildWidth="350px"
           templateColumns={{

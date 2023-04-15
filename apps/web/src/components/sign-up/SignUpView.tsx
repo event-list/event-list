@@ -15,6 +15,7 @@ import {
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -27,12 +28,13 @@ import Logo from '../../../data/logo.svg';
 type SignUpParams = yup.InferType<typeof SignUpSchema>;
 
 const SignUpSchema = yup.object({
-  email: yup.string().email('Invalid email').required('Email is required'),
+  email: yup.string().email('Invalid email').required('Email is Required'),
   password: yup.string().required('Password is required').min(8, 'Password should be 8 chars minimum.'),
-  name: yup.string().required('Full Name is required').min(2, 'Name should be 2 chars minimum.'),
+  name: yup.string().required('Full Name is Required').min(2, 'Name should be 2 chars minimum.'),
 });
 
 export default function SignUpView() {
+  const { t } = useTranslation(['en', 'ptBR']);
   const [UserSignUn, isPending] = useMutation<SignUpMutation>(SignUp);
 
   const toast = useToast();
@@ -52,7 +54,7 @@ export default function SignUpView() {
       onCompleted: ({ UserSignUpMutation }: SignUpMutation$data) => {
         if (typeof UserSignUpMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('something_was_wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -122,7 +124,8 @@ export default function SignUpView() {
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-                Ensure your <TextDecorated>presence</TextDecorated> in the bests <TextDecorated>events!</TextDecorated>
+                {t('ensure_your')} <TextDecorated>{t('presence')} </TextDecorated>
+                {t('in_the_bests')} <TextDecorated>{t('events')}</TextDecorated>
               </Heading>
             </Box>
           </Stack>
@@ -137,7 +140,7 @@ export default function SignUpView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  Sign up your account{' '}
+                  {t('sign_up_your_account')}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
@@ -149,8 +152,8 @@ export default function SignUpView() {
                     <InputField
                       labelProps={{ color: 'gray.700' }}
                       name="email"
-                      label="Email:"
-                      placeholder="user@email.com"
+                      label={t('email')!}
+                      placeholder={t('user@emailcom')!}
                       _placeholder={{
                         color: 'gray.400',
                       }}
@@ -164,7 +167,7 @@ export default function SignUpView() {
                       labelProps={{ color: 'gray.700' }}
                       type="password"
                       name="password"
-                      label="Password:"
+                      label={t('password')!}
                       placeholder="*******"
                       _placeholder={{
                         color: 'gray.400',
@@ -179,11 +182,11 @@ export default function SignUpView() {
                       <InputField
                         labelProps={{ color: 'gray.700' }}
                         bg={'gray.100'}
-                        label={'Full Name:'}
+                        label={t('full_name')!}
                         border={0}
-                        color={'gray.700'}
+                        color="gray"
                         name="name"
-                        placeholder="Your full name"
+                        placeholder={t('your_full_name')!}
                         _placeholder={{
                           color: 'gray.400',
                         }}
@@ -193,9 +196,9 @@ export default function SignUpView() {
                 </Stack>
                 <Button
                   size="lg"
-                  text="Register"
+                  text={t('register')!}
                   mt={8}
-                  w={'full'}
+                  w="full"
                   isSubmitting={isPending}
                   isDisabled={isDisabled}
                   onClick={() => handleSubmit()}
@@ -204,7 +207,7 @@ export default function SignUpView() {
             </Stack>
             <Center pt={'3'}>
               <Link color={'gray.700'} href={'/sign-in'} fontSize={{ base: 'smaller', lg: 'md' }}>
-                Already have an account? Sign In
+                {t('already_have_an_account_sign_in')}
               </Link>
             </Center>
           </Flex>

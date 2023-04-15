@@ -14,6 +14,7 @@ import {
   Divider,
   Center,
 } from '@chakra-ui/react';
+import { useTranslation } from 'next-i18next';
 import { BsFacebook, BsInstagram, BsTwitter, BsWhatsapp } from 'react-icons/bs';
 import { graphql, useFragment } from 'react-relay';
 
@@ -62,6 +63,8 @@ const SocialMediaRow = ({ logo, href, title }) => {
 };
 
 const MerchantView = (props: { fragmentKey: MerchantViewFragment_merchant$key }) => {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   const merchant = useFragment<MerchantViewFragment_merchant$key>(MerchantViewFragment, props.fragmentKey);
 
   return (
@@ -126,7 +129,7 @@ const MerchantView = (props: { fragmentKey: MerchantViewFragment_merchant$key })
         <Box>
           <Stack spacing={8}>
             <Heading>
-              <TextDecorated>Events</TextDecorated>
+              <TextDecorated>{t('events')}</TextDecorated>
             </Heading>
             {merchant.events?.edges?.map((event, index) => {
               if (event?.node) return <EventRow key={index} fragmentKey={event?.node} />;

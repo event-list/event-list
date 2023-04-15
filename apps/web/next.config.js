@@ -1,13 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires,import/order
+const { i18n } = require('./next-i18next.config');
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires,import/order
 const relay = require('./relay.config.js');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires,import/order
-const withTM = require('next-transpile-modules')(
-  ['@event-list/relay', '@event-list/ui'],
-  {
-    resolveSymlinks: true,
-  },
-);
+const withTM = require('next-transpile-modules')(['@event-list/relay', '@event-list/ui'], {
+  resolveSymlinks: true,
+});
 
 const nextConfig = {
   swcMinify: true,
@@ -33,6 +33,7 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  i18n,
 };
 
 module.exports = withTM(nextConfig);

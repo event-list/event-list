@@ -1,10 +1,8 @@
 /* eslint-disable no-constant-condition */
 import { Box, Container, Flex, Icon, Link, MenuItem, Text } from '@chakra-ui/react';
-import { FormikProvider, useFormik } from 'formik';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { CgProfile } from 'react-icons/cg';
-import { FiSearch } from 'react-icons/fi';
 import { GiPartyPopper } from 'react-icons/gi';
 import { HiOutlineTicket } from 'react-icons/hi';
 import type { PreloadedQuery } from 'react-relay';
@@ -24,42 +22,43 @@ type LayoutProps = {
   title?: string;
 };
 
-const Links = () => (
-  <Box>
-    <NavItem key={'Home'} icon={HiOutlineTicket} href={'/'}>
-      <Text fontWeight={'600'}>Events</Text>
-    </NavItem>
-    <NavItem key={'Merchant'} icon={GiPartyPopper} href={'/merchant'}>
-      <Text fontWeight={'600'}>Merchants</Text>
-    </NavItem>
-  </Box>
-);
-
-const SubMenuItems = () => (
-  <NextLink href={'/profile'}>
-    <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
-      <Text fontSize={13}>Profile</Text>
-    </MenuItem>
-  </NextLink>
-);
-
 export default function RootLayout(props: LayoutProps) {
+  const { t } = useTranslation(['en', 'ptBR']);
   const [logout] = useLogout();
 
   const { me } = usePreloadedQuery(ProfileViewQuery, props.preloadedQuery);
   const user = useFragment<useAuthFragment_user$key>(useAuthFragment, me);
 
+  const Links = () => (
+    <Box>
+      <NavItem key="Home" icon={HiOutlineTicket} href="/">
+        <Text fontWeight="600">{t('events')}</Text>
+      </NavItem>
+      <NavItem key="Merchant" icon={GiPartyPopper} href="/merchant">
+        <Text fontWeight="600">{t('merchants')}</Text>
+      </NavItem>
+    </Box>
+  );
+
+  const SubMenuItems = () => (
+    <NextLink href="/profile">
+      <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
+        <Text fontSize={13}>{t('profile')}</Text>
+      </MenuItem>
+    </NextLink>
+  );
+
   return (
     <Layout title={props.title}>
       <Header user={user} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />}>
         <Container maxW="full" overflow="hidden">
-          <Box mb={'5rem'}>
+          <Box mb="5rem">
             {user ? (
               props.children
             ) : (
-              <Flex justifyContent={'center'} alignItems={'center'}>
-                <TextDecorated fontSize={'2xl'} fontWeight={'bold'}>
-                  Unauthorized, please login again
+              <Flex justifyContent="center" alignItems="center">
+                <TextDecorated fontSize="2xl" fontWeight="bold">
+                  {t('unauthorized_please_login_again')}
                 </TextDecorated>
               </Flex>
             )}

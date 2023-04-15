@@ -1,4 +1,5 @@
 import { Box } from '@chakra-ui/react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Layout } from '@event-list/ui';
 
@@ -29,6 +30,8 @@ export async function getServerSideProps(ctx) {
   }
 
   return {
-    props: {},
+    props: {
+      ...(await serverSideTranslations(ctx.locale, ['en', 'ptBR'])),
+    },
   };
 }

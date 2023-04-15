@@ -14,6 +14,7 @@ import {
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -26,11 +27,13 @@ import Logo from '../../../data/logo.svg';
 type SignInParams = yup.InferType<typeof SignInSchema>;
 
 const SignInSchema = yup.object({
-  email: yup.string().email('Invalid email').required('Email is required'),
+  email: yup.string().email('Invalid email').required('Email is Required'),
   password: yup.string().required('Password is required'),
 });
 
 export default function SignInView() {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   const [UserSignIn, isPending] = useMutation<SignInMutation>(SignIn);
 
   const toast = useToast();
@@ -49,7 +52,7 @@ export default function SignInView() {
       onCompleted: ({ UserSignInMutation }: SignInMutation$data) => {
         if (typeof UserSignInMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('something_was_wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -97,17 +100,17 @@ export default function SignInView() {
   return (
     <FormikProvider value={formik}>
       <Box
-        position={'relative'}
-        minH={'100vh'}
-        bgImage={"linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url('/login-register-banner.jpg')"}
+        position="relative"
+        minH="100vh"
+        bgImage="linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.5)), url('/login-register-banner.jpg')"
         bgPosition="center"
-        bgSize={'cover'}
+        bgSize="cover"
         bgRepeat="no-repeat"
-        bgAttachment={'fixed'}
+        bgAttachment="fixed"
       >
         <Container
           as={SimpleGrid}
-          maxW={'7xl'}
+          maxW="7xl"
           columns={{ base: 1, md: 2 }}
           spacing={{ base: 10, lg: 32 }}
           py={{ base: 10, sm: 20, lg: 32 }}
@@ -118,7 +121,8 @@ export default function SignInView() {
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-                Ensure your <TextDecorated>presence</TextDecorated> in the bests <TextDecorated>events!</TextDecorated>
+                {t('ensure_your')} <TextDecorated>{t('presence')} </TextDecorated>
+                {t('in_the_bests')} <TextDecorated>{t('events')}</TextDecorated>
               </Heading>
             </Box>
           </Stack>
@@ -133,20 +137,20 @@ export default function SignInView() {
             <Stack spacing={{ base: 4, sm: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  Sign in your account{' '}
+                  {t('sign_in_your_account')}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
                 </Heading>
               </Stack>
-              <Box as={'form'} mt={10}>
+              <Box as="form" mt={10}>
                 <Stack spacing={6}>
                   <FormControl id="email" isRequired>
                     <InputField
                       labelProps={{ color: 'gray.700' }}
                       name="email"
-                      label="Email: "
-                      placeholder="user@email.com"
+                      label={t('email')!}
+                      placeholder={t('user@emailcom')!}
                       _placeholder={{
                         color: 'gray.400',
                       }}
@@ -160,7 +164,7 @@ export default function SignInView() {
                       labelProps={{ color: 'gray.700' }}
                       type="password"
                       name="password"
-                      label="Password: "
+                      label={t('password')!}
                       placeholder="*******"
                       _placeholder={{
                         color: 'gray.400',
@@ -173,7 +177,7 @@ export default function SignInView() {
                 </Stack>
                 <Button
                   size="lg"
-                  text="Login"
+                  text={t('login')!}
                   mt={8}
                   w={'full'}
                   isSubmitting={isPending}
@@ -184,7 +188,7 @@ export default function SignInView() {
             </Stack>
             <Center pt={'3'}>
               <Link color={'gray.700'} href={'/sign-up'} fontSize={{ base: 'smaller', lg: 'md' }}>
-                Does not have an account? Sign Up
+                {t('does_not_have_an_account_sign_up')}
               </Link>
             </Center>
           </Flex>
