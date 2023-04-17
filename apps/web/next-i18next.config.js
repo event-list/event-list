@@ -6,7 +6,7 @@ module.exports = {
   debug: false,
   localePath: path.resolve(__dirname, '..', '..', 'packages/i18n-front/src/locales'),
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'ptBR',
     locales: ['en', 'ptBR'],
     localeStructure: '{{lng}}',
   },
