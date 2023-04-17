@@ -66,19 +66,17 @@ export default function RootLayout(props: LayoutProps) {
     <Layout title={props.title}>
       <Header user={merchant} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />}>
         <Container maxW="full" overflow="hidden">
-          {
-            <Box mb={'5rem'}>
-              {merchant ? (
-                props.children
-              ) : (
-                <Flex justifyContent={'center'} alignItems={'center'}>
-                  <TextDecorated fontSize={'2xl'} fontWeight={'bold'}>
-                    Unauthorized, please login again
-                  </TextDecorated>
-                </Flex>
-              )}
-            </Box>
-          }
+          <Box mb={'5rem'}>
+            {merchant ? (
+              props.children
+            ) : (
+              <Flex justifyContent={'center'} alignItems={'center'}>
+                <TextDecorated fontSize={'2xl'} fontWeight={'bold'}>
+                  Unauthorized, please login again
+                </TextDecorated>
+              </Flex>
+            )}
+          </Box>
         </Container>
       </Header>
       <Footer />
