@@ -37,6 +37,7 @@ type Merchant implements Node {
   website: String
   features: [String]
   events(after: String, first: Int, before: String, last: Int): EventConnection
+  hasEventPublished: Boolean!
 }
 
 """A connection to a list of items."""

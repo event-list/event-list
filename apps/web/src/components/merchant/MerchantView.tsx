@@ -43,6 +43,7 @@ export const MerchantViewFragment = graphql`
     twitterAccount
     instagramAccount
     facebookAccount
+    hasEventPublished
   }
 `;
 
@@ -53,10 +54,14 @@ const SocialMediaRow = ({ logo, href, title }) => {
       <Flex w={8} h={4} align={'center'} justify={'center'} rounded={'full'}>
         <Icon w={5} h={5} as={logo} />
       </Flex>
-      <Text>
-        <Link href={href} target={'_blank'}>
-          {title}
-        </Link>
+      <Text fontWeight={600}>
+        {href ? (
+          <Link href={href} target={'_blank'}>
+            {title}
+          </Link>
+        ) : (
+          <Text>{title}</Text>
+        )}
       </Text>
     </Stack>
   );
@@ -96,32 +101,30 @@ const MerchantView = (props: { fragmentKey: MerchantViewFragment_merchant$key })
                 title={merchant.phoneNumber}
                 href={`https://wa.me/${merchant.phoneNumber}`}
               />
-              {merchant.instagramAccount && (
-                <SocialMediaRow
-                  logo={BsInstagram}
-                  title={merchant.instagramAccount}
-                  href={`https://instagram.com/${merchant.instagramAccount}`}
-                />
-              )}
+              <SocialMediaRow
+                logo={BsInstagram}
+                title={merchant.instagramAccount || t('uninformed')}
+                href={merchant.instagramAccount ? `https://instagram.com/${merchant.instagramAccount}` : null}
+              />
               {merchant.facebookAccount && (
                 <SocialMediaRow
                   logo={BsFacebook}
-                  title={merchant.facebookAccount}
-                  href={`https://facebook.com/${merchant.instagramAccount}`}
+                  title={merchant.facebookAccount || t('uninformed')}
+                  href={merchant.facebookAccount ? `https://facebook.com/${merchant.instagramAccount}` : null}
                 />
               )}
               {merchant.twitterAccount && (
                 <SocialMediaRow
                   logo={BsTwitter}
-                  title={merchant.twitterAccount}
-                  href={`https://twitter.com/${merchant.instagramAccount}`}
+                  title={merchant.twitterAccount || t('uninformed')}
+                  href={merchant.twitterAccount ? `https://twitter.com/${merchant.instagramAccount}` : null}
                 />
               )}
             </Stack>
           </Stack>
           <Center display={{ base: 'none', sm: 'flex' }}>
             <Box rounded={'lg'} pos={'relative'}>
-              <Image rounded={'lg'} height={{ base: 300, md: 500 }} objectFit={'cover'} src={merchant.logo ?? ''} />
+              <Image rounded={'lg'} height={{ base: 300, md: 400 }} objectFit={'cover'} src={merchant.logo ?? ''} />
             </Box>
           </Center>
         </SimpleGrid>
@@ -131,9 +134,15 @@ const MerchantView = (props: { fragmentKey: MerchantViewFragment_merchant$key })
             <Heading>
               <TextDecorated>{t('events')}</TextDecorated>
             </Heading>
-            {merchant.events?.edges?.map((event, index) => {
-              if (event?.node) return <EventRow key={index} fragmentKey={event?.node} />;
-            })}
+            {merchant.hasEventPublished ? (
+              merchant.events?.edges?.map((event, index) => {
+                if (event?.node) return <EventRow key={index} fragmentKey={event?.node} />;
+              })
+            ) : (
+              <SimpleGrid minChildWidth="350px" spacing="20px">
+                <Text>{t('events_not_found')}</Text>
+              </SimpleGrid>
+            )}
           </Stack>
         </Box>
       </Stack>
