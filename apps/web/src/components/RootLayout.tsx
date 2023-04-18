@@ -22,46 +22,46 @@ type LayoutProps = {
   title?: string;
 };
 
-const Links = () => (
-  <Box>
-    <NavItem key="Home" icon={HiOutlineTicket}>
-      <NextLink href="/">
-        <Text fontWeight="600">{t('events')}</Text>
-      </NextLink>
-    </NavItem>
-    <NavItem key="Merchant" icon={GiPartyPopper}>
-      <NextLink href="/merchant">
-        <Text fontWeight="600">{t('merchants')}</Text>
-      </NextLink>
-    </NavItem>
-  </Box>
-);
-
-const NavItem = ({ icon, children, ...rest }) => {
-  return (
-    <Link style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-      <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
-        {icon && <Icon mr="4" fontSize="16" as={icon} />}
-        {children}
-      </Flex>
-    </Link>
-  );
-};
-
-const SubMenuItems = () => (
-  <NextLink href="/profile">
-    <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
-      <Text fontSize={13}>{t('profile')}</Text>
-    </MenuItem>
-  </NextLink>
-);
-
 export default function RootLayout(props: LayoutProps) {
   const { t } = useTranslation(['en', 'ptBR']);
   const [logout] = useLogout();
 
   const { me } = usePreloadedQuery(ProfileViewQuery, props.preloadedQuery);
   const user = useFragment<useAuthFragment_user$key>(useAuthFragment, me);
+
+  const Links = () => (
+    <Box>
+      <NavItem key="Home" icon={HiOutlineTicket}>
+        <NextLink href="/">
+          <Text fontWeight="600">{t('events')}</Text>
+        </NextLink>
+      </NavItem>
+      <NavItem key="Merchant" icon={GiPartyPopper}>
+        <NextLink href="/merchant">
+          <Text fontWeight="600">{t('merchants')}</Text>
+        </NextLink>
+      </NavItem>
+    </Box>
+  );
+
+  const NavItem = ({ icon, children, ...rest }) => {
+    return (
+      <Link style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+        <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
+          {icon && <Icon mr="4" fontSize="16" as={icon} />}
+          {children}
+        </Flex>
+      </Link>
+    );
+  };
+
+  const SubMenuItems = () => (
+    <NextLink href="/profile">
+      <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
+        <Text fontSize={13}>{t('profile')}</Text>
+      </MenuItem>
+    </NextLink>
+  );
 
   return (
     <Layout title={props.title}>

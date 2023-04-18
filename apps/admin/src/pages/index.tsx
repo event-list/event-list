@@ -1,4 +1,5 @@
 import { Box, Flex, Heading, HStack, Stack, Text } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { useFragment, usePreloadedQuery } from 'react-relay';
 
 import { LinkDecorated } from '@event-list/ui';
@@ -16,12 +17,14 @@ import { ProfileViewQuery } from '../components/merchant/ProfileView';
 import RootLayout from '../components/RootLayout';
 import getPreloadedQuery from '../relay/getPreloadedQuery';
 
+
 export default function Page(props) {
+  const { t } = useTranslation();
   const { meAdmin } = usePreloadedQuery<ProfileViewQueryPreloaded>(ProfileViewQuery, props.queryRefs.ProfileQuery);
 
   const merchant = useFragment<useAdminAuthFragment_user$key>(useAdminAuthFragment, meAdmin);
 
-  if (!merchant?.features?.includes('BETA')) {
+  if (!merchant?.features?.includes(t('beta'))) {
     return (
       <RootLayout preloadedQuery={props.queryRefs.ProfileQuery}>
         <BetaView />
@@ -32,65 +35,65 @@ export default function Page(props) {
   return (
     <RootLayout preloadedQuery={props.queryRefs.ProfileQuery}>
       <Stack spacing={6}>
-        <Box w={'full'} rounded={'lg'} px={8} py={6} bgColor={'gray.900'}>
-          <Flex justifyContent={'space-between'}>
+        <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900">
+          <Flex justifyContent="space-between">
             <Stack spacing={10}>
               <Stack>
-                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>Share your event</Heading>
-                <Text fontSize={'md'}>Do not waste time and share your events now</Text>
+                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('share_your_event')}</Heading>
+                <Text fontSize="md">{t('do_not_waste_time_and_share_your_events_')}</Text>
               </Stack>
-              <LinkDecorated target={'_blank'} w={'10rem'} href={`/share-your-event`} label={`Share an event`} />
+              <LinkDecorated target="_blank" w="10rem" href="/share-your-event" label={t('share_an_event')!} />
             </Stack>
             <Box>
-              <ShareEventImage width={'15rem'} />
+              <ShareEventImage width="15rem" />
             </Box>
           </Flex>
         </Box>
         <HStack spacing={6}>
-          <Box w={'full'} rounded={'lg'} px={8} py={6} bgColor={'gray.900'}>
+          <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900">
             <Stack spacing={6}>
-              <Flex justifyContent={'space-between'}>
+              <Flex justifyContent="space-between">
                 <Stack>
-                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>See your events</Heading>
-                  <Text fontSize={'md'}>Total confirmed, guest list, price, and more...</Text>
+                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('see_your_events')}</Heading>
+                  <Text fontSize="md">{t('total_confirmed_guest_list_price_and_mor')}</Text>
                 </Stack>
                 <Stack>
-                  <LinkDecorated target={'_blank'} w={'10rem'} href={`/events`} label={`My events`} />
+                  <LinkDecorated target="_blank" w="10rem" href="/events" label={t('my_events')!} />
                 </Stack>
               </Flex>
-              <Flex justifyContent={'center'}>
+              <Flex justifyContent="center">
                 <EventsImage />
               </Flex>
             </Stack>
           </Box>
-          <Box w={'full'} rounded={'lg'} px={8} py={6} bgColor={'gray.900'}>
+          <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900">
             <Stack spacing={6}>
-              <Flex justifyContent={'space-between'}>
+              <Flex justifyContent="space-between">
                 <Stack>
-                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>Edit your Profile</Heading>
-                  <Text fontSize={'md'}>Logo, instagram, website, description, and more...</Text>
+                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('edit_your_profile')}</Heading>
+                  <Text fontSize="md">{t('logo_instagram_website_description_and_m')}</Text>
                 </Stack>
                 <Stack>
-                  <LinkDecorated target={'_blank'} w={'10rem'} href={`/profile`} label={`Profile`} />
+                  <LinkDecorated target="_blank" w="10rem" href="/profile" label={t('profile')!} />
                 </Stack>
               </Flex>
-              <Flex justifyContent={'center'}>
+              <Flex justifyContent="center">
                 <ProfileImage />
               </Flex>
             </Stack>
           </Box>
         </HStack>
-        <Box w={'full'} rounded={'lg'} px={8} py={6} bgColor={'gray.900'}>
-          <Flex justifyContent={'space-between'}>
+        <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900">
+          <Flex justifyContent="space-between">
             <Stack spacing={10}>
               <Stack>
-                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>New here?</Heading>
-                <Text fontSize={'md'}>Start with our help page</Text>
+                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('new_here')}</Heading>
+                <Text fontSize="md">{t('start_with_our_help_page')}</Text>
               </Stack>
-              <LinkDecorated target={'_blank'} w={'10rem'} href={`/help`} label={`Help`} />
+              <LinkDecorated target="_blank" w="10rem" href="/help" label={t('help')!} />
             </Stack>
             <Box>
-              <QuestionImage width={'15rem'} />
+              <QuestionImage width="15rem" />
             </Box>
           </Flex>
         </Box>

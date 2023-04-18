@@ -1,7 +1,7 @@
-import { Box, Container, Button, Stack, Text, useColorModeValue, VisuallyHidden } from '@chakra-ui/react';
+import { Box, Container, Button, Stack, Text, useColorModeValue, VisuallyHidden, Link } from '@chakra-ui/react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
-import { FaGithub, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 //@ts-expect-error it not have type
 import Logo from '../logo.svg';
@@ -24,11 +24,17 @@ const SocialButton = ({ children, label, href }: { children: ReactNode; label: s
         bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
       }}
     >
-      <>
-        <VisuallyHidden>{label}</VisuallyHidden>
-        {children}
-      </>
+      <VisuallyHidden>{label}</VisuallyHidden>
+      {children}
     </Button>
+  );
+};
+
+const ListHeader = ({ children }: { children: ReactNode }) => {
+  return (
+    <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
+      {children}
+    </Text>
   );
 };
 
@@ -40,6 +46,7 @@ export default function Footer() {
       role="contentinfo"
       ml={{ base: 0, md: 60 }}
       borderTop="1px"
+      py="10"
       borderTopColor={useColorModeValue('gray.200', 'gray.700')}
     >
       <Container
@@ -51,17 +58,38 @@ export default function Footer() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Box w={'48'}>
-          <Image src={Logo} alt={'Small and red Event List logo'} />
-        </Box>
-        <Text fontSize={{ base: '13px', sm: 'sm' }}>© 2022 Event List. All rights reserved</Text>
-        <Stack direction={'row'} spacing={6}>
-          <SocialButton label={'GitHub'} href={'https://github.com/event-list'}>
-            <FaGithub />
-          </SocialButton>
-          <SocialButton label={'Instagram'} href={'https://www.instagram.com/eventlist.ev/'}>
-            <FaInstagram />
-          </SocialButton>
+        <Stack align={'flex-start'}>
+          <ListHeader>Company</ListHeader>
+          <Link href={'#'}>About us</Link>
+          <Link href={'#'}>Blog</Link>
+          <Link href={'#'}>Contact us</Link>
+          <Link href={'#'}>Pricing</Link>
+          <Link href={'#'}>Testimonials</Link>
+        </Stack>
+        <Stack align={'flex-start'}>
+          <ListHeader>Support</ListHeader>
+          <Link href={'#'}>Help Center</Link>
+          <Link href={'#'}>Terms of Service</Link>
+          <Link href={'#'}>Legal</Link>
+          <Link href={'#'}>Privacy Policy</Link>
+          <Link href={'#'}>Satus</Link>
+        </Stack>
+        <Stack spacing={6}>
+          <Box w="40">
+            <Image src={Logo} />
+          </Box>
+          <Text fontSize={'sm'}>© {new Date().getFullYear()} Event List. All rights reserved</Text>
+          <Stack direction={'row'} spacing={6}>
+            <SocialButton label={'Twitter'} href={'#'}>
+              <FaTwitter />
+            </SocialButton>
+            <SocialButton label={'YouTube'} href={'#'}>
+              <FaGithub />
+            </SocialButton>
+            <SocialButton label={'Instagram'} href={'#'}>
+              <FaInstagram />
+            </SocialButton>
+          </Stack>
         </Stack>
       </Container>
     </Box>
