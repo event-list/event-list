@@ -17,7 +17,6 @@ import { ProfileViewQuery } from '../components/merchant/ProfileView';
 import RootLayout from '../components/RootLayout';
 import getPreloadedQuery from '../relay/getPreloadedQuery';
 
-
 export default function Page(props) {
   const { t } = useTranslation();
   const { meAdmin } = usePreloadedQuery<ProfileViewQueryPreloaded>(ProfileViewQuery, props.queryRefs.ProfileQuery);

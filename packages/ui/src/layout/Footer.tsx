@@ -38,7 +38,7 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default function Footer() {
+export default function Footer({ t }) {
   return (
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
@@ -59,20 +59,14 @@ export default function Footer() {
         align={{ base: 'center', md: 'center' }}
       >
         <Stack align={'flex-start'}>
-          <ListHeader>Company</ListHeader>
-          <Link href={'#'}>About us</Link>
-          <Link href={'#'}>Blog</Link>
-          <Link href={'#'}>Contact us</Link>
-          <Link href={'#'}>Pricing</Link>
-          <Link href={'#'}>Testimonials</Link>
+          <ListHeader>{t('Company')}</ListHeader>
+          <Link href={'https://evtlist.com/'}>{t('About us')}</Link>
+          <Link href={'mailto:viblaziusgoulart@gmail.com'}>{t('Contact us')}</Link>
+          <Link href={'https://evtlist.com/en/services#prices'}>{t('Pricing')}</Link>
         </Stack>
         <Stack align={'flex-start'}>
-          <ListHeader>Support</ListHeader>
-          <Link href={'#'}>Help Center</Link>
-          <Link href={'#'}>Terms of Service</Link>
-          <Link href={'#'}>Legal</Link>
-          <Link href={'#'}>Privacy Policy</Link>
-          <Link href={'#'}>Satus</Link>
+          <ListHeader>{t('Support')}</ListHeader>
+          <Link href={'#'}>{t('Terms of Service')}</Link>
         </Stack>
         <Stack spacing={6}>
           <Box w="40">
@@ -83,10 +77,10 @@ export default function Footer() {
             <SocialButton label={'Twitter'} href={'#'}>
               <FaTwitter />
             </SocialButton>
-            <SocialButton label={'YouTube'} href={'#'}>
+            <SocialButton label={'Github'} href={'https://github.com/event-list'}>
               <FaGithub />
             </SocialButton>
-            <SocialButton label={'Instagram'} href={'#'}>
+            <SocialButton label={'Instagram'} href={'https://www.instagram.com/evtlist/'}>
               <FaInstagram />
             </SocialButton>
           </Stack>
