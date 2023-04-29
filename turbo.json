@@ -22,6 +22,9 @@
     "dev": {
       "cache": false
     },
+    "web": {
+      "cache": false
+    },
     "relay": {
       "cache": false
     },
