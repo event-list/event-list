@@ -162,5 +162,10 @@
   "logo_is_required": "Logo is required",
   "sign_up_your_merchant_account": "Sign up your merchant account",
   "what_about_is_your_label": "What about is your label?",
-  "logo": "Logo:"
+  "logo": "Logo:",
+  "Company": "Company",
+  "Support": "Support",
+  "About us": "About us",
+  "Terms of Service": "Terms of Service",
+  "Pricing": "Pricing"
 }

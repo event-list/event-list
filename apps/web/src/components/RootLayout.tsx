@@ -80,7 +80,7 @@ export default function RootLayout(props: LayoutProps) {
           </Box>
         </Container>
       </Header>
-      <Footer />
+      <Footer t={t} />
     </Layout>
   );
 }

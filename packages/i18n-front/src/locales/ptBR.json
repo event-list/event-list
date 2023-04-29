@@ -161,5 +161,10 @@
   "logo_is_required": "Logo é obrigatório",
   "sign_up_your_merchant_account": "Registre na sua conta de organizador",
   "what_about_is_your_label": "Sobre o que você é?",
-  "logo": "Logo:"
+  "logo": "Logo:",
+  "Company": "Empresa",
+  "Support": "Suporte",
+  "About us": "Sobre nós",
+  "Terms of Service": "Termos de Serviço",
+  "Pricing": "Preços"
 }
