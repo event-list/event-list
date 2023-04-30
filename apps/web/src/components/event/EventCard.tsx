@@ -28,7 +28,7 @@ const EventCard = (props: { fragmentKey: EventFragment_event$key }) => {
       <Flex alignItems="center" justifyContent="space-between" w="75%">
         <Box>
           <VStack spacing={0}>
-            <TextDecorated fontSize={'sm'}>{t('date')}</TextDecorated>
+            <TextDecorated fontSize={'sm'}>{t('Date')}</TextDecorated>
             <Text fontWeight={'bold'} fontSize={'lg'}>
               {timestampToDate(event.dateStart, 'dd/MM HH:mm')}
             </Text>
@@ -36,7 +36,7 @@ const EventCard = (props: { fragmentKey: EventFragment_event$key }) => {
         </Box>
         <Box>
           <VStack spacing={0}>
-            <TextDecorated fontSize={'sm'}>{t('value')}</TextDecorated>
+            <TextDecorated fontSize={'sm'}>{t('Value')}</TextDecorated>
             <Text fontWeight={'bold'} fontSize={'lg'}>
               {event.currentBatch}
             </Text>

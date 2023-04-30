@@ -103,20 +103,20 @@ const MerchantView = (props: { fragmentKey: MerchantViewFragment_merchant$key })
               />
               <SocialMediaRow
                 logo={BsInstagram}
-                title={merchant.instagramAccount || t('uninformed')}
+                title={merchant.instagramAccount || t('Uninformed')}
                 href={merchant.instagramAccount ? `https://instagram.com/${merchant.instagramAccount}` : null}
               />
               {merchant.facebookAccount && (
                 <SocialMediaRow
                   logo={BsFacebook}
-                  title={merchant.facebookAccount || t('uninformed')}
+                  title={merchant.facebookAccount || t('Uninformed')}
                   href={merchant.facebookAccount ? `https://facebook.com/${merchant.instagramAccount}` : null}
                 />
               )}
               {merchant.twitterAccount && (
                 <SocialMediaRow
                   logo={BsTwitter}
-                  title={merchant.twitterAccount || t('uninformed')}
+                  title={merchant.twitterAccount || t('Uninformed')}
                   href={merchant.twitterAccount ? `https://twitter.com/${merchant.instagramAccount}` : null}
                 />
               )}
@@ -132,7 +132,7 @@ const MerchantView = (props: { fragmentKey: MerchantViewFragment_merchant$key })
         <Box>
           <Stack spacing={8}>
             <Heading>
-              <TextDecorated>{t('events')}</TextDecorated>
+              <TextDecorated>{t('Events')}</TextDecorated>
             </Heading>
             {merchant.hasEventPublished ? (
               merchant.events?.edges?.map((event, index) => {
@@ -140,7 +140,7 @@ const MerchantView = (props: { fragmentKey: MerchantViewFragment_merchant$key })
               })
             ) : (
               <SimpleGrid minChildWidth="350px" spacing="20px">
-                <Text>{t('events_not_found')}</Text>
+                <Text>{t('Events not found')}</Text>
               </SimpleGrid>
             )}
           </Stack>

@@ -3,9 +3,11 @@ const path = require('path');
 
 const localePath = path.resolve(__dirname, '..', '..', 'packages/i18n-front/src/locales');
 
+console.log(localePath);
+
 module.exports = {
   reloadOnPrerender: true,
-  debug: false,
+  debug: true,
   localePath,
   i18n: {
     locales: ['ptBR', 'en'],

@@ -39,7 +39,7 @@ const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) =>
   if (!merchants.edges) {
     return (
       <SimpleGrid minChildWidth="350px" spacing="20px">
-        <Text>{t('merchants_not_found')}</Text>
+        <Text>{t('Merchants not found')}</Text>
       </SimpleGrid>
     );
   }
@@ -65,7 +65,7 @@ const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) =>
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage title={t('merchants')} description={t('find_your_favorite_event_creators')!}>
+      <ContainerPage title={t('Merchants')} description={t('Find your favorite event creators')!}>
         <SimpleGrid
           minChildWidth="350px"
           templateColumns={{

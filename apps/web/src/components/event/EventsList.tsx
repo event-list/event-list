@@ -39,7 +39,7 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
   if (!events.edges) {
     return (
       <SimpleGrid minChildWidth="350px" spacing="20px">
-        <Text>{t('events_not_found')}</Text>
+        <Text>{t('Events not found')}</Text>
       </SimpleGrid>
     );
   }
@@ -65,7 +65,12 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage title={t('events')} description={t('see_all_the_events_available_for_you_to_')!}>
+      <ContainerPage
+        title={t('Events')}
+        description={
+          t('See all the events available for you to attend. Open one of the events to see more information about it')!
+        }
+      >
         <SimpleGrid
           minChildWidth="350px"
           templateColumns={{
