@@ -70,7 +70,7 @@ const ProfileView = (props: ProfileViewProps) => {
       onCompleted: ({ UserMeUpdateMutation }: UserMeUpdateMutation$data) => {
         if (typeof UserMeUpdateMutation === 'undefined') {
           toast({
-            title: t('something_was_wrong'!),
+            title: t('Something was wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -104,7 +104,7 @@ const ProfileView = (props: ProfileViewProps) => {
     return (
       <Box textAlign="center" py={10} px={6}>
         <Heading as="h2" size="xl" mt={6} mb={2}>
-          {t('no_user_found')!}
+          {t('No user found')}
         </Heading>
       </Box>
     );
@@ -156,17 +156,12 @@ const ProfileView = (props: ProfileViewProps) => {
           <Stack spacing={5}>
             <HStack>
               <FormControl id="name" isRequired>
-                <InputField
-                  name="name"
-                  label={t('full_name')!}
-                  placeholder={t('full_name')!}
-                  defaultValue={user.name}
-                />
+                <InputField name="name" label={t('Full name')!} placeholder={t('Full name')} defaultValue={user.name} />
               </FormControl>
             </HStack>
             <Button
               size="lg"
-              text={t('update_informations')!}
+              text={t('Update informations')}
               w="full"
               isSubmitting={isPending}
               isDisabled={isDisabled}

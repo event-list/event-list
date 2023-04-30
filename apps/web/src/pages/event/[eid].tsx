@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { usePreloadedQuery } from 'react-relay';
 import { graphql } from 'relay-runtime';
@@ -11,6 +12,7 @@ import ProfileViewQueryGenerated from '../../../__generated__/ProfileViewQuery.g
 import EventView from '../../components/event/Event';
 import RootLayout from '../../components/RootLayout';
 
+
 const EventViewQuery = graphql`
   query EidEventViewQuery($id: ID!) @preloadable {
     event: node(id: $id) {
@@ -20,12 +22,14 @@ const EventViewQuery = graphql`
 `;
 
 export default function Page(props) {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   const { event } = usePreloadedQuery<EidEventViewQuery>(EventViewQuery, props.queryRefs.EventViewQuery);
 
   if (!event) {
     return (
       <RootLayout preloadedQuery={props.queryRefs.ProfileViewQuery}>
-        <Text>Event not found</Text>
+        <Text>{t('Event not found')}</Text>
       </RootLayout>
     );
   }

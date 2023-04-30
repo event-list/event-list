@@ -54,7 +54,7 @@ export default function SignUpView() {
       onCompleted: ({ UserSignUpMutation }: SignUpMutation$data) => {
         if (typeof UserSignUpMutation === 'undefined') {
           toast({
-            title: t('something_was_wrong'),
+            title: t('Something was wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -124,8 +124,8 @@ export default function SignUpView() {
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-                {t('ensure_your')} <TextDecorated>{t('presence')} </TextDecorated>
-                {t('in_the_bests')} <TextDecorated>{t('events')}</TextDecorated>
+                {t('Ensure your')} <TextDecorated>{t('Presence')} </TextDecorated>
+                {t('In the bests')} <TextDecorated>{t('Events')}</TextDecorated>
               </Heading>
             </Box>
           </Stack>
@@ -140,7 +140,7 @@ export default function SignUpView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  {t('sign_up_your_account')}
+                  {t('Sign up your account')}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
@@ -152,8 +152,8 @@ export default function SignUpView() {
                     <InputField
                       labelProps={{ color: 'gray.700' }}
                       name="email"
-                      label={t('email')!}
-                      placeholder={t('user@emailcom')!}
+                      label={t('Email')!}
+                      placeholder={t('User@emailcom')!}
                       _placeholder={{
                         color: 'gray.400',
                       }}
@@ -167,7 +167,7 @@ export default function SignUpView() {
                       labelProps={{ color: 'gray.700' }}
                       type="password"
                       name="password"
-                      label={t('password')!}
+                      label={t('Password')!}
                       placeholder="*******"
                       _placeholder={{
                         color: 'gray.400',
@@ -182,11 +182,11 @@ export default function SignUpView() {
                       <InputField
                         labelProps={{ color: 'gray.700' }}
                         bg={'gray.100'}
-                        label={t('full_name')!}
+                        label={t('Full name')!}
                         border={0}
                         color="gray"
                         name="name"
-                        placeholder={t('your_full_name')!}
+                        placeholder={t('Your full name')!}
                         _placeholder={{
                           color: 'gray.400',
                         }}
@@ -196,7 +196,7 @@ export default function SignUpView() {
                 </Stack>
                 <Button
                   size="lg"
-                  text={t('register')!}
+                  text={t('Register')!}
                   mt={8}
                   w="full"
                   isSubmitting={isPending}
@@ -207,7 +207,7 @@ export default function SignUpView() {
             </Stack>
             <Center pt={'3'}>
               <Link color={'gray.700'} href={'/sign-in'} fontSize={{ base: 'smaller', lg: 'md' }}>
-                {t('already_have_an_account_sign_in')}
+                {t('Already have an account sign in')}
               </Link>
             </Center>
           </Flex>

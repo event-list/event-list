@@ -1,4 +1,5 @@
 import { Box } from '@chakra-ui/react';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Layout } from '@event-list/ui';
@@ -7,8 +8,10 @@ import getToken from '../../auth/getToken';
 import SignUpView from '../../components/sign-up/SignUpView';
 
 export default function SignUp() {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   return (
-    <Layout title="Sign Up">
+    <Layout title={t('Sign Up')!}>
       <Box maxW="full" mt={0} overflow="hidden">
         <SignUpView />
       </Box>

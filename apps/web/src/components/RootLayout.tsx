@@ -33,12 +33,12 @@ export default function RootLayout(props: LayoutProps) {
     <Box>
       <NavItem key="Home" icon={HiOutlineTicket}>
         <NextLink href="/">
-          <Text fontWeight="600">{t('events')}</Text>
+          <Text fontWeight="600">{t('Events')}</Text>
         </NextLink>
       </NavItem>
       <NavItem key="Merchant" icon={GiPartyPopper}>
         <NextLink href="/merchant">
-          <Text fontWeight="600">{t('merchants')}</Text>
+          <Text fontWeight="600">{t('Merchants')}</Text>
         </NextLink>
       </NavItem>
     </Box>
@@ -58,7 +58,7 @@ export default function RootLayout(props: LayoutProps) {
   const SubMenuItems = () => (
     <NextLink href="/profile">
       <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
-        <Text fontSize={13}>{t('profile')}</Text>
+        <Text fontSize={13}>{t('Profile')}</Text>
       </MenuItem>
     </NextLink>
   );
@@ -73,7 +73,7 @@ export default function RootLayout(props: LayoutProps) {
             ) : (
               <Flex justifyContent="center" alignItems="center">
                 <TextDecorated fontSize="2xl" fontWeight="bold">
-                  {t('unauthorized_please_login_again')}
+                  {t('Unauthorized please login again')}
                 </TextDecorated>
               </Flex>
             )}

@@ -1,4 +1,5 @@
 import { Text } from '@chakra-ui/react';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { graphql, usePreloadedQuery } from 'react-relay';
 
@@ -10,6 +11,7 @@ import ProfileViewQueryGenerated from '../../../__generated__/ProfileViewQuery.g
 import { MerchantView } from '../../components/merchant/MerchantView';
 import RootLayout from '../../components/RootLayout';
 
+
 const LabelViewQuery = graphql`
   query MidLabelViewQuery($id: ID!) @preloadable {
     merchant: node(id: $id) {
@@ -19,12 +21,14 @@ const LabelViewQuery = graphql`
 `;
 
 export default function Page(props) {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   const { merchant } = usePreloadedQuery<MidLabelViewQuery>(LabelViewQuery, props.queryRefs.LabelViewQuery);
 
   if (!merchant) {
     return (
       <RootLayout preloadedQuery={props.queryRefs.ProfileViewQuery}>
-        <Text>Label not found</Text>
+        <Text>{t('Label not found')}</Text>
       </RootLayout>
     );
   }

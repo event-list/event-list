@@ -90,7 +90,7 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
         onCompleted: ({ EventEnsurePresenceMutation }: EnsurePresenceMutation$data) => {
           if (typeof EventEnsurePresenceMutation === 'undefined') {
             toast({
-              title: t('something_was_wrong'),
+              title: t('Something was wrong'),
               status: 'error',
               duration: 5000,
               isClosable: true,
@@ -156,7 +156,7 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
           >
             <Stack>
               <TextDecorated fontSize={{ base: 'xl', sm: '1xl', lg: '1xl' }} fontWeight="700">
-                {t('share_it')}
+                {t('Share it')}
               </TextDecorated>
               <HStack spacing={2}>
                 <WhatsappShareButton
@@ -181,7 +181,7 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
             </Stack>
             <Stack>
               <TextDecorated fontSize={{ base: 'xl', sm: '1xl', lg: '1xl' }} fontWeight="700">
-                {t('place')}
+                {t('Place')}
               </TextDecorated>
               <SimpleGrid columns={{ base: 1 }} spacing={10}>
                 <List spacing={2}>
@@ -197,31 +197,31 @@ export default function EventView(props: { fragmentKey: EventFragment_event$key 
             </Stack>
             <Stack>
               <SimpleGrid columns={{ base: 2 }} spacing={{ base: 5, lg: 8 }}>
-                <StatsCard title={t('price')} stat={event.currentBatch ?? '00,00'} icon={<FaMoneyCheckAlt />} />
-                <StatsCard title={t('classification')} stat={event.classification ?? '18'} icon={<SiAdblock />} />
+                <StatsCard title={t('Price')} stat={event.currentBatch ?? '00,00'} icon={<FaMoneyCheckAlt />} />
+                <StatsCard title={t('Classification')} stat={event.classification ?? '18'} icon={<SiAdblock />} />
                 <StatsCard
-                  title={t('start')}
+                  title={t('Start')}
                   stat={timestampToDate(event.dateStart, 'yyyy/MM/dd HH:mm')}
                   icon={<BsDoorOpenFill />}
                 />
                 <StatsCard
-                  title={t('end')}
+                  title={t('End')}
                   stat={timestampToDate(event.dateEnd, 'yyyy/MM/dd HH:mm')}
                   icon={<BsDoorClosedFill />}
                 />
                 <StatsCard
-                  title={t('list_available_at')}
+                  title={t('List available at')}
                   stat={timestampToDate(event.listAvailableAt, 'yyyy/MM/dd HH:mm')}
                   icon={<MdFactCheck />}
                 />
               </SimpleGrid>
             </Stack>
             <Button
-              loadingText={t('submitting')!}
+              loadingText={t('Submitting')!}
               isSubmitting={isPending}
               isDisabled={isDisabled}
               size="lg"
-              text={t('i_am_going_to_this_event')!}
+              text={t('I am going to this event')!}
               py="7"
               w="full"
               color="white"
