@@ -31,27 +31,25 @@ export default function RootLayout(props: LayoutProps) {
 
   const Links = () => (
     <Box>
-      <NavItem key="Home" icon={HiOutlineTicket}>
-        <NextLink href="/">
-          <Text fontWeight="600">{t('Events')}</Text>
-        </NextLink>
+      <NavItem key="Home" href="/" icon={HiOutlineTicket}>
+        <Text fontWeight="600">{t('Events')}</Text>
       </NavItem>
-      <NavItem key="Merchant" icon={GiPartyPopper}>
-        <NextLink href="/merchant">
-          <Text fontWeight="600">{t('Merchants')}</Text>
-        </NextLink>
+      <NavItem key="Merchant" href="/merchant" icon={GiPartyPopper}>
+        <Text fontWeight="600">{t('Merchants')}</Text>
       </NavItem>
     </Box>
   );
 
-  const NavItem = ({ icon, children, ...rest }) => {
+  const NavItem = ({ icon, children, href, ...rest }) => {
     return (
-      <Link style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-        <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
-          {icon && <Icon mr="4" fontSize="16" as={icon} />}
-          {children}
-        </Flex>
-      </Link>
+      <NextLink href={href}>
+        <Link style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+          <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
+            {icon && <Icon mr="4" fontSize="16" as={icon} />}
+            {children}
+          </Flex>
+        </Link>
+      </NextLink>
     );
   };
 

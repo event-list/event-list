@@ -5,7 +5,7 @@ const { i18n } = require('./next-i18next.config');
 const relay = require('./relay.config.js');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires,import/order
-const withTM = require('next-transpile-modules')(['@event-list/relay', '@event-list/ui'], {
+const withTM = require('next-transpile-modules')(['@event-list/relay', '@event-list/ui', '@event-list/flags'], {
   resolveSymlinks: true,
 });
 

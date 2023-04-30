@@ -1,5 +1,6 @@
 import { Box, Container, Flex, Icon, Link, MenuItem, Text } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { useTranslation } from 'next-i18next';
 import { BsCardChecklist } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { FiHome } from 'react-icons/fi';
@@ -14,6 +15,7 @@ import type { ProfileViewQuery as ProfileViewQueryType } from '../../__generated
 import type { useAdminAuthFragment_user$key } from '../../__generated__/useAdminAuthFragment_user.graphql';
 import { useAdminAuthFragment } from '../auth/useAdminAuth';
 import { useLogout } from '../auth/useLogout';
+
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -57,6 +59,8 @@ const SubMenuItems = () => (
 );
 
 export default function RootLayout(props: LayoutProps) {
+  const { t } = useTranslation(['en', 'ptBR']);
+
   const [logout] = useLogout();
 
   const { meAdmin } = usePreloadedQuery(ProfileViewQuery, props.preloadedQuery);
@@ -79,7 +83,7 @@ export default function RootLayout(props: LayoutProps) {
           </Box>
         </Container>
       </Header>
-      <Footer />
+      <Footer t={t} />
     </Layout>
   );
 }

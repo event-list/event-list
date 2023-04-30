@@ -2,6 +2,7 @@ import { Box, Flex, Heading, HStack, Stack, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useFragment, usePreloadedQuery } from 'react-relay';
 
+import { FEATURES } from '@event-list/flags';
 import { LinkDecorated } from '@event-list/ui';
 
 import type { ProfileViewQuery as ProfileViewQueryPreloaded } from '../../__generated__/ProfileViewQuery.graphql';
@@ -17,13 +18,14 @@ import { ProfileViewQuery } from '../components/merchant/ProfileView';
 import RootLayout from '../components/RootLayout';
 import getPreloadedQuery from '../relay/getPreloadedQuery';
 
+
 export default function Page(props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['ptBR', 'en']);
   const { meAdmin } = usePreloadedQuery<ProfileViewQueryPreloaded>(ProfileViewQuery, props.queryRefs.ProfileQuery);
 
   const merchant = useFragment<useAdminAuthFragment_user$key>(useAdminAuthFragment, meAdmin);
 
-  if (!merchant?.features?.includes(t('beta'))) {
+  if (!merchant?.features?.includes(FEATURES.BETA)) {
     return (
       <RootLayout preloadedQuery={props.queryRefs.ProfileQuery}>
         <BetaView />
@@ -38,10 +40,10 @@ export default function Page(props) {
           <Flex justifyContent="space-between">
             <Stack spacing={10}>
               <Stack>
-                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('share_your_event')}</Heading>
-                <Text fontSize="md">{t('do_not_waste_time_and_share_your_events_')}</Text>
+                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('Share your event')}</Heading>
+                <Text fontSize="md">{t('Do not waste time and share your events ')}</Text>
               </Stack>
-              <LinkDecorated target="_blank" w="10rem" href="/share-your-event" label={t('share_an_event')!} />
+              <LinkDecorated target="_blank" w="10rem" href="/share-your-event" label={t('Share an event')!} />
             </Stack>
             <Box>
               <ShareEventImage width="15rem" />
@@ -53,11 +55,11 @@ export default function Page(props) {
             <Stack spacing={6}>
               <Flex justifyContent="space-between">
                 <Stack>
-                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('see_your_events')}</Heading>
-                  <Text fontSize="md">{t('total_confirmed_guest_list_price_and_mor')}</Text>
+                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('See your events')}</Heading>
+                  <Text fontSize="md">{t('Total confirmed, guest list, price, and more...')}</Text>
                 </Stack>
                 <Stack>
-                  <LinkDecorated target="_blank" w="10rem" href="/events" label={t('my_events')!} />
+                  <LinkDecorated target="_blank" w="10rem" href="/events" label={t('My events')!} />
                 </Stack>
               </Flex>
               <Flex justifyContent="center">
@@ -69,11 +71,11 @@ export default function Page(props) {
             <Stack spacing={6}>
               <Flex justifyContent="space-between">
                 <Stack>
-                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('edit_your_profile')}</Heading>
-                  <Text fontSize="md">{t('logo_instagram_website_description_and_m')}</Text>
+                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('Edit your profile')}</Heading>
+                  <Text fontSize="md">{t('Logo, instagram, website, description, and more...')}</Text>
                 </Stack>
                 <Stack>
-                  <LinkDecorated target="_blank" w="10rem" href="/profile" label={t('profile')!} />
+                  <LinkDecorated target="_blank" w="10rem" href="/profile" label={t('Profile')!} />
                 </Stack>
               </Flex>
               <Flex justifyContent="center">
@@ -86,10 +88,10 @@ export default function Page(props) {
           <Flex justifyContent="space-between">
             <Stack spacing={10}>
               <Stack>
-                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('new_here')}</Heading>
-                <Text fontSize="md">{t('start_with_our_help_page')}</Text>
+                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('New here?')}</Heading>
+                <Text fontSize="md">{t('Start with our help page')}</Text>
               </Stack>
-              <LinkDecorated target="_blank" w="10rem" href="/help" label={t('help')!} />
+              <LinkDecorated target="_blank" w="10rem" href="/help" label={t('Help')!} />
             </Stack>
             <Box>
               <QuestionImage width="15rem" />
