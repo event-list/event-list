@@ -1,4 +1,14 @@
-import { Box, Container, Button, Stack, Text, useColorModeValue, VisuallyHidden, Link } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Button,
+  Stack,
+  Text,
+  useColorModeValue,
+  VisuallyHidden,
+  Link,
+  SimpleGrid,
+} from '@chakra-ui/react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
@@ -49,42 +59,36 @@ export default function Footer({ t }) {
       py="10"
       borderTopColor={useColorModeValue('gray.200', 'gray.700')}
     >
-      <Container
-        as={Stack}
-        maxW={'6xl'}
-        py={4}
-        direction={{ base: 'column', md: 'row' }}
-        spacing={4}
-        justify={{ base: 'center', md: 'space-between' }}
-        align={{ base: 'center', md: 'center' }}
-      >
-        <Stack align={'flex-start'}>
-          <ListHeader>{t('Company')}</ListHeader>
-          <Link href={'https://evtlist.com/'}>{t('About us')}</Link>
-          <Link href={'mailto:viblaziusgoulart@gmail.com'}>{t('Contact us')}</Link>
-          <Link href={'https://evtlist.com/en/services#prices'}>{t('Pricing')}</Link>
-        </Stack>
-        <Stack align={'flex-start'}>
-          <ListHeader>{t('Support')}</ListHeader>
-          <Link href={'#'}>{t('Terms of Service')}</Link>
-        </Stack>
-        <Stack spacing={6}>
-          <Box w="40">
-            <Image src={Logo} />
-          </Box>
-          <Text fontSize={'sm'}>© {new Date().getFullYear()} Event List. All rights reserved</Text>
-          <Stack direction={'row'} spacing={6}>
-            <SocialButton label={'Twitter'} href={'#'}>
-              <FaTwitter />
-            </SocialButton>
-            <SocialButton label={'Github'} href={'https://github.com/event-list'}>
-              <FaGithub />
-            </SocialButton>
-            <SocialButton label={'Instagram'} href={'https://www.instagram.com/evtlist/'}>
-              <FaInstagram />
-            </SocialButton>
+      <Container as={Stack} maxW={'6xl'}>
+        <SimpleGrid templateColumns={{ sm: '1fr 1fr', md: '2fr 2fr 2fr' }} spacing={8}>
+          <Stack align={'flex-start'}>
+            <ListHeader>{t('Company')}</ListHeader>
+            <Link href={'https://evtlist.com/'}>{t('About us')}</Link>
+            <Link href={'mailto:viblaziusgoulart@gmail.com'}>{t('Contact us')}</Link>
+            <Link href={'https://evtlist.com/en/services#prices'}>{t('Pricing')}</Link>
           </Stack>
-        </Stack>
+          <Stack align={'flex-start'}>
+            <ListHeader>{t('Support')}</ListHeader>
+            <Link href={'#'}>{t('Terms of Service')}</Link>
+          </Stack>
+          <Stack spacing={6}>
+            <Box w="40">
+              <Image src={Logo} />
+            </Box>
+            <Text fontSize={'sm'}>© {new Date().getFullYear()} Event List. All rights reserved</Text>
+            <Stack direction={'row'} spacing={6}>
+              <SocialButton label={'Twitter'} href={'#'}>
+                <FaTwitter />
+              </SocialButton>
+              <SocialButton label={'Github'} href={'https://github.com/event-list'}>
+                <FaGithub />
+              </SocialButton>
+              <SocialButton label={'Instagram'} href={'https://www.instagram.com/evtlist/'}>
+                <FaInstagram />
+              </SocialButton>
+            </Stack>
+          </Stack>
+        </SimpleGrid>
       </Container>
     </Box>
   );

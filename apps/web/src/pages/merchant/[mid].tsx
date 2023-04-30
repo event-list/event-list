@@ -11,7 +11,6 @@ import ProfileViewQueryGenerated from '../../../__generated__/ProfileViewQuery.g
 import { MerchantView } from '../../components/merchant/MerchantView';
 import RootLayout from '../../components/RootLayout';
 
-
 const LabelViewQuery = graphql`
   query MidLabelViewQuery($id: ID!) @preloadable {
     merchant: node(id: $id) {

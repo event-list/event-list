@@ -1,5 +1,7 @@
 import { graphql, useFragment, usePreloadedQuery } from 'react-relay';
 
+import { FEATURES } from '@event-list/flags';
+
 import type { eventsViewQuery } from '../../../__generated__/eventsViewQuery.graphql';
 import EventsViewGenerated from '../../../__generated__/eventsViewQuery.graphql';
 import type { ProfileViewQuery as ProfileViewQueryPreloaded } from '../../../__generated__/ProfileViewQuery.graphql';
@@ -11,6 +13,7 @@ import { BetaView } from '../../components/features/BetaView';
 import { ProfileViewQuery } from '../../components/merchant/ProfileView';
 import RootLayout from '../../components/RootLayout';
 import getPreloadedQuery from '../../relay/getPreloadedQuery';
+
 
 const EventsView = graphql`
   query eventsViewQuery {
@@ -25,7 +28,7 @@ export default function Page(props) {
 
   const merchant = useFragment<useAdminAuthFragment_user$key>(useAdminAuthFragment, meAdmin);
 
-  if (!merchant?.features?.includes('BETA')) {
+  if (!merchant?.features?.includes(FEATURES.BETA)) {
     return (
       <RootLayout preloadedQuery={props.queryRefs.ProfileQuery}>
         <BetaView />
