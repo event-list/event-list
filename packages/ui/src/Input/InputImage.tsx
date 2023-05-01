@@ -1,5 +1,5 @@
 import { Flex, CircularProgress, Text, FormControl } from '@chakra-ui/react';
-import type { AvatarProps } from '@chakra-ui/react';
+import type { AvatarProps, FormControlProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 import { useS3Upload } from 'next-s3-upload';
 import { useState } from 'react';
@@ -12,10 +12,20 @@ type InputImageProps = {
   isRequired?: boolean;
   description?: string;
   uploadedDescription?: string;
+  formControlProps: FormControlProps;
 } & AvatarProps;
 
 const InputImage = (props: InputImageProps) => {
-  const { name = '', label = '', icon, isRequired = true, description, uploadedDescription, ...rest } = props;
+  const {
+    name = '',
+    label = '',
+    icon,
+    isRequired = true,
+    description,
+    uploadedDescription,
+    formControlProps,
+    ...rest
+  } = props;
 
   const [field, __, { setValue }] = useField(name);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
@@ -36,7 +46,7 @@ const InputImage = (props: InputImageProps) => {
   };
 
   return (
-    <FormControl id={name} isRequired={isRequired}>
+    <FormControl id={name} isRequired={isRequired} {...formControlProps}>
       <InputFile id={`${label}-input`} name={name} label={label} display={'none'} onChange={handleFileChange} />
       <Flex
         height={'full'}
