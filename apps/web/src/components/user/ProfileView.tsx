@@ -1,18 +1,6 @@
-import {
-  Avatar,
-  Box,
-  Center,
-  Flex,
-  FormControl,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-  useColorModeValue,
-  useToast,
-} from '@chakra-ui/react';
+import { Avatar, Box, Center, Flex, Heading, Stack, Text, useToast } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { HiUser } from 'react-icons/hi';
 import type { PreloadedQuery } from 'react-relay';
 import { useFragment, useMutation, usePreloadedQuery } from 'react-relay';

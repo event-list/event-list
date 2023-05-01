@@ -58,7 +58,7 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  i18n,
+  i18n: i18n,
 };
 
 module.exports = withTM(nextConfig);

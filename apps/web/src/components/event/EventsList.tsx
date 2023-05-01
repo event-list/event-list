@@ -32,7 +32,7 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
     EventsListPagination_query,
     EventsListFragment_query$key
   >(EventsListFragment, props.fragmentKey);
-  const { t } = useTranslation(['en', 'ptBR']);
+  const { t } = useTranslation(['ptBR', 'en']);
 
   const events = data.events;
 
