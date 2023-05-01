@@ -6,7 +6,7 @@ import type { TextDecoratedProps } from '../Text/TextFormLabel';
 import TextFormLabel from '../Text/TextFormLabel';
 
 type InputSwitchProps = {
-  label?: string;
+  label?: string | null;
   labelProps?: TextDecoratedProps;
 } & SwitchProps;
 
@@ -53,7 +53,7 @@ const InputSwitch = (props: InputSwitchProps) => {
   };
 
   return (
-    <FormControl id={name} isRequired={isRequired} mb="3">
+    <FormControl id={name} isRequired={isRequired}>
       {label && <TextFormLabel mt={'2'} label={label} {...props.labelProps} />}
       <Switch
         name={name}

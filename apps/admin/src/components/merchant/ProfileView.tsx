@@ -1,5 +1,6 @@
 import { Box, Center, Flex, FormControl, Heading, HStack, Stack, Text, useToast } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
+import { useTranslation } from 'next-i18next';
 import { HiUser } from 'react-icons/hi';
 import type { PreloadedQuery } from 'react-relay';
 import { useFragment, useMutation, usePreloadedQuery } from 'react-relay';
@@ -7,6 +8,7 @@ import { graphql } from 'relay-runtime';
 import * as yup from 'yup';
 
 import { Button, InputArea, InputAvatar, InputField } from '@event-list/ui';
+
 
 import { MerchantMeUpdate } from './mutations/MerchantMeUpdateMutation';
 import type {
@@ -44,6 +46,8 @@ const MerchantMeUpdateSchema = yup.object({
 });
 
 const ProfileView = (props: ProfileViewProps) => {
+  const { t } = useTranslation(['ptBR', 'en']);
+
   const toast = useToast();
 
   const [HandleMerchantMeUpdate, isPending] = useMutation<MerchantMeUpdateMutation>(MerchantMeUpdate);
@@ -71,7 +75,7 @@ const ProfileView = (props: ProfileViewProps) => {
       onCompleted: ({ MerchantMeUpdateMutation }: MerchantMeUpdateMutation$data) => {
         if (typeof MerchantMeUpdateMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('Something was wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -105,7 +109,7 @@ const ProfileView = (props: ProfileViewProps) => {
     return (
       <Box textAlign="center" py={10} px={6}>
         <Heading as="h2" size="xl" mt={6} mb={2}>
-          No merchant found
+          {t('No merchant found')}
         </Heading>
       </Box>
     );
@@ -159,55 +163,60 @@ const ProfileView = (props: ProfileViewProps) => {
           </Flex>
           <Stack spacing={5}>
             <HStack>
-              <InputField name="name" label="Merchant Name:" placeholder="Merchant Name" defaultValue={merchant.name} />
+              <InputField
+                name="name"
+                label={t('Merchant name')}
+                placeholder={t('Your merchant name')}
+                defaultValue={merchant.name}
+              />
               <InputField
                 name="phoneNumber"
-                label="Phone Number:"
+                label={t('Phone number')}
                 placeholder="+5548999999999"
                 defaultValue={merchant.phoneNumber}
               />
             </HStack>
             <InputField
               name="description"
-              label="Description:"
-              placeholder="What about is your Merchant"
+              label={t('Description')!}
+              placeholder={t('What about is your merchant')}
               defaultValue={merchant.phoneNumber}
             />
             <InputArea
               name="biography"
-              label="Biography:"
-              placeholder="A short description for your company"
+              label={t('Biography me')}
+              placeholder={t('A short description for your company')}
               defaultValue={merchant.biography ?? ''}
             />
             <HStack>
               <InputField
                 name="instagramAccount"
-                label="Instagram Username:"
-                placeholder="Your instagram username"
+                label={t('Instagram username')}
+                placeholder={t('Your instagram username')}
                 defaultValue={merchant.instagramAccount ?? ''}
               />
               <InputField
                 name="facebookAccount"
-                label="Facebook Username:"
-                placeholder="Your facebook username"
+                label={t('Facebook username')}
+                placeholder={t('Your facebook username')}
                 defaultValue={merchant.facebookAccount ?? ''}
               />
               <InputField
                 name="twitterAccount"
-                label="Twitter Username:"
-                placeholder="Your twitter username"
+                label={t('Twitter username')}
+                placeholder={t('Your twitter username')}
                 defaultValue={merchant.twitterAccount ?? ''}
               />
             </HStack>
             <InputField
               name="website"
-              label="Website:"
-              placeholder="https://yourwebsite.com"
+              label={t('Website')}
+              placeholder={t('https://yourwebsite.com')}
               defaultValue={merchant.website ?? ''}
             />
             <Button
               size="lg"
-              text="Update informations"
+              text={t('Update informations')}
               w={'full'}
               isSubmitting={isPending}
               isDisabled={isDisabled}

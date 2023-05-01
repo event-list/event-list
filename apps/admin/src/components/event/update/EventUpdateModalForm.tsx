@@ -16,9 +16,8 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
+import { useTranslation } from 'next-i18next';
 import { useS3Upload } from 'next-s3-upload';
-import { BsPencilFill } from 'react-icons/bs';
-import { FiX } from 'react-icons/fi';
 import { HiUpload } from 'react-icons/hi';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
@@ -63,6 +62,8 @@ const EventUpdateModalForm = ({
   onClose: () => void;
   refetch: () => void;
 }) => {
+  const { t } = useTranslation();
+
   const { uploadToS3 } = useS3Upload();
   const toast = useToast();
 
@@ -71,7 +72,7 @@ const EventUpdateModalForm = ({
     if (!file) return;
 
     if (file.size > 1048576) {
-      alert('File is too big! 1MB Max');
+      alert(t('File is too big! 1MB Max'));
     }
 
     const { url } = await uploadToS3(file);
@@ -98,7 +99,7 @@ const EventUpdateModalForm = ({
       onCompleted: ({ UpdateEventMutation }: UpdateEventMutation$data) => {
         if (typeof UpdateEventMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('Something was wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -172,21 +173,19 @@ const EventUpdateModalForm = ({
                 cursor={'pointer'}
                 onClick={() => document.getElementById('flyer-input')?.click()}
               />
-              <FormControl id="status">
-                <Center>
-                  <InputSwitch colorScheme={'red'} name="status" label="Status:" />
-                </Center>
-              </FormControl>
+              <Center>
+                <InputSwitch colorScheme={'red'} name="status" label={t('Status')} />
+              </Center>
             </Flex>
-            <InputField name="title" label="Title:" placeholder="Event name" />
+            <InputField name="title" label={t('Title')} placeholder={t('Event name')} />
             <HStack spacing={8}>
-              <InputAge name="classification" label="Classification:" />
-              <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
+              <InputAge name="classification" label={t('Classification')} />
+              <InputMaps name="place" apiKey={googleMapsApiToken} label={t('Place')} placeholder={t('Event place')} />
             </HStack>
             <InputArea
               name="description"
-              label="Description:"
-              placeholder="Describe your event, the attractions, the place..."
+              label={t('Description')}
+              placeholder={t('Describe your event, the attractions, the place...')}
             />
           </Stack>
         </ModalBody>
@@ -199,7 +198,7 @@ const EventUpdateModalForm = ({
             onClick={onClose}
             isSubmitting={false}
             mr={3}
-            text={'Close'}
+            text={t('Close')}
           />
           <Button
             onClick={() => handleSubmit()}

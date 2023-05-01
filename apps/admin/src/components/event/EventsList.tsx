@@ -12,6 +12,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 import InfiniteScroll from 'react-infinite-scroller';
 import { graphql, usePaginationFragment } from 'react-relay';
 
@@ -20,6 +21,7 @@ import { Hero, TextDecorated, Tooltip } from '@event-list/ui';
 import { EventRow } from './table/EventRow';
 import type { EventsListFragment_query$key } from '../../../__generated__/EventsListFragment_query.graphql';
 import type { EventsListPagination_query } from '../../../__generated__/EventsListPagination_query.graphql';
+
 
 const EventsListFragment = graphql`
   fragment EventsListFragment_query on Query
@@ -48,6 +50,7 @@ const ThTooltip = ({ label, children }) => {
 };
 
 export default function EventsList(props: { fragmentKey: EventsListFragment_query$key }) {
+  const { t } = useTranslation(['ptBR', 'en']);
   const { data, loadNext, isLoadingNext } = usePaginationFragment<
     EventsListPagination_query,
     EventsListFragment_query$key
@@ -59,9 +62,9 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
     return (
       <SimpleGrid minChildWidth="350px" spacing="20px" textAlign={'center'}>
         <Text>
-          You do not have events yet,{' '}
+          {t('You do not have events yet')},{' '}
           <TextDecorated>
-            <Link href={'/share-your-event'}>share here!</Link>
+            <Link href={'/share-your-event'}>{t('share here!')}</Link>
           </TextDecorated>
         </Text>
       </SimpleGrid>
@@ -88,25 +91,25 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
       useWindow
     >
       <Hero
-        title={'My events'}
-        description={
-          'All your events in one place. View the guest list, edit your information, add names, this is where you take control of your event'
-        }
+        title={t('My events')}
+        description={t(
+          'All your events in one place. View the guest list, edit your information, add names, this is where you take control of your event',
+        )}
       >
         <TableContainer>
-          <Table variant="simple">
+          <Table variant={t('Simple')}>
             <Thead>
               <Tr>
-                <ThTooltip label={'View the guest list of the event'}>List</ThTooltip>
-                <ThTooltip label={'Event name'}>Name</ThTooltip>
-                <ThTooltip label={'Number of people on the event list'}>Total</ThTooltip>
-                <ThTooltip label={'Date Start'}>Date Start</ThTooltip>
-                <ThTooltip label={'List available at'}>List available at</ThTooltip>
-                <ThTooltip label={'Informative event price'}>Price</ThTooltip>
-                <ThTooltip label={'Defined by your event date'}>Published</ThTooltip>
-                <ThTooltip label={'Defined by you'}>Status</ThTooltip>
-                <ThTooltip label={'Access event page'}>Access</ThTooltip>
-                <ThTooltip label={'Actions that you can do with this event'}>Actions</ThTooltip>
+                <ThTooltip label={t('View the guest list of the event')}>{t('List')}</ThTooltip>
+                <ThTooltip label={t('Event name')}>{t('Name')}</ThTooltip>
+                <ThTooltip label={t('Number of people on the event list')}>{t('Total')}</ThTooltip>
+                <ThTooltip label={t('Date start')}>{t('Date start')}</ThTooltip>
+                <ThTooltip label={t('List available at')}>{t('List available at')}</ThTooltip>
+                <ThTooltip label={t('Informative event price')}>{t('Price')}</ThTooltip>
+                <ThTooltip label={t('Defined by your event date')}>{t('Published')}</ThTooltip>
+                <ThTooltip label={t('Defined by you')}>{t('Status')}</ThTooltip>
+                <ThTooltip label={t('Access event page')}>{t('Access')}</ThTooltip>
+                <ThTooltip label={t('Actions that you can do with this event')}>{t('Actions')}</ThTooltip>
               </Tr>
             </Thead>
             <Tbody>
@@ -117,7 +120,7 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
           </Table>
           {events.edges.length < 1 && (
             <TextDecorated display={'flex'} fontWeight={'700'} justifyContent={'center'} mt={6}>
-              You do not have events yet, share one to see it here
+              {t('You do not have events yet, share one to see it here')}
             </TextDecorated>
           )}
         </TableContainer>

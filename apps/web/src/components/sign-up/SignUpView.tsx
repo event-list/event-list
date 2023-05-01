@@ -15,7 +15,7 @@ import {
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
@@ -151,8 +151,8 @@ export default function SignUpView() {
                   <InputField
                     labelProps={{ color: 'gray.700' }}
                     name="email"
-                    label={t('Email')!}
-                    placeholder={t('User@emailcom')!}
+                    label={t('Email')}
+                    placeholder={t('user@email.com')!}
                     _placeholder={{
                       color: 'gray.400',
                     }}
@@ -164,7 +164,7 @@ export default function SignUpView() {
                     labelProps={{ color: 'gray.700' }}
                     type="password"
                     name="password"
-                    label={t('Password')!}
+                    label={t('Password')}
                     placeholder="*******"
                     _placeholder={{
                       color: 'gray.400',
@@ -176,7 +176,7 @@ export default function SignUpView() {
                   <InputField
                     labelProps={{ color: 'gray.700' }}
                     bg={'gray.100'}
-                    label={t('Full name')!}
+                    label={t('Full name')}
                     border={0}
                     color="gray"
                     name="name"

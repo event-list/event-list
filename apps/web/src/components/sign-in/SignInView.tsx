@@ -148,8 +148,8 @@ export default function SignInView() {
                   <InputField
                     labelProps={{ color: 'gray.700' }}
                     name="email"
-                    label={t('Email')!}
-                    placeholder={t('User@emailcom')!}
+                    label={t('Email')}
+                    placeholder={t('user@email.com')!}
                     _placeholder={{
                       color: 'gray.400',
                     }}
@@ -161,7 +161,7 @@ export default function SignInView() {
                     labelProps={{ color: 'gray.700' }}
                     type="password"
                     name="password"
-                    label={t('Password')!}
+                    label={t('Password')}
                     placeholder="*******"
                     _placeholder={{
                       color: 'gray.400',

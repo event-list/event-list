@@ -1,6 +1,6 @@
-import { HStack, Stack, useBreakpointValue, useMediaQuery } from '@chakra-ui/react';
+import { HStack, Stack } from '@chakra-ui/react';
 import Image from 'next/image';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import { Hero, Container } from '@event-list/ui';
 
@@ -13,7 +13,7 @@ const WelcomeView = () => {
   const { t } = useTranslation(['ptBR', 'en']);
 
   return (
-    <Hero title={t('Welcome')} description={'Event list is a new way to share your events, enjoy it!'}>
+    <Hero title={t('Welcome')} description={t('Event List is a new way to share your events, enjoy it!')}>
       <Stack spacing={6}>
         <Container
           title={t('Share your event')}
@@ -27,26 +27,28 @@ const WelcomeView = () => {
         <HStack spacing={6} display={{ base: 'none', xl: 'flex' }}>
           <Container
             title={t('See your events')}
-            description={t('Total confirmed, guest list, price, and more...')}
+            description={t('Total people confirmed, guest list, price, and more...')}
             buttonNav={{
               href: '/events',
               label: t('My events')!,
             }}
             image={<Image src={MyEventsImage} layout="fill" objectFit="contain" />}
+            h="full"
           />
           <Container
             title={t('Edit your profile')}
-            description={'Logo, instagram, website, description, and more...'}
+            description={t('Logo, instagram, website, description, and more...')}
             buttonNav={{
               href: '/profile',
               label: t('Profile')!,
             }}
             image={<Image src={ProfileImage} layout="fill" objectFit="contain" />}
+            h="full"
           />
         </HStack>
         <Container
           title={t('See your events')}
-          description={t('Total confirmed, guest list, price, and more...')}
+          description={t('Total people confirmed, guest list, price, and more...')}
           buttonNav={{
             href: '/events',
             label: t('My events')!,
@@ -56,7 +58,7 @@ const WelcomeView = () => {
         />
         <Container
           title={t('Edit your profile')}
-          description={'Logo, instagram, website, description, and more...'}
+          description={t('Logo, instagram, website, description, and more...')}
           buttonNav={{
             href: '/profile',
             label: t('Profile')!,

@@ -17,10 +17,12 @@ import {
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
 import { Button, InputField, TextDecorated } from '@event-list/ui';
+
 
 import { SignIn } from './SignInMutation';
 import type { SignInMutation, SignInMutation$data } from '../../../__generated__/SignInMutation.graphql';
@@ -34,6 +36,8 @@ const SignInSchema = yup.object({
 });
 
 export default function SignInView() {
+  const { t } = useTranslation(['ptBR', 'en']);
+
   const [MerchantSignIn, isPending] = useMutation<SignInMutation>(SignIn);
 
   const toast = useToast();
@@ -52,7 +56,7 @@ export default function SignInView() {
       onCompleted: ({ MerchantSignInMutation }: SignInMutation$data) => {
         if (typeof MerchantSignInMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('Something was wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -121,7 +125,8 @@ export default function SignInView() {
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-                <TextDecorated>Share</TextDecorated> your best events <TextDecorated>here!</TextDecorated>
+                <TextDecorated>{t('Share')}</TextDecorated> {t('your best events')}{' '}
+                <TextDecorated>{t('here!')}</TextDecorated>
               </Heading>
             </Box>
           </Stack>
@@ -136,19 +141,17 @@ export default function SignInView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  Sign in your merchant account{' '}
+                  {t('Sign in your merchant account')}{' '}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
                 </Heading>
-              </Stack>
-              <Box as={'form'} mt={10}>
                 <Stack spacing={4}>
                   <InputField
                     labelProps={{ color: 'gray.700' }}
                     name="email"
-                    label="Email:"
-                    placeholder="user@email.com"
+                    label={t('Email')}
+                    placeholder={t('user@email.com')}
                     _placeholder={{
                       color: 'gray.400',
                     }}
@@ -160,7 +163,7 @@ export default function SignInView() {
                     labelProps={{ color: 'gray.700' }}
                     type="password"
                     name="password"
-                    label="Password:"
+                    label={t('Password')}
                     placeholder="*******"
                     _placeholder={{
                       color: 'gray.400',
@@ -172,18 +175,18 @@ export default function SignInView() {
                 </Stack>
                 <Button
                   size="lg"
-                  text="Login"
+                  text={t('Login')}
                   mt={8}
                   w={'full'}
                   isSubmitting={isPending}
                   isDisabled={isDisabled}
                   onClick={() => handleSubmit()}
                 />
-              </Box>
+              </Stack>
             </Stack>
             <Center pt={'3'}>
               <Link color={'gray.700'} href={'/sign-up'} fontSize={{ base: 'sm', lg: 'md' }}>
-                Does not have an account? Sign Up
+                {t('Does not have an account? Sign up')}
               </Link>
             </Center>
           </Flex>
