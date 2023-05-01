@@ -176,5 +176,6 @@
   "Event not found": "Evento não encontrado",
   "Defines whether your event will appear in the catalog": "Define se o seu evento irá aparecer no catálogo",
   "Last batch date is defined by event end date": "A data do ultimo lote é definida pela data de término do evento",
-  "Define batch date available": "Define a data do lote"
+  "Define batch date available": "Define a data do lote",
+  "Contact us": "Entre em contato"
 }
