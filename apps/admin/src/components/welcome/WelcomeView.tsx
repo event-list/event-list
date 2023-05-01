@@ -12,8 +12,6 @@ import ShareEventImage from '../../../data/images/ShareEventImage.webp';
 const WelcomeView = () => {
   const { t } = useTranslation(['ptBR', 'en']);
 
-  const [isLargerThanMd] = useMediaQuery('md');
-
   return (
     <Hero title={t('Welcome')} description={'Event list is a new way to share your events, enjoy it!'}>
       <Stack spacing={6}>
