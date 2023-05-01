@@ -26,7 +26,6 @@ import * as yup from 'yup';
 
 import { Button, InputArea, InputSelect, TextDecorated } from '@event-list/ui';
 
-
 import { AddParticipantInEvent } from './mutations/AddParticipantInEventMutation';
 import { ParticipantsList } from './ParticipantsList';
 import type {

@@ -22,7 +22,6 @@ import { HiUser } from 'react-icons/hi';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
-
 import { Button, InputAvatar, InputField, TextDecorated } from '@event-list/ui';
 
 import { SignUp } from './SignUpMutation';

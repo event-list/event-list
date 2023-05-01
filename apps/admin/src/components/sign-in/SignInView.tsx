@@ -23,7 +23,6 @@ import * as yup from 'yup';
 
 import { Button, InputField, TextDecorated } from '@event-list/ui';
 
-
 import { SignIn } from './SignInMutation';
 import type { SignInMutation, SignInMutation$data } from '../../../__generated__/SignInMutation.graphql';
 import Logo from '../../../data/logo.svg';
