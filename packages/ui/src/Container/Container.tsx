@@ -12,10 +12,10 @@ type ContainerProps = {
 } & ContainerPropsChakra;
 
 const Container = (props: ContainerProps) => {
-  const { title, description, buttonNav, image } = props;
+  const { title, description, buttonNav, image, ...rest } = props;
 
   return (
-    <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900" position="relative">
+    <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900" position="relative" {...rest}>
       <Grid templateColumns={{ base: '1fr', md: '10fr 1fr' }} gap={4}>
         <Stack spacing={10}>
           <Stack>

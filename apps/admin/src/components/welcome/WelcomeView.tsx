@@ -1,4 +1,4 @@
-import { HStack, Stack } from '@chakra-ui/react';
+import { HStack, Stack, useBreakpointValue, useMediaQuery } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 
@@ -9,9 +9,10 @@ import MyEventsImage from '../../../data/images/MyEventsImage.webp';
 import ProfileImage from '../../../data/images/ProfileImage.webp';
 import ShareEventImage from '../../../data/images/ShareEventImage.webp';
 
-
 const WelcomeView = () => {
   const { t } = useTranslation(['ptBR', 'en']);
+
+  const [isLargerThanMd] = useMediaQuery('md');
 
   return (
     <Hero title={t('Welcome')} description={'Event list is a new way to share your events, enjoy it!'}>
@@ -25,7 +26,7 @@ const WelcomeView = () => {
           }}
           image={<Image src={ShareEventImage} layout="fill" objectFit="contain" />}
         />
-        <HStack spacing={6}>
+        <HStack spacing={6} display={{ base: 'none', xl: 'flex' }}>
           <Container
             title={t('See your events')}
             description={t('Total confirmed, guest list, price, and more...')}
@@ -45,6 +46,26 @@ const WelcomeView = () => {
             image={<Image src={ProfileImage} layout="fill" objectFit="contain" />}
           />
         </HStack>
+        <Container
+          title={t('See your events')}
+          description={t('Total confirmed, guest list, price, and more...')}
+          buttonNav={{
+            href: '/events',
+            label: t('My events')!,
+          }}
+          image={<Image src={MyEventsImage} layout="fill" objectFit="contain" />}
+          display={{ base: 'relative', xl: 'none' }}
+        />
+        <Container
+          title={t('Edit your profile')}
+          description={'Logo, instagram, website, description, and more...'}
+          buttonNav={{
+            href: '/profile',
+            label: t('Profile')!,
+          }}
+          image={<Image src={ProfileImage} layout="fill" objectFit="contain" />}
+          display={{ base: 'relative', xl: 'none' }}
+        />
         <Container
           title={t('New here?')}
           description={t('Start with our help page')}
