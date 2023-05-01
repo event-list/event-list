@@ -16,7 +16,6 @@ import type { useAdminAuthFragment_user$key } from '../../__generated__/useAdmin
 import { useAdminAuthFragment } from '../auth/useAdminAuth';
 import { useLogout } from '../auth/useLogout';
 
-
 type LayoutProps = {
   children: React.ReactNode;
   preloadedQuery: PreloadedQuery<ProfileViewQueryType>;

@@ -14,7 +14,6 @@ import { ProfileViewQuery } from '../../components/merchant/ProfileView';
 import RootLayout from '../../components/RootLayout';
 import getPreloadedQuery from '../../relay/getPreloadedQuery';
 
-
 const EventsView = graphql`
   query eventsViewQuery {
     ...EventsListFragment_query
