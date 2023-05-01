@@ -92,7 +92,23 @@ const EventType = new GraphQLObjectType({
     },
     currentBatch: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (event) => event.batches.find((batch) => batch.visible && new Date() < batch.date)?.value,
+      resolve: (event) => {
+        const batches = event.batches;
+        const now = new Date();
+
+        const filteredBatches = batches.filter((batch) => {
+          return batch.visible && batch.date > now;
+        });
+
+        const batch =
+          filteredBatches.length > 0
+            ? filteredBatches[0]
+            : batches.reduce((prev, current) => {
+                return prev.date > current.date ? prev : current;
+              });
+
+        return batch.value;
+      },
     },
     status: {
       type: new GraphQLNonNull(GraphQLBoolean),
