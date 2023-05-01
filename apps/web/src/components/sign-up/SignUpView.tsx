@@ -125,7 +125,7 @@ export default function SignUpView() {
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
                 {t('Ensure your')} <TextDecorated>{t('Presence')} </TextDecorated>
-                {t('In the bests')} <TextDecorated>{t('Events')}</TextDecorated>
+                {t('In the bests')} <TextDecorated>{t('events')}</TextDecorated>
               </Heading>
             </Box>
           </Stack>
@@ -199,7 +199,7 @@ export default function SignUpView() {
             </Stack>
             <Center pt={'3'}>
               <Link color={'gray.700'} href={'/sign-in'} fontSize={{ base: 'smaller', lg: 'md' }}>
-                {t('Already have an account sign in')}
+                {t('Already have an account? Sign In')}
               </Link>
             </Center>
           </Flex>

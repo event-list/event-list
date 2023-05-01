@@ -178,5 +178,6 @@
   "Defines whether your event will appear in the catalog": "Defines whether your event will appear in the catalog",
   "Last batch date is defined by event end date": "Last batch date is defined by event end date",
   "Define batch date available": "Define batch date available",
-  "Contact us": "Contact us"
+  "Contact us": "Contact us",
+  "events": "events"
 }
