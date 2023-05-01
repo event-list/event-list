@@ -13,6 +13,7 @@ import {
   Text,
   useDisclosure,
   useToast,
+  Grid,
 } from '@chakra-ui/react';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -203,7 +204,7 @@ export default function ShareEventForm() {
               label={t('Description')}
               placeholder={t('Describe your event, the attractions, the place...')}
             />
-            <HStack spacing={8}>
+            <Grid templateColumns={'2fr 2fr 2fr 2fr'} gap={8}>
               <Box w="full">
                 <InputDate label={t('Date start')} name="dateStart" />
               </Box>
@@ -216,97 +217,100 @@ export default function ShareEventForm() {
               <Box w="full">
                 <InputAge name="classification" label={t('Classification')} />
               </Box>
-            </HStack>
-            <HStack alignItems={'stretch'} spacing={8}>
-              <Box w={'full'}>
-                <InputImage
-                  name="flyer"
-                  label={t('Flyer')}
-                  description={values.flyer ? t('Upload a new flyer') : t('Upload a flyer')}
-                  uploadedDescription={t('See your uploaded flyer below')}
+            </Grid>
+            <Grid templateColumns={'1fr 3fr'} gap={8}>
+              <InputImage
+                formControlProps={{
+                  flex: 1,
+                }}
+                name="flyer"
+                label={t('Flyer')}
+                description={values.flyer ? t('Upload a new flyer') : t('Upload a flyer')}
+                uploadedDescription={t('See your uploaded flyer below')}
+              />
+              <Box flex="2">
+                <FieldArray
+                  name="batches"
+                  render={(arrayHelpers) => (
+                    <Stack w={'full'} spacing={8}>
+                      <FormControl id={'batches'} isRequired>
+                        <TextFormLabel mt={'2'} label={t('Batches')} />
+                        {values.batches.map((batch, index) => (
+                          <Grid templateColumns={'2fr 2fr 1fr 0.8fr 1fr'} gap={4} key={index} mb="1rem">
+                            <InputField
+                              name={`batches.${index}.title`}
+                              labelProps={{
+                                fontSize: '13px',
+                                fontWeight: 'medium',
+                              }}
+                              label={t('Batch title')}
+                              placeholder={t('First batch')}
+                            />
+                            <InputDate
+                              name={`batches.${index}.date`}
+                              labelProps={{
+                                tooltip:
+                                  index === values.batches.length - 1
+                                    ? t('Last batch date is defined by event end date')
+                                    : t('Define batch date available'),
+                                fontSize: '13px',
+                                fontWeight: 'medium',
+                              }}
+                              label={t('Batch date')}
+                              color={index === values.batches.length - 1 ? 'gray.600' : 'white'}
+                              readOnly={index === values.batches.length - 1}
+                            />
+                            <InputPrice
+                              name={`batches.${index}.value`}
+                              labelProps={{
+                                fontSize: '13px',
+                                fontWeight: 'medium',
+                              }}
+                              label={t('Batch price')}
+                            />
+                            <InputSwitch
+                              colorScheme={'red'}
+                              labelProps={{
+                                fontSize: '13px',
+                                fontWeight: 'medium',
+                              }}
+                              isReadOnly={index === values.batches.length - 1}
+                              name={`batches.${index}.visible`}
+                              label={t('Batch visible')}
+                            />
+                            <Box>
+                              <TextFormLabel fontSize={'13px'} fontWeight={'medium'} label={t('Actions')} />
+                              <Flex gap={1}>
+                                <Button
+                                  type="button"
+                                  onClick={() => arrayHelpers.remove(index)}
+                                  isDisabled={values.batches.length <= 1}
+                                  text={<BsFillTrashFill />}
+                                  isSubmitting={false}
+                                />
+                                <Button
+                                  type="button"
+                                  isDisabled={values.batches.length > 5}
+                                  onClick={() =>
+                                    arrayHelpers.insert(index + 1, {
+                                      date: '',
+                                      title: '',
+                                      value: '',
+                                    })
+                                  }
+                                  text={<BsPlusCircleFill />}
+                                  isSubmitting={false}
+                                />
+                              </Flex>
+                            </Box>
+                          </Grid>
+                        ))}
+                      </FormControl>
+                    </Stack>
+                  )}
                 />
               </Box>
-              <FieldArray
-                name="batches"
-                render={(arrayHelpers) => (
-                  <Stack w={'full'} spacing={8}>
-                    <FormControl id={'batches'} isRequired>
-                      <TextFormLabel mt={'2'} label={t('Batches')} />
-                      {values.batches.map((batch, index) => (
-                        <HStack spacing={5} key={index}>
-                          <InputField
-                            name={`batches.${index}.title`}
-                            labelProps={{
-                              fontSize: '13px',
-                              fontWeight: 'medium',
-                            }}
-                            label={t('Batch title')}
-                            placeholder={t('First batch')}
-                          />
-                          <InputPrice
-                            name={`batches.${index}.value`}
-                            labelProps={{
-                              fontSize: '13px',
-                              fontWeight: 'medium',
-                            }}
-                            label={t('Batch price')}
-                          />
-                          <InputDate
-                            name={`batches.${index}.date`}
-                            labelProps={{
-                              tooltip:
-                                index === values.batches.length - 1
-                                  ? t('Last batch date is defined by event end date')
-                                  : t('Define batch date available'),
-                              fontSize: '13px',
-                              fontWeight: 'medium',
-                            }}
-                            label={t('Batch date')}
-                            color={index === values.batches.length - 1 ? 'gray.600' : 'white'}
-                            readOnly={index === values.batches.length - 1}
-                          />
-                          <InputSwitch
-                            colorScheme={'red'}
-                            labelProps={{
-                              fontSize: '13px',
-                              fontWeight: 'medium',
-                            }}
-                            isReadOnly={index === values.batches.length - 1}
-                            name={`batches.${index}.visible`}
-                            label={t('Batch visible')}
-                          />
-                          <Box>
-                            <TextFormLabel fontSize={'13px'} fontWeight={'medium'} label={t('Actions')} />
-                            <Flex gap={1}>
-                              <Button
-                                type="button"
-                                onClick={() => arrayHelpers.remove(index)}
-                                isDisabled={values.batches.length <= 1}
-                                text={<BsFillTrashFill />}
-                                isSubmitting={false}
-                              />
-                              <Button
-                                type="button"
-                                isDisabled={values.batches.length > 5}
-                                onClick={() =>
-                                  arrayHelpers.insert(index + 1, {
-                                    date: '',
-                                    title: '',
-                                    value: '',
-                                  })
-                                }
-                                text={<BsPlusCircleFill />}
-                                isSubmitting={false}
-                              />
-                            </Flex>
-                          </Box>
-                        </HStack>
-                      ))}
-                    </FormControl>
-                  </Stack>
-                )}
-              />
-            </HStack>
+            </Grid>
             <Stack spacing={10} pt={2}>
               <Button
                 mt={8}
