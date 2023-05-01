@@ -117,7 +117,7 @@ export default function SignInView() {
         >
           <Stack spacing={{ base: 10, md: 20 }}>
             <Stack direction={'row'} spacing={4} align={'center'}>
-              <Image src={Logo} alt={'Small and red EventView List logo'} />
+              <Logo height="150px" />
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
