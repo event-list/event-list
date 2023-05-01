@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useFragment, usePreloadedQuery } from 'react-relay';
 
 import { FEATURES } from '@event-list/flags';
-import { LinkDecorated } from '@event-list/ui';
+import { Container, LinkDecorated } from '@event-list/ui';
 
 import type { ProfileViewQuery as ProfileViewQueryPreloaded } from '../../__generated__/ProfileViewQuery.graphql';
 import ProfileViewQueryGenerated from '../../__generated__/ProfileViewQuery.graphql';
@@ -35,68 +35,40 @@ export default function Page(props) {
   return (
     <RootLayout preloadedQuery={props.queryRefs.ProfileQuery}>
       <Stack spacing={6}>
-        <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900">
-          <Flex justifyContent="space-between">
-            <Stack spacing={10}>
-              <Stack>
-                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('Share your event')}</Heading>
-                <Text fontSize="md">{t('Do not waste time and share your events ')}</Text>
-              </Stack>
-              <LinkDecorated target="_blank" w="10rem" href="/share-your-event" label={t('Share an event')!} />
-            </Stack>
-            <Box>
-              <ShareEventImage width="15rem" />
-            </Box>
-          </Flex>
-        </Box>
+        <Container
+          title={t('Share your event')}
+          description={t('Do not waste time and share your events now')}
+          buttonNav={{ href: '/share-your-event', label: t('Share an event')! }}
+          image={<ShareEventImage width="15rem" />}
+        />
         <HStack spacing={6}>
-          <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900">
-            <Stack spacing={6}>
-              <Flex justifyContent="space-between">
-                <Stack>
-                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('See your events')}</Heading>
-                  <Text fontSize="md">{t('Total confirmed, guest list, price, and more...')}</Text>
-                </Stack>
-                <Stack>
-                  <LinkDecorated target="_blank" w="10rem" href="/events" label={t('My events')!} />
-                </Stack>
-              </Flex>
-              <Flex justifyContent="center">
-                <EventsImage />
-              </Flex>
-            </Stack>
-          </Box>
-          <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900">
-            <Stack spacing={6}>
-              <Flex justifyContent="space-between">
-                <Stack>
-                  <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('Edit your profile')}</Heading>
-                  <Text fontSize="md">{t('Logo, instagram, website, description, and more...')}</Text>
-                </Stack>
-                <Stack>
-                  <LinkDecorated target="_blank" w="10rem" href="/profile" label={t('Profile')!} />
-                </Stack>
-              </Flex>
-              <Flex justifyContent="center">
-                <ProfileImage />
-              </Flex>
-            </Stack>
-          </Box>
+          <Container
+            fullSize={false}
+            title={t('See your events')}
+            description={t('Total confirmed, guest list, price, and more...')}
+            buttonNav={{
+              href: '/events',
+              label: t('My events')!,
+            }}
+            image={<EventsImage />}
+          />
+          <Container
+            fullSize={false}
+            title={t('Edit your profile')}
+            description={'Logo, instagram, website, description, and more...'}
+            buttonNav={{
+              href: '/profile',
+              label: t('Profile')!,
+            }}
+            image={<EventsImage />}
+          />
         </HStack>
-        <Box w="full" rounded="lg" px={8} py={6} bgColor="gray.900">
-          <Flex justifyContent="space-between">
-            <Stack spacing={10}>
-              <Stack>
-                <Heading fontSize={{ base: 'lg', sm: '2xl' }}>{t('New here?')}</Heading>
-                <Text fontSize="md">{t('Start with our help page')}</Text>
-              </Stack>
-              <LinkDecorated target="_blank" w="10rem" href="/help" label={t('Help')!} />
-            </Stack>
-            <Box>
-              <QuestionImage width="15rem" />
-            </Box>
-          </Flex>
-        </Box>
+        <Container
+          title={t('New here?')}
+          description={t('Start with our help page')}
+          buttonNav={{ href: '/help', label: t('Help')! }}
+          image={<ShareEventImage width="15rem" />}
+        />
       </Stack>
     </RootLayout>
   );

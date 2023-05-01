@@ -2,7 +2,12 @@ import { Link } from '@chakra-ui/react';
 import type { LinkProps } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
-const LinkDecorated = (props: LinkProps & { href: string; label: string | JSX.Element }) => {
+export type LinkDecoratedProps = {
+  href: string;
+  label: string | JSX.Element;
+} & LinkProps;
+
+const LinkDecorated = (props: LinkDecoratedProps) => {
   const { href, label, target, ...restProps } = props;
   return (
     <NextLink href={href} target={target}>
