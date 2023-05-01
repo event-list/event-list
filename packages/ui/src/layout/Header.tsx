@@ -32,6 +32,7 @@ type Props = {
 };
 
 export default function Header(props: Props) {
+  const { t } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -91,7 +92,7 @@ export default function Header(props: Props) {
                   {/* <MenuDivider /> */}
                   {props.subMenuItems}
                   <MenuItem onClick={props.onLogout} icon={<Icon w={5} h={6} as={FiLogOut} />}>
-                    <Text fontSize={13}>Sign out</Text>
+                    <Text fontSize={13}>{t('Sign out')}</Text>
                   </MenuItem>
                 </MenuList>
               </Menu>

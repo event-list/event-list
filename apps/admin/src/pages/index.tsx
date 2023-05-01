@@ -1,3 +1,4 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useFragment, usePreloadedQuery } from 'react-relay';
 
 import { FEATURES } from '@event-list/flags';
@@ -35,6 +36,7 @@ export default function Page(props) {
 export async function getServerSideProps(ctx) {
   return {
     props: {
+      ...(await serverSideTranslations(ctx.locale, ['ptBR', 'en'])),
       preloadedQueries: {
         ProfileQuery: await getPreloadedQuery(ProfileViewQueryGenerated, {}, ctx),
       },

@@ -6,7 +6,7 @@ import type { TextDecoratedProps } from '../Text/TextFormLabel';
 import TextFormLabel from '../Text/TextFormLabel';
 
 type InputFieldProps = {
-  label?: string;
+  label?: string | null;
   labelProps?: TextDecoratedProps;
 } & InputProps;
 
@@ -53,7 +53,7 @@ const InputField = (props: InputFieldProps) => {
   };
 
   return (
-    <FormControl id={name} isRequired={isRequired} mb="3">
+    <FormControl id={name} isRequired={isRequired}>
       {label && <TextFormLabel label={label} {...props.labelProps} />}
       <Input
         name={name}

@@ -1,12 +1,9 @@
 import type { IconProps } from '@chakra-ui/react';
 import {
-  Avatar,
   Box,
   Center,
-  CircularProgress,
   Container,
   Flex,
-  FormControl,
   Heading,
   HStack,
   Icon,
@@ -20,13 +17,13 @@ import {
 import { FormikProvider, useFormik } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useS3Upload } from 'next-s3-upload';
-import { useState } from 'react';
+import { useTranslation } from 'next-i18next';
 import { HiUser } from 'react-icons/hi';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
-import { Button, InputAvatar, InputField, InputFile, TextDecorated } from '@event-list/ui';
+
+import { Button, InputAvatar, InputField, TextDecorated } from '@event-list/ui';
 
 import { SignUp } from './SignUpMutation';
 import type { SignUpMutation, SignUpMutation$data } from '../../../__generated__/SignUpMutation.graphql';
@@ -44,26 +41,12 @@ const SignUpSchema = yup.object({
 });
 
 export default function SignUpView() {
-  const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const { uploadToS3 } = useS3Upload();
+  const { t } = useTranslation(['ptBR', 'en']);
+
   const router = useRouter();
   const toast = useToast();
 
   const [MerchantSignUp, isPending] = useMutation<SignUpMutation>(SignUp);
-
-  const handleFileChange = async (event) => {
-    const file: File = event.target.files[0];
-    if (!file) return;
-
-    if (file.size > 1048576) {
-      alert('File is too big! 1MB Max');
-    }
-    setIsLoadingImage(true);
-    const { url } = await uploadToS3(file);
-    setIsLoadingImage(false);
-
-    await setFieldValue('logo', url);
-  };
 
   const onSubmit = (values: SignUpParams) => {
     const config = {
@@ -85,7 +68,7 @@ export default function SignUpView() {
       onCompleted: ({ MerchantSignUpMutation }: SignUpMutation$data) => {
         if (typeof MerchantSignUpMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('Something was wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -158,7 +141,8 @@ export default function SignUpView() {
             </Stack>
             <Box pl="1rem">
               <Heading lineHeight={1.1} fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-                <TextDecorated>Share</TextDecorated> your best events <TextDecorated>here!</TextDecorated>
+                <TextDecorated>{t('Share')}</TextDecorated> {t('your best events')}{' '}
+                <TextDecorated>{t('here!')}</TextDecorated>
               </Heading>
             </Box>
           </Stack>
@@ -173,7 +157,7 @@ export default function SignUpView() {
             <Stack spacing={{ base: 8 }}>
               <Stack spacing={4}>
                 <Heading color={'gray.700'} lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                  Sign up your merchant account{' '}
+                  {t('Sign up your merchant account')}{' '}
                   <Text as={'span'} bgGradient="linear(to-r, red.400,pink.400)" bgClip="text">
                     !
                   </Text>
@@ -184,7 +168,7 @@ export default function SignUpView() {
                   <InputField
                     labelProps={{ color: 'gray.700' }}
                     name="email"
-                    label="Email:"
+                    label={t('Email')}
                     placeholder="user@email.com"
                     _placeholder={{
                       color: 'gray.400',
@@ -197,7 +181,7 @@ export default function SignUpView() {
                     labelProps={{ color: 'gray.700' }}
                     type="password"
                     name="password"
-                    label="Password:"
+                    label={t('Password')}
                     placeholder="********"
                     _placeholder={{
                       color: 'gray.400',
@@ -210,11 +194,11 @@ export default function SignUpView() {
                     <InputField
                       labelProps={{ color: 'gray.700' }}
                       bg={'gray.100'}
-                      label={'Merchant Name:'}
+                      label={t('Merchant name')}
                       border={0}
                       color={'gray.700'}
                       name="name"
-                      placeholder="Merchant Name"
+                      placeholder={t('Your merchant name')}
                       _placeholder={{
                         color: 'gray.400',
                       }}
@@ -222,7 +206,7 @@ export default function SignUpView() {
                     <InputField
                       labelProps={{ color: 'gray.700' }}
                       name="phoneNumber"
-                      label="Phone Number:"
+                      label={t('Phone number')}
                       placeholder="+5548999999999"
                       _placeholder={{
                         color: 'gray.400',
@@ -235,8 +219,8 @@ export default function SignUpView() {
                   <InputField
                     labelProps={{ color: 'gray.700' }}
                     name="description"
-                    label="Description:"
-                    placeholder="What about is your label?"
+                    label={t('Description')}
+                    placeholder={t('What about is your label?')}
                     _placeholder={{
                       color: 'gray.400',
                     }}
@@ -244,11 +228,11 @@ export default function SignUpView() {
                     bg={'gray.100'}
                     border={0}
                   />
-                  <InputAvatar name="logo" label="Logo:" icon={<HiUser size={'4rem'} />} />
+                  <InputAvatar name="logo" label={t('Logo')} icon={<HiUser size={'4rem'} />} />
                 </Stack>
                 <Button
                   size="lg"
-                  text="Register"
+                  text={t('Register')}
                   mt={8}
                   w={'full'}
                   isSubmitting={isPending}
@@ -259,7 +243,7 @@ export default function SignUpView() {
             </Stack>
             <Center pt={'3'}>
               <Link color={'gray.700'} href={'/sign-in'} fontSize={{ base: 'sm', lg: 'md' }}>
-                Already have an account? Sign In
+                {t('Already have an account? Sign In')}
               </Link>
             </Center>
           </Flex>

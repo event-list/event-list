@@ -22,41 +22,6 @@ type LayoutProps = {
   title?: string;
 };
 
-const Links = () => (
-  <Box>
-    <NavItem key={'Home'} icon={FiHome} href={'/'}>
-      <Text fontWeight={'600'}>Home</Text>
-    </NavItem>
-    <NavItem key={'My event'} icon={BsCardChecklist} href={'/events'}>
-      <Text fontWeight={'600'}>My events</Text>
-    </NavItem>
-    <NavItem key={'Share an event'} icon={RiShareForwardLine} href={'/share-your-event'}>
-      <Text fontWeight={'600'}>Share an event</Text>
-    </NavItem>
-  </Box>
-);
-
-const NavItem = ({ icon, children, href, ...rest }) => {
-  return (
-    <NextLink href={href}>
-      <Link style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-        <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
-          {icon && <Icon mr="4" fontSize="16" as={icon} />}
-          {children}
-        </Flex>
-      </Link>
-    </NextLink>
-  );
-};
-
-const SubMenuItems = () => (
-  <NextLink href={'/profile'}>
-    <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
-      <Text fontSize={13}>Profile</Text>
-    </MenuItem>
-  </NextLink>
-);
-
 export default function RootLayout(props: LayoutProps) {
   const { t } = useTranslation(['en', 'ptBR']);
 
@@ -65,16 +30,51 @@ export default function RootLayout(props: LayoutProps) {
   const { meAdmin } = usePreloadedQuery(ProfileViewQuery, props.preloadedQuery);
   const merchant = useFragment<useAdminAuthFragment_user$key>(useAdminAuthFragment, meAdmin);
 
+  const Links = () => (
+    <Box>
+      <NavItem key={'Home'} icon={FiHome} href={'/'}>
+        <Text fontWeight={'600'}>{t('Home')}</Text>
+      </NavItem>
+      <NavItem key={'My event'} icon={BsCardChecklist} href={'/events'}>
+        <Text fontWeight={'600'}>{t('My events')}</Text>
+      </NavItem>
+      <NavItem key={'Share an event'} icon={RiShareForwardLine} href={'/share-your-event'}>
+        <Text fontWeight={'600'}>{t('Share an event')}</Text>
+      </NavItem>
+    </Box>
+  );
+
+  const NavItem = ({ icon, children, href, ...rest }) => {
+    return (
+      <NextLink href={href}>
+        <Link style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+          <Flex align="center" p="4" mx="4" borderRadius="lg" role="group" cursor="pointer" {...rest}>
+            {icon && <Icon mr="4" fontSize="16" as={icon} />}
+            {children}
+          </Flex>
+        </Link>
+      </NextLink>
+    );
+  };
+
+  const SubMenuItems = () => (
+    <NextLink href={'/profile'}>
+      <MenuItem icon={<Icon w={5} h={6} as={CgProfile} />}>
+        <Text fontSize={13}>{t('Profile')}</Text>
+      </MenuItem>
+    </NextLink>
+  );
+
   return (
     <Layout title={props.title}>
-      <Header user={merchant} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />}>
+      <Header user={merchant} onLogout={logout} links={<Links />} subMenuItems={<SubMenuItems />} t={t}>
         <Container maxW="full" overflow="hidden">
           {merchant ? (
             props.children
           ) : (
             <Flex justifyContent={'center'} alignItems={'center'}>
               <TextDecorated fontSize={'2xl'} fontWeight={'bold'}>
-                Unauthorized, please login again
+                {t('Unauthorized, please login again')}
               </TextDecorated>
             </Flex>
           )}

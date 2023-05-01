@@ -12,8 +12,8 @@ import {
   Stat,
   StatNumber,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
+import { useTranslation } from 'next-i18next';
 import { FacebookIcon, TelegramIcon, TwitterIcon, WhatsappIcon } from 'next-share';
 import { BsDoorClosedFill, BsDoorOpenFill } from 'react-icons/bs';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
@@ -21,6 +21,7 @@ import { MdFactCheck } from 'react-icons/md';
 import { SiAdblock } from 'react-icons/si';
 
 import { TextDecorated } from '@event-list/ui';
+
 
 const ShareEventPreview = ({
   flyer,
@@ -33,6 +34,8 @@ const ShareEventPreview = ({
   dateEnd,
   listAvailableAt,
 }) => {
+  const { t } = useTranslation(['ptBR', 'en']);
+
   return (
     <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }} py={{ base: 1, md: 7 }}>
       <Center>
@@ -40,26 +43,26 @@ const ShareEventPreview = ({
           {flyer ? (
             <Image rounded={'lg'} min-width={632} height={500} objectFit={'cover'} src={flyer} />
           ) : (
-            <Text>Upload a flyer to see it here</Text>
+            <Text>{t('Upload a flyer to see it here')}</Text>
           )}
         </Box>
       </Center>
       <Stack spacing={{ base: 2 }} direction={'column'} divider={<StackDivider borderColor={'transparent'} py={1} />}>
         <Stack spacing={2}>
           <TextDecorated fontWeight={'700'} fontSize={{ base: '1xl', sm: '2xl', lg: '3xl' }}>
-            {title ? title : 'Fill in a title to see it here'}
+            {title ? title : t('Fill in a title to see it here')}
           </TextDecorated>
           <Text fontWeight={'700'} fontSize={{ base: 'sm', sm: 'xl' }}>
-            your merchant name
+            {t('your merchant name')}
           </Text>
-          <Text textAlign="left" color={useColorModeValue('gray.500', 'gray.400')} fontSize={'sm'}>
+          <Text textAlign="left" color={'gray.400'} fontSize={'sm'}>
             {description}
           </Text>
         </Stack>
         <Stack spacing={{ base: 2 }} direction={'column'} divider={<StackDivider borderColor={'transparent'} py={1} />}>
           <Stack>
             <TextDecorated fontSize={'md'} fontWeight={'700'}>
-              Share it
+              {t('Share it')}
             </TextDecorated>
             <HStack spacing={2}>
               <WhatsappIcon size={32} round />
@@ -70,13 +73,13 @@ const ShareEventPreview = ({
           </Stack>
           <Stack>
             <TextDecorated fontSize={'md'} fontWeight={'700'}>
-              Place
+              {t('Place')}
             </TextDecorated>
             <SimpleGrid columns={{ base: 1 }} spacing={10}>
               <List spacing={2}>
                 <ListItem>
                   <Text fontSize={{ base: 'small', sm: 'sm', lg: 'sm' }}>
-                    {place ? place : 'Fill in a place to see it here'}
+                    {place ? place : t('Fill in a place to see it here')}
                   </Text>
                 </ListItem>
               </List>
@@ -85,28 +88,28 @@ const ShareEventPreview = ({
           <Stack>
             <SimpleGrid columns={{ base: 2 }} spacing={{ base: 5, lg: 8 }}>
               <StatsCard
-                title={'Price'}
-                stat={price ? price : 'Fill in a price to see it here'}
+                title={t('Price')}
+                stat={price ? price : t('Fill in a price to see it here')}
                 icon={<FaMoneyCheckAlt />}
               />
               <StatsCard
-                title={'Classification'}
-                stat={classification ? classification : 'Fill in a classification to see it here'}
+                title={t('Classification')}
+                stat={classification ? classification : t('Fill in a classification to see it here')}
                 icon={<SiAdblock />}
               />
               <StatsCard
-                title={'Start'}
-                stat={dateStart ? dateStart : 'Fill in a start date to see it here'}
+                title={t('Start')}
+                stat={dateStart ? dateStart : t('Fill in a start date to see it here')}
                 icon={<BsDoorOpenFill />}
               />
               <StatsCard
-                title={'End'}
-                stat={dateEnd ? dateEnd : 'Fill in a end date to see it here'}
+                title={t('End')}
+                stat={dateEnd ? dateEnd : t('Fill in a end date to see it here')}
                 icon={<BsDoorClosedFill />}
               />
               <StatsCard
-                title={'List available At'}
-                stat={listAvailableAt ? listAvailableAt : 'Fill in a list available at to see it here'}
+                title={t('List available at')}
+                stat={listAvailableAt ? listAvailableAt : t('Fill in a list available at to see it here')}
                 icon={<MdFactCheck />}
               />
             </SimpleGrid>
@@ -125,7 +128,7 @@ function StatsCard(props) {
       py={'2'}
       shadow={'xl'}
       border={'1px solid'}
-      borderColor={useColorModeValue('gray.700', 'gray.600')}
+      borderColor={'gray.600'}
       rounded={'lg'}
       bgColor="transparent"
       color={'white'}
@@ -136,19 +139,11 @@ function StatsCard(props) {
             <TextDecorated fontWeight={'500'} fontSize={{ base: 'sm' }}>
               {title}
             </TextDecorated>
-            <Box
-              color={useColorModeValue('gray.700', 'gray.200')}
-              alignContent={'center'}
-              fontSize={{ base: '1rem', sm: '1.5rem' }}
-            >
+            <Box color={'gray.200'} alignContent={'center'} fontSize={{ base: '1rem', sm: '1.5rem' }}>
               {icon}
             </Box>
           </Flex>
-          <StatNumber
-            as={Text}
-            fontSize={{ base: 'sm', sm: 'sm', lg: 'sm' }}
-            color={useColorModeValue('gray.700', 'gray.200')}
-          >
+          <StatNumber as={Text} fontSize={{ base: 'sm', sm: 'sm', lg: 'sm' }} color={'gray.200'}>
             {stat}
           </StatNumber>
         </Stack>

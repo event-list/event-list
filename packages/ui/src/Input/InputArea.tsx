@@ -53,7 +53,7 @@ const InputArea = (props: InputAreaProps) => {
   };
 
   return (
-    <FormControl id={name} isRequired={isRequired} mb="3">
+    <FormControl id={name} isRequired={isRequired}>
       {label && <TextFormLabel label={label} {...props.labelProps} />}
       <Textarea
         name={name}

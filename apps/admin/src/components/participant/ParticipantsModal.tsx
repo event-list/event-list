@@ -15,6 +15,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
+import { useTranslation } from 'next-i18next';
 import { useRef } from 'react';
 import { AiFillPrinter } from 'react-icons/ai';
 import { HiPlus, HiUpload } from 'react-icons/hi';
@@ -24,6 +25,7 @@ import { useReactToPrint } from 'react-to-print';
 import * as yup from 'yup';
 
 import { Button, InputArea, InputSelect, TextDecorated } from '@event-list/ui';
+
 
 import { AddParticipantInEvent } from './mutations/AddParticipantInEventMutation';
 import { ParticipantsList } from './ParticipantsList';
@@ -53,6 +55,8 @@ const ParticipantsModal = ({
   onCompleted,
   refetchEventQuery,
 }: ParticipantsModalProps) => {
+  const { t } = useTranslation(['ptBR', 'en']);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const componentRef = useRef(null);
@@ -77,7 +81,7 @@ const ParticipantsModal = ({
       onCompleted: ({ AddParticipantInEventMutation }: AddParticipantInEventMutation$data) => {
         if (typeof AddParticipantInEventMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('Something was wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -135,15 +139,15 @@ const ParticipantsModal = ({
           <ModalContent>
             <ModalHeader>
               <TextDecorated fontWeight={800} fontSize="2xl">
-                Add participants in this guest list
+                {t('Add participants in this guest list')}
               </TextDecorated>
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <InputArea name="names" label="Names:" placeholder="Write the names separed by lines" />
+              <InputArea name="names" label={t('Names')} placeholder={t('Write the names separed by lines')} />
               <InputSelect
                 name="batch"
-                label="Batch:"
+                label={t('Batch')}
                 options={options}
                 _placeholder={{
                   color: 'gray.400',
@@ -151,12 +155,12 @@ const ParticipantsModal = ({
               />
             </ModalBody>
             <ModalFooter display={'flex'} justifyContent={'space-between'}>
-              <Button onClick={onClose} text={'Close'} isSubmitting={false} />
+              <Button onClick={onClose} text={t('Close')} isSubmitting={false} />
               <Button
                 onClick={() => handleSubmitAddUserInEvent()}
                 text={
                   <Flex alignItems={'center'} gap={1}>
-                    Send Participants
+                    {t('Send participants')}
                     <HiUpload />
                   </Flex>
                 }
@@ -184,7 +188,7 @@ const ParticipantsModal = ({
           <Button
             onClick={onCloseOutside}
             isSubmitting={false}
-            text={'Close'}
+            text={t('Close')}
             bgGradient={'none'}
             _hover={{
               bgGradient: 'none',
@@ -196,7 +200,7 @@ const ParticipantsModal = ({
               isSubmitting={false}
               text={
                 <Flex alignItems={'center'} gap={1}>
-                  Print
+                  {t('Print')}
                   <AiFillPrinter />
                 </Flex>
               }
@@ -208,7 +212,7 @@ const ParticipantsModal = ({
               isDisabled={!event.published}
               text={
                 <Flex alignItems={'center'} gap={1}>
-                  Reload
+                  {t('Reload')}
                   <TbReload />
                 </Flex>
               }
@@ -220,7 +224,7 @@ const ParticipantsModal = ({
               isDisabled={!event.published}
               text={
                 <Flex alignItems={'center'} gap={1}>
-                  Add Participants
+                  {t('Add participants')}
                   <HiPlus />
                 </Flex>
               }

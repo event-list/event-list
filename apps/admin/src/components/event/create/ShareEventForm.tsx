@@ -16,8 +16,8 @@ import {
 } from '@chakra-ui/react';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import { useS3Upload } from 'next-s3-upload';
-import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'next-i18next';
+import { useEffect, useRef } from 'react';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { BsFillTrashFill, BsPlusCircleFill } from 'react-icons/bs';
 import { ConnectionHandler, useMutation } from 'react-relay';
@@ -72,6 +72,8 @@ const ShareEventSchema = yup.object({
 const googleMapsApiToken = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 export default function ShareEventForm() {
+  const { t } = useTranslation(['ptBR', 'en']);
+
   const router = useRouter();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -101,7 +103,7 @@ export default function ShareEventForm() {
       onCompleted: ({ CreateEventMutation }: ShareEventMutation$data) => {
         if (typeof CreateEventMutation === 'undefined') {
           toast({
-            title: 'Something was wrong',
+            title: t('Something was wrong'),
             status: 'error',
             duration: 5000,
             isClosable: true,
@@ -170,57 +172,58 @@ export default function ShareEventForm() {
   return (
     <FormikProvider value={formik}>
       <Hero
-        title={'Share an Event'}
-        description={
-          'Fill in all the fields and share your event in the best way. Only a few fields can be edited later, check all data before sharing, such as date, price and batches.'
-        }
+        title={t('Share an event')}
+        description={t(
+          'Fill in all the fields and share your event in the best way. Only a few fields can be edited later, check all data before sharing, such as date, price and batches.',
+        )}
       >
         <Box as={'form'} rounded={'lg'} border={'1px'} borderColor={'gray.700'} p={10} boxShadow={'2xl'}>
           <Stack spacing={6}>
             <HStack spacing={8}>
               <Box w="full">
-                <InputField name="title" label="Title:" placeholder="Event name" />
+                <InputField name="title" label={t('Title')} placeholder={t('Event name')} />
               </Box>
               <Box w="full">
-                <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
+                <InputMaps name="place" apiKey={googleMapsApiToken} label={t('Place')} placeholder={t('Event place')} />
               </Box>
               <Box>
                 <InputSwitch
+                  isRequired={false}
                   colorScheme={'red'}
                   name={'private'}
-                  label="Private:"
+                  label={t('Private')}
                   labelProps={{
-                    tooltip: 'Defines whether your event will appear in the catalog',
+                    tooltip: t('Defines whether your event will appear in the catalog'),
                   }}
                 />
               </Box>
             </HStack>
             <InputArea
               name="description"
-              label="Description:"
-              placeholder="Describe your event, the attractions, the place..."
+              label={t('Description')}
+              placeholder={t('Describe your event, the attractions, the place...')}
             />
             <HStack spacing={8}>
               <Box w="full">
-                <InputDate label="Date Start:" name="dateStart" />
+                <InputDate label={t('Date start')} name="dateStart" />
               </Box>
               <Box w="full">
-                <InputDate label="Date End:" name="dateEnd" />
+                <InputDate label={t('Date end')} name="dateEnd" />
               </Box>
               <Box w="full">
-                <InputDate name="listAvailableAt" label="List Available At:" />
+                <InputDate name="listAvailableAt" label={t('List available at')} />
               </Box>
               <Box w="full">
-                <InputAge name="classification" label="Classification:" />
+                <InputAge name="classification" label={t('Classification')} />
               </Box>
             </HStack>
             <HStack alignItems={'stretch'} spacing={8}>
               <Box w={'full'}>
                 <InputImage
                   name="flyer"
-                  label="Flyer:"
-                  description={`Upload a ${values.flyer ? 'new' : ''} Flyer`}
-                  uploadedDescription="See your uploaded flyer below"
+                  label={t('Flyer')}
+                  description={values.flyer ? t('Upload a new flyer') : t('Upload a flyer')}
+                  uploadedDescription={t('See your uploaded flyer below')}
                 />
               </Box>
               <FieldArray
@@ -228,7 +231,7 @@ export default function ShareEventForm() {
                 render={(arrayHelpers) => (
                   <Stack w={'full'} spacing={8}>
                     <FormControl id={'batches'} isRequired>
-                      <TextFormLabel mt={'2'} label={'Batches:'} />
+                      <TextFormLabel mt={'2'} label={t('Batches')} />
                       {values.batches.map((batch, index) => (
                         <HStack spacing={5} key={index}>
                           <InputField
@@ -237,8 +240,8 @@ export default function ShareEventForm() {
                               fontSize: '13px',
                               fontWeight: 'medium',
                             }}
-                            label="Batch Title:"
-                            placeholder="First batch"
+                            label={t('Batch title')}
+                            placeholder={t('First batch')}
                           />
                           <InputPrice
                             name={`batches.${index}.value`}
@@ -246,19 +249,19 @@ export default function ShareEventForm() {
                               fontSize: '13px',
                               fontWeight: 'medium',
                             }}
-                            label="Batch Price:"
+                            label={t('Batch price')}
                           />
                           <InputDate
                             name={`batches.${index}.date`}
                             labelProps={{
                               tooltip:
                                 index === values.batches.length - 1
-                                  ? 'Last batch date is defined by event end date'
-                                  : 'Define batch date available',
+                                  ? t('Last batch date is defined by event end date')
+                                  : t('Define batch date available'),
                               fontSize: '13px',
                               fontWeight: 'medium',
                             }}
-                            label="Batch Date:"
+                            label={t('Batch date')}
                             color={index === values.batches.length - 1 ? 'gray.600' : 'white'}
                             readOnly={index === values.batches.length - 1}
                           />
@@ -270,10 +273,10 @@ export default function ShareEventForm() {
                             }}
                             isReadOnly={index === values.batches.length - 1}
                             name={`batches.${index}.visible`}
-                            label="Batch Visible:"
+                            label={t('Batch visible')}
                           />
                           <Box>
-                            <TextFormLabel fontSize={'13px'} fontWeight={'medium'} label={'Actions'} />
+                            <TextFormLabel fontSize={'13px'} fontWeight={'medium'} label={t('Actions')} />
                             <Flex gap={1}>
                               <Button
                                 type="button"
@@ -311,7 +314,7 @@ export default function ShareEventForm() {
                 onClick={() => router.push('#share-event-preview')}
                 text={
                   <Flex alignItems={'center'}>
-                    Continue <AiOutlineArrowDown />
+                    {t('Continue')} <AiOutlineArrowDown />
                   </Flex>
                 }
                 isSubmitting={false}
@@ -321,10 +324,12 @@ export default function ShareEventForm() {
         </Box>
         <Stack spacing={4}>
           <TextDecorated fontSize={'3xl'} fontWeight={'bold'}>
-            Preview
+            {t('Preview')}
           </TextDecorated>
           <Text color={'gray.200'}>
-            Confirm all event data, your event will look like this when shared and some information cannot be changed
+            {t(
+              'Confirm all event data, your event will look like this when shared and some information cannot be changed',
+            )}
           </Text>
           <Box
             rounded={'lg'}
@@ -352,18 +357,18 @@ export default function ShareEventForm() {
                 size="lg"
                 onClick={onOpen}
                 isDisabled={isDisabled}
-                text={'Share Event'}
+                text={t('Share event')}
                 isSubmitting={isPending}
               />
               <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
                 <AlertDialogOverlay>
                   <AlertDialogContent>
                     <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                      Share Event
+                      {t('Share event')}
                     </AlertDialogHeader>
 
                     <AlertDialogBody>
-                      Are you sure about all the data you filled in? some data cannot be changed
+                      {t('Are you sure about all the data you filled in? some data cannot be changed')}
                     </AlertDialogBody>
 
                     <AlertDialogFooter>
@@ -371,10 +376,10 @@ export default function ShareEventForm() {
                       <Button
                         onClick={() => handleSubmit()}
                         ml={3}
-                        loadingText="Submitting"
+                        loadingText={t('Submitting')}
                         isSubmitting={isPending}
                         isDisabled={isDisabled}
-                        text={'Share Event'}
+                        text={t('Share event')}
                       />
                     </AlertDialogFooter>
                   </AlertDialogContent>

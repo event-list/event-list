@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires,import/order
+const { i18n } = require('./next-i18next.config');
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const relay = require('./relay.config.js');
 
@@ -61,6 +64,7 @@ const nextConfig = {
     S3_UPLOAD_REGION: process.env.S3_UPLOAD_REGION,
     S3_UPLOAD_BUCKET: process.env.S3_UPLOAD_BUCKET,
   },
+  i18n: i18n,
 };
 
 module.exports = withTM(nextConfig);
