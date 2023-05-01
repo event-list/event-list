@@ -73,7 +73,7 @@ export default function Footer({ t }) {
           </Stack>
           <Stack spacing={6}>
             <Box w="40">
-              <Image src={Logo} />
+              <Logo />
             </Box>
             <Text fontSize={'sm'}>© {new Date().getFullYear()} Event List. All rights reserved</Text>
             <Stack direction={'row'} spacing={6}>
