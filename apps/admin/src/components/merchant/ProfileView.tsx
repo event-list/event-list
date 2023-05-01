@@ -9,7 +9,6 @@ import * as yup from 'yup';
 
 import { Button, InputArea, InputAvatar, InputField } from '@event-list/ui';
 
-
 import { MerchantMeUpdate } from './mutations/MerchantMeUpdateMutation';
 import type {
   MerchantMeUpdateMutation,

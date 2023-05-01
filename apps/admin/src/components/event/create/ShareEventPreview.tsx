@@ -22,7 +22,6 @@ import { SiAdblock } from 'react-icons/si';
 
 import { TextDecorated } from '@event-list/ui';
 
-
 const ShareEventPreview = ({
   flyer,
   title,

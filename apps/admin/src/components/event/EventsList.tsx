@@ -22,7 +22,6 @@ import { EventRow } from './table/EventRow';
 import type { EventsListFragment_query$key } from '../../../__generated__/EventsListFragment_query.graphql';
 import type { EventsListPagination_query } from '../../../__generated__/EventsListPagination_query.graphql';
 
-
 const EventsListFragment = graphql`
   fragment EventsListFragment_query on Query
   @argumentDefinitions(first: { type: Int, defaultValue: 12 }, after: { type: String })

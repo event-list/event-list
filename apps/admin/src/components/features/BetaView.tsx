@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next';
 
 import { TextDecorated } from '@event-list/ui';
 
-
 const BetaView = () => {
   const { t } = useTranslation(['ptBR', 'en']);
 
