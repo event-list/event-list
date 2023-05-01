@@ -86,7 +86,7 @@
     "prettier": "latest",
     "swagger-jsdoc": "^6.2.5",
     "turbo": "latest",
-    "typescript": "^4.9.4",
+    "typescript": "^5.0.4",
     "uuid": "^9.0.0",
     "webpack-node-externals": "^3.0.0"
   },
