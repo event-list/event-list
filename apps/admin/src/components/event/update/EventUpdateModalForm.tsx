@@ -178,28 +178,16 @@ const EventUpdateModalForm = ({
                 </Center>
               </FormControl>
             </Flex>
+            <InputField name="title" label="Title:" placeholder="Event name" />
             <HStack spacing={8}>
-              <FormControl id="title">
-                <InputField name="title" label="Title:" placeholder="Event name" />
-              </FormControl>
+              <InputAge name="classification" label="Classification:" />
+              <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
             </HStack>
-            <HStack spacing={8}>
-              <FormControl id="classification">
-                <InputAge name="classification" label="Classification:" />
-              </FormControl>
-              <FormControl id="place">
-                <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
-              </FormControl>
-            </HStack>
-            <HStack>
-              <FormControl id="description">
-                <InputArea
-                  name="description"
-                  label="Description:"
-                  placeholder="Describe your event, the attractions, the place..."
-                />
-              </FormControl>
-            </HStack>
+            <InputArea
+              name="description"
+              label="Description:"
+              placeholder="Describe your event, the attractions, the place..."
+            />
           </Stack>
         </ModalBody>
         <ModalFooter display={'flex'} justifyContent={'space-between'}>

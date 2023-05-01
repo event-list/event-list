@@ -1,10 +1,10 @@
 import { errorField, successField } from '@entria/graphql-mongo-helpers';
 import { GraphQLNonNull, GraphQLString, GraphQLList, GraphQLInputObjectType, GraphQLBoolean } from 'graphql';
-import { mutationWithClientMutationId } from 'graphql-relay';
+import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 import type { Date } from 'mongoose';
 
 import type { IBatch } from '@event-list/modules';
-import { eventField, handleCreateEvent } from '@event-list/modules';
+import { EventEdge, EventLoader , myEvents, handleCreateEvent } from '@event-list/modules';
 
 type EventCreateArgs = {
   title: string;
@@ -98,7 +98,21 @@ export const CreateEventMutation = mutationWithClientMutationId({
     };
   },
   outputFields: {
-    ...eventField(),
+    myEventsEdge: {
+      type: EventEdge,
+      resolve: async ({ id }, args, ctx) => {
+        const newEvent = await EventLoader.load(ctx, id);
+
+        if (!newEvent) {
+          return null;
+        }
+
+        return {
+          cursor: toGlobalId('Event', newEvent._id),
+          node: newEvent,
+        };
+      },
+    },
     ...successField,
     ...errorField,
   },
