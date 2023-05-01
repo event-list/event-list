@@ -1,4 +1,4 @@
-import { Input, Text, Box } from '@chakra-ui/react';
+import { Input, Text, FormControl } from '@chakra-ui/react';
 import type { InputProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 
@@ -11,7 +11,7 @@ type InputFieldProps = {
 } & InputProps;
 
 const InputField = (props: InputFieldProps) => {
-  const { name = '', label = null, ...restProps } = props;
+  const { name = '', label = null, isRequired = true, ...restProps } = props;
   const [field, meta, helpers] = useField(name);
 
   const hasError = meta?.touched;
@@ -53,7 +53,7 @@ const InputField = (props: InputFieldProps) => {
   };
 
   return (
-    <Box mb="3">
+    <FormControl id={name} isRequired={isRequired} mb="3">
       {label && <TextFormLabel label={label} {...props.labelProps} />}
       <Input
         name={name}
@@ -68,7 +68,7 @@ const InputField = (props: InputFieldProps) => {
           {meta.error}
         </Text>
       ) : null}
-    </Box>
+    </FormControl>
   );
 };
 

@@ -148,51 +148,43 @@ export default function SignUpView() {
               </Stack>
               <Box as={'form'} mt={10}>
                 <Stack spacing={4}>
-                  <FormControl id="email" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      name="email"
-                      label={t('Email')!}
-                      placeholder={t('User@emailcom')!}
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                      color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
-                    />
-                  </FormControl>
-                  <FormControl id="password" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      type="password"
-                      name="password"
-                      label={t('Password')!}
-                      placeholder="*******"
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                      color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
-                    />
-                  </FormControl>
-                  <HStack>
-                    <FormControl id="name" isRequired>
-                      <InputField
-                        labelProps={{ color: 'gray.700' }}
-                        bg={'gray.100'}
-                        label={t('Full name')!}
-                        border={0}
-                        color="gray"
-                        name="name"
-                        placeholder={t('Your full name')!}
-                        _placeholder={{
-                          color: 'gray.400',
-                        }}
-                      />
-                    </FormControl>
-                  </HStack>
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    name="email"
+                    label={t('Email')!}
+                    placeholder={t('User@emailcom')!}
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    type="password"
+                    name="password"
+                    label={t('Password')!}
+                    placeholder="*******"
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    bg={'gray.100'}
+                    label={t('Full name')!}
+                    border={0}
+                    color="gray"
+                    name="name"
+                    placeholder={t('Your full name')!}
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                  />
                 </Stack>
                 <Button
                   size="lg"

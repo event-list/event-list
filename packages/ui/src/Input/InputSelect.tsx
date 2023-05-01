@@ -1,4 +1,4 @@
-import { Select, Text } from '@chakra-ui/react';
+import { Select, Text, FormControl } from '@chakra-ui/react';
 import type { SelectProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 
@@ -17,7 +17,7 @@ type InputSelectProps = {
 } & SelectProps;
 
 const InputSelect = (props: InputSelectProps) => {
-  const { name = '', label = null, ...restProps } = props;
+  const { name = '', label = null, isRequired = true, ...restProps } = props;
   const [field, meta, helpers] = useField(name);
 
   const hasError = meta?.touched;
@@ -59,7 +59,7 @@ const InputSelect = (props: InputSelectProps) => {
   };
 
   return (
-    <>
+    <FormControl id={name} isRequired={isRequired} mb="3">
       {label && <TextFormLabel mt={'2'} label={label} {...props.labelProps} />}
       <Select
         placeholder={'Select a option'}
@@ -81,7 +81,7 @@ const InputSelect = (props: InputSelectProps) => {
           {meta.error}
         </Text>
       ) : null}
-    </>
+    </FormControl>
   );
 };
 

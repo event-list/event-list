@@ -144,35 +144,31 @@ export default function SignInView() {
               </Stack>
               <Box as={'form'} mt={10}>
                 <Stack spacing={4}>
-                  <FormControl id="email" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      name="email"
-                      label="Email:"
-                      placeholder="user@email.com"
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                      color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
-                    />
-                  </FormControl>
-                  <FormControl id="password" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      type="password"
-                      name="password"
-                      label="Password:"
-                      placeholder="*******"
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                      color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
-                    />
-                  </FormControl>
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    name="email"
+                    label="Email:"
+                    placeholder="user@email.com"
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    type="password"
+                    name="password"
+                    label="Password:"
+                    placeholder="*******"
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
                 </Stack>
                 <Button
                   size="lg"

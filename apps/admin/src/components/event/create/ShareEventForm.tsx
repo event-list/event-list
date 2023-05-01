@@ -38,6 +38,7 @@ import {
   TextFormLabel,
   TextDecorated,
   InputSwitch,
+  InputImage,
 } from '@event-list/ui';
 
 import { ShareEvent } from './mutations/ShareEventMutation';
@@ -194,14 +195,10 @@ export default function ShareEventForm() {
           <Stack spacing={6}>
             <HStack spacing={8}>
               <Box w="full">
-                <FormControl id="title" isRequired>
-                  <InputField name="title" label="Title:" placeholder="Event name" />
-                </FormControl>
+                <InputField name="title" label="Title:" placeholder="Event name" />
               </Box>
               <Box w="full">
-                <FormControl id="place" isRequired>
-                  <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
-                </FormControl>
+                <InputMaps name="place" apiKey={googleMapsApiToken} label="Place:" placeholder="Event place" />
               </Box>
               <Box>
                 <InputSwitch
@@ -214,63 +211,33 @@ export default function ShareEventForm() {
                 />
               </Box>
             </HStack>
-            <FormControl id="description" isRequired>
-              <InputArea
-                name="description"
-                label="Description:"
-                placeholder="Describe your event, the attractions, the place..."
-              />
-            </FormControl>
+            <InputArea
+              name="description"
+              label="Description:"
+              placeholder="Describe your event, the attractions, the place..."
+            />
             <HStack spacing={8}>
               <Box w="full">
-                <FormControl id="dateStart" isRequired>
-                  <InputDate label="Date Start:" name="dateStart" />
-                </FormControl>
+                <InputDate label="Date Start:" name="dateStart" />
               </Box>
               <Box w="full">
-                <FormControl id="dateEnd" isRequired>
-                  <InputDate label="Date End:" name="dateEnd" />
-                </FormControl>
+                <InputDate label="Date End:" name="dateEnd" />
               </Box>
               <Box w="full">
-                <FormControl id="listAvailableAt" isRequired>
-                  <InputDate name="listAvailableAt" label="List Available At:" />
-                </FormControl>
+                <InputDate name="listAvailableAt" label="List Available At:" />
               </Box>
               <Box w="full">
-                <FormControl id="classification" isRequired>
-                  <InputAge name="classification" label="Classification:" />
-                </FormControl>
+                <InputAge name="classification" label="Classification:" />
               </Box>
             </HStack>
             <HStack alignItems={'stretch'} spacing={8}>
               <Box w={'full'}>
-                <Box display={'none'}>
-                  <InputFile name="flyer" id={'flyer-input'} onChange={handleFileChange} />
-                </Box>
-                <FormControl id="flyer" isRequired height={'full'}>
-                  <TextFormLabel mt={'2'} label={'Flyer:'} />
-                  <Flex
-                    height={'full'}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    flexDirection={'column'}
-                    gap={2}
-                    cursor={'pointer'}
-                    mt={6}
-                    onClick={() => document.getElementById('flyer-input')?.click()}
-                  >
-                    {isLoadingImage ? (
-                      <CircularProgress isIndeterminate color={'#E53E3E'} />
-                    ) : (
-                      <RiFolderUploadFill size={'2.5rem'} />
-                    )}
-                    <Text fontSize={'lg'} fontWeight={'bold'}>
-                      Upload a {values.flyer ? 'new' : ''} Flyer
-                    </Text>
-                    {values.flyer && <Text fontSize={'sm'}>See your uploaded flyer below</Text>}
-                  </Flex>
-                </FormControl>
+                <InputImage
+                  name="flyer"
+                  label="Flyer:"
+                  description={`Upload a ${values.flyer ? 'new' : ''} Flyer`}
+                  uploadedDescription="See your uploaded flyer below"
+                />
               </Box>
               <FieldArray
                 name="batches"
@@ -280,55 +247,47 @@ export default function ShareEventForm() {
                       <TextFormLabel mt={'2'} label={'Batches:'} />
                       {values.batches.map((batch, index) => (
                         <HStack spacing={5} key={index}>
-                          <FormControl id={`batches.${index}.title`} isRequired>
-                            <InputField
-                              name={`batches.${index}.title`}
-                              labelProps={{
-                                fontSize: '13px',
-                                fontWeight: 'medium',
-                              }}
-                              label="Batch Title:"
-                              placeholder="First batch"
-                            />
-                          </FormControl>
-                          <FormControl id={`batches.${index}.value`} isRequired>
-                            <InputPrice
-                              name={`batches.${index}.value`}
-                              labelProps={{
-                                fontSize: '13px',
-                                fontWeight: 'medium',
-                              }}
-                              label="Batch Price:"
-                            />
-                          </FormControl>
-                          <FormControl id={`batches.${index}.date`} isRequired>
-                            <InputDate
-                              name={`batches.${index}.date`}
-                              labelProps={{
-                                tooltip:
-                                  index === values.batches.length - 1
-                                    ? 'Last batch date is defined by event end date'
-                                    : 'Define batch date available',
-                                fontSize: '13px',
-                                fontWeight: 'medium',
-                              }}
-                              label="Batch Date:"
-                              color={index === values.batches.length - 1 ? 'gray.600' : 'white'}
-                              readOnly={index === values.batches.length - 1}
-                            />
-                          </FormControl>
-                          <FormControl id={`batches.${index}.visible`} isRequired>
-                            <InputSwitch
-                              colorScheme={'red'}
-                              labelProps={{
-                                fontSize: '13px',
-                                fontWeight: 'medium',
-                              }}
-                              isReadOnly={index === values.batches.length - 1}
-                              name={`batches.${index}.visible`}
-                              label="Batch Visible:"
-                            />
-                          </FormControl>
+                          <InputField
+                            name={`batches.${index}.title`}
+                            labelProps={{
+                              fontSize: '13px',
+                              fontWeight: 'medium',
+                            }}
+                            label="Batch Title:"
+                            placeholder="First batch"
+                          />
+                          <InputPrice
+                            name={`batches.${index}.value`}
+                            labelProps={{
+                              fontSize: '13px',
+                              fontWeight: 'medium',
+                            }}
+                            label="Batch Price:"
+                          />
+                          <InputDate
+                            name={`batches.${index}.date`}
+                            labelProps={{
+                              tooltip:
+                                index === values.batches.length - 1
+                                  ? 'Last batch date is defined by event end date'
+                                  : 'Define batch date available',
+                              fontSize: '13px',
+                              fontWeight: 'medium',
+                            }}
+                            label="Batch Date:"
+                            color={index === values.batches.length - 1 ? 'gray.600' : 'white'}
+                            readOnly={index === values.batches.length - 1}
+                          />
+                          <InputSwitch
+                            colorScheme={'red'}
+                            labelProps={{
+                              fontSize: '13px',
+                              fontWeight: 'medium',
+                            }}
+                            isReadOnly={index === values.batches.length - 1}
+                            name={`batches.${index}.visible`}
+                            label="Batch Visible:"
+                          />
                           <Box>
                             <TextFormLabel fontSize={'13px'} fontWeight={'medium'} label={'Actions'} />
                             <Flex gap={1}>

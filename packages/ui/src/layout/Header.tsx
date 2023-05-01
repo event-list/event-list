@@ -18,10 +18,8 @@ import {
   VStack,
   Button as ButtonChakra,
 } from '@chakra-ui/react';
-import Image from 'next/image';
-import { FiChevronDown, FiLogIn, FiLogOut, FiMenu, FiUser } from 'react-icons/fi';
+import { FiChevronDown, FiLogIn, FiLogOut, FiMenu } from 'react-icons/fi';
 
-//@ts-expect-error it not have type
 import Logo from '../logo.svg';
 
 type Props = {
@@ -75,14 +73,11 @@ export default function Header(props: Props) {
               <Menu>
                 <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
                   <HStack>
-                    <Box p={1} mx={1}>
-                      <FiUser />
-                    </Box>
                     <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                       <Text fontSize="base">{props.user?.name}</Text>
                     </VStack>
                     <Box display={{ base: 'none', md: 'flex' }}>
-                      <FiChevronDown />
+                      <Icon as={FiChevronDown} />
                     </Box>
                   </HStack>
                 </MenuButton>
@@ -139,7 +134,7 @@ const SidebarContent = ({ onClose, links, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Image src={Logo} alt={'Small and red Event List logo'} />
+        <Logo />
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {links}
