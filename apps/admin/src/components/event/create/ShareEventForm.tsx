@@ -20,7 +20,8 @@ import { useS3Upload } from 'next-s3-upload';
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { BsFillTrashFill, BsPlusCircleFill } from 'react-icons/bs';
-import { useMutation } from 'react-relay';
+import { ConnectionHandler, useMutation } from 'react-relay';
+import { ROOT_ID } from 'relay-runtime';
 import * as yup from 'yup';
 
 import {
@@ -79,6 +80,8 @@ export default function ShareEventForm() {
   const [EventShareEvent, isPending] = useMutation<ShareEventMutation>(ShareEvent);
 
   const onSubmit = (values: ShareEventParams) => {
+    const connectionId = ConnectionHandler.getConnectionID(ROOT_ID, 'Events_myEvents');
+
     const config = {
       variables: {
         input: {
@@ -93,6 +96,7 @@ export default function ShareEventForm() {
           flyer: values.flyer,
           private: values.private,
         },
+        connections: [connectionId],
       },
       onCompleted: ({ CreateEventMutation }: ShareEventMutation$data) => {
         if (typeof CreateEventMutation === 'undefined') {

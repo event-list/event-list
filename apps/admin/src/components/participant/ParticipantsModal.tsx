@@ -65,8 +65,6 @@ const ParticipantsModal = ({
   const onSubmit = async (values: AddParticipantInEventParams) => {
     const arrayNames = values.names.split('\n');
 
-    console.log('values', values);
-
     const config = {
       variables: {
         input: {
@@ -131,12 +129,14 @@ const ParticipantsModal = ({
 
   return (
     <Box>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="2xl">
         <ModalOverlay />
         <FormikProvider value={formikAddUserInEvent}>
           <ModalContent>
             <ModalHeader>
-              <TextDecorated fontWeight={700}>Add participants in this guest list</TextDecorated>
+              <TextDecorated fontWeight={800} fontSize="2xl">
+                Add participants in this guest list
+              </TextDecorated>
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
