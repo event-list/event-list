@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import InfiniteScroll from 'react-infinite-scroller';
 import { graphql, usePaginationFragment } from 'react-relay';
 
-import { ContainerPage } from '@event-list/ui';
+import { Hero } from '@event-list/ui';
 
 import { MerchantCard } from './MerchantCard';
 import type { MerchantListFragment_query$key } from '../../../__generated__/MerchantListFragment_query.graphql';
@@ -65,7 +65,7 @@ const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) =>
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage title={t('Merchants')} description={t('Find your favorite event creators')!}>
+      <Hero title={t('Merchants')} description={t('Find your favorite event creators')!}>
         <SimpleGrid
           minChildWidth="350px"
           templateColumns={{
@@ -80,7 +80,7 @@ const MerchantList = (props: { fragmentKey: MerchantListFragment_query$key }) =>
             if (merchant?.node) return <MerchantCard key={index} fragmentKey={merchant?.node} />;
           })}
         </SimpleGrid>
-      </ContainerPage>
+      </Hero>
     </InfiniteScroll>
   );
 };

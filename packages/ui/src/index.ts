@@ -38,7 +38,7 @@ export { default as TextFormLabel } from './Text/TextFormLabel';
 export { default as Card } from './Card/Card';
 
 // container
-export { default as ContainerPage } from './Container/ContainerPage';
+export { default as Hero } from './Container/Hero';
 
 // container
 export { default as Tooltip } from './Tooltip/Tooltip';

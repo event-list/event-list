@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import InfiniteScroll from 'react-infinite-scroller';
 import { graphql, usePaginationFragment } from 'react-relay';
 
-import ContainerPage from '@event-list/ui/src/Container/ContainerPage';
+import { Hero } from '@event-list/ui';
 
 import { EventCard } from './EventCard';
 import type { EventsListFragment_query$key } from '../../../__generated__/EventsListFragment_query.graphql';
@@ -65,7 +65,7 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
       loader={infiniteScrollerLoader}
       useWindow
     >
-      <ContainerPage
+      <Hero
         title={t('Events')}
         description={
           t('See all the events available for you to attend. Open one of the events to see more information about it')!
@@ -85,7 +85,7 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
             if (event?.node) return <EventCard key={index} fragmentKey={event?.node} />;
           })}
         </SimpleGrid>
-      </ContainerPage>
+      </Hero>
     </InfiniteScroll>
   );
 }
