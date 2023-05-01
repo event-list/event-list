@@ -4,7 +4,7 @@ import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 import type { Date } from 'mongoose';
 
 import type { IBatch } from '@event-list/modules';
-import { EventEdge, EventLoader , myEvents, handleCreateEvent } from '@event-list/modules';
+import { EventEdge, EventLoader, myEvents, handleCreateEvent } from '@event-list/modules';
 
 type EventCreateArgs = {
   title: string;

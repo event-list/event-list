@@ -205,6 +205,7 @@ const ParticipantsModal = ({
             <Button
               onClick={() => refetchEventQuery()}
               isSubmitting={false}
+              isDisabled={!event.published}
               text={
                 <Flex alignItems={'center'} gap={1}>
                   Reload
@@ -216,6 +217,7 @@ const ParticipantsModal = ({
             <Button
               onClick={onOpen}
               isSubmitting={false}
+              isDisabled={!event.published}
               text={
                 <Flex alignItems={'center'} gap={1}>
                   Add Participants
