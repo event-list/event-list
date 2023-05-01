@@ -20,7 +20,7 @@ export async function getServerSideProps(ctx) {
       preloadedQueries: {
         ProfileViewQuery: await getPreloadedQuery(ProfileViewQueryGenerated, {}, ctx),
       },
-      ...(await serverSideTranslations(ctx.locale, ['en', 'ptBR'])),
+      ...(await serverSideTranslations(ctx.locale, ['ptBR', 'en'])),
     },
   };
 }

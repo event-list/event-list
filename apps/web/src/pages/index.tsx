@@ -28,7 +28,7 @@ export default function Page(props) {
 export async function getServerSideProps(ctx) {
   return {
     props: {
-      ...(await serverSideTranslations(ctx.locale, ['en', 'ptBR'])),
+      ...(await serverSideTranslations(ctx.locale, ['ptBR', 'en'])),
       preloadedQueries: {
         ProfileViewQuery: await getPreloadedQuery(ProfileViewQueryGenerated, {}, ctx),
         EventsViewQuery: await getPreloadedQuery(
