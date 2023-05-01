@@ -9,6 +9,7 @@ module.exports = {
     locales: ['ptBR', 'en'],
     defaultLocale: 'ptBR',
     localeStructure: '{{lng}}',
+    localeDetection: false,
   },
   ns: [],
   defaultNS: [],

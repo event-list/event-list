@@ -135,7 +135,9 @@ const SidebarContent = ({ onClose, links, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Logo />
+        <Box w="40">
+          <Logo />
+        </Box>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {links}
