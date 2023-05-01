@@ -11,6 +11,9 @@ const {
 } = createLoader({
   model: ParticipantModel,
   loaderName: 'ParticipantLoader',
+  defaultSort: {
+    name: 1,
+  },
 });
 
 export { getLoader, clearCache, load, loadAll };
