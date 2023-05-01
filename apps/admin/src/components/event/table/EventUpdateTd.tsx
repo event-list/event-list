@@ -23,7 +23,7 @@ const EventUpdateTd = ({ event, refetch }) => {
       </Modal>
       <BsPencilFill
         color={event.published ? 'white' : 'grey'}
-        cursor={event.published ? 'pointer' : 'none'}
+        cursor={event.published ? 'pointer' : 'auto'}
         onClick={event.published ? onOpen : undefined}
       />
     </Td>
