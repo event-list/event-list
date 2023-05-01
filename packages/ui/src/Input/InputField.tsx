@@ -1,4 +1,4 @@
-import { Input, Text } from '@chakra-ui/react';
+import { Input, Text, Box } from '@chakra-ui/react';
 import type { InputProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 
@@ -53,8 +53,8 @@ const InputField = (props: InputFieldProps) => {
   };
 
   return (
-    <>
-      {label && <TextFormLabel mt={'2'} label={label} {...props.labelProps} />}
+    <Box mb="3">
+      {label && <TextFormLabel label={label} {...props.labelProps} />}
       <Input
         name={name}
         fontSize={{ base: '13px', md: 'sm' }}
@@ -68,7 +68,7 @@ const InputField = (props: InputFieldProps) => {
           {meta.error}
         </Text>
       ) : null}
-    </>
+    </Box>
   );
 };
 

@@ -9,17 +9,16 @@ import {
   Flex,
   FormControl,
   HStack,
-  Image,
   Stack,
   Text,
   useDisclosure,
   useToast,
-  VStack,
+  CircularProgress,
 } from '@chakra-ui/react';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useS3Upload } from 'next-s3-upload';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { BsFillTrashFill, BsPlusCircleFill } from 'react-icons/bs';
 import { RiFolderUploadFill } from 'react-icons/ri';
@@ -74,6 +73,7 @@ const ShareEventSchema = yup.object({
 const googleMapsApiToken = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 export default function ShareEventForm() {
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const { uploadToS3 } = useS3Upload();
   const router = useRouter();
   const toast = useToast();
@@ -90,9 +90,9 @@ export default function ShareEventForm() {
       alert('File is too big! 1MB Max');
     }
 
+    setIsLoadingImage(true);
     const { url } = await uploadToS3(file);
-
-    console.log(url);
+    setIsLoadingImage(false);
 
     await setFieldValue('flyer', url);
   };
@@ -191,7 +191,7 @@ export default function ShareEventForm() {
         }
       >
         <Box as={'form'} rounded={'lg'} border={'1px'} borderColor={'gray.700'} p={10} boxShadow={'2xl'}>
-          <Stack spacing={10}>
+          <Stack spacing={6}>
             <HStack spacing={8}>
               <Box w="full">
                 <FormControl id="title" isRequired>
@@ -248,9 +248,10 @@ export default function ShareEventForm() {
                 <Box display={'none'}>
                   <InputFile name="flyer" id={'flyer-input'} onChange={handleFileChange} />
                 </Box>
-                <FormControl id="flyer" isRequired>
+                <FormControl id="flyer" isRequired height={'full'}>
                   <TextFormLabel mt={'2'} label={'Flyer:'} />
                   <Flex
+                    height={'full'}
                     justifyContent={'center'}
                     alignItems={'center'}
                     flexDirection={'column'}
@@ -259,9 +260,13 @@ export default function ShareEventForm() {
                     mt={6}
                     onClick={() => document.getElementById('flyer-input')?.click()}
                   >
-                    <RiFolderUploadFill size={'2.5rem'} />
+                    {isLoadingImage ? (
+                      <CircularProgress isIndeterminate color={'#E53E3E'} />
+                    ) : (
+                      <RiFolderUploadFill size={'2.5rem'} />
+                    )}
                     <Text fontSize={'lg'} fontWeight={'bold'}>
-                      Upload a new Flyer
+                      Upload a {values.flyer ? 'new' : ''} Flyer
                     </Text>
                     {values.flyer && <Text fontSize={'sm'}>See your uploaded flyer below</Text>}
                   </Flex>
@@ -283,6 +288,7 @@ export default function ShareEventForm() {
                                 fontWeight: 'medium',
                               }}
                               label="Batch Title:"
+                              placeholder="First batch"
                             />
                           </FormControl>
                           <FormControl id={`batches.${index}.value`} isRequired>
