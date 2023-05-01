@@ -21,6 +21,8 @@ export { default as InputPrice } from './Input/InputMask/InputPrice';
 export { default as InputSelect } from './Input/InputSelect';
 export { default as InputLeftAddon } from './Input/InputLeftAddon';
 export { default as InputLeftElement } from './Input/InputLeftElement';
+export { default as InputAvatar } from './Input/InputAvatar';
+export { default as InputImage } from './Input/InputImage';
 
 // button
 export { default as Button } from './Button/Button';

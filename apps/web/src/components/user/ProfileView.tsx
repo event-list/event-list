@@ -154,11 +154,7 @@ const ProfileView = (props: ProfileViewProps) => {
         </Flex>
         <FormikProvider value={formik}>
           <Stack spacing={5}>
-            <HStack>
-              <FormControl id="name" isRequired>
-                <InputField name="name" label={t('Full name')!} placeholder={t('Full name')} defaultValue={user.name} />
-              </FormControl>
-            </HStack>
+            <InputField name="name" label={t('Full name')!} placeholder={t('Full name')} defaultValue={user.name} />
             <Button
               size="lg"
               text={t('Update informations')}

@@ -1,26 +1,12 @@
-import {
-  Avatar,
-  Box,
-  Center,
-  Flex,
-  FormControl,
-  Heading,
-  HStack,
-  Image,
-  Stack,
-  Text,
-  useColorModeValue,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, FormControl, Heading, HStack, Stack, Text, useToast } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
-import { useS3Upload } from 'next-s3-upload';
 import { HiUser } from 'react-icons/hi';
 import type { PreloadedQuery } from 'react-relay';
 import { useFragment, useMutation, usePreloadedQuery } from 'react-relay';
 import { graphql } from 'relay-runtime';
 import * as yup from 'yup';
 
-import { Button, InputArea, InputField, InputFile } from '@event-list/ui';
+import { Button, InputArea, InputAvatar, InputField } from '@event-list/ui';
 
 import { MerchantMeUpdate } from './mutations/MerchantMeUpdateMutation';
 import type {
@@ -58,7 +44,6 @@ const MerchantMeUpdateSchema = yup.object({
 });
 
 const ProfileView = (props: ProfileViewProps) => {
-  const { uploadToS3 } = useS3Upload();
   const toast = useToast();
 
   const [HandleMerchantMeUpdate, isPending] = useMutation<MerchantMeUpdateMutation>(MerchantMeUpdate);
@@ -66,21 +51,6 @@ const ProfileView = (props: ProfileViewProps) => {
   const { meAdmin } = usePreloadedQuery<ProfileViewQueryType>(ProfileViewQuery, props.preloadedQuery);
 
   const merchant = useFragment<useAdminAuthFragment_user$key>(useAdminAuthFragment, meAdmin);
-
-  const handleFileChange = async (event) => {
-    const file: File = event.target.files[0];
-    if (!file) return;
-
-    if (file.size > 1048576) {
-      alert('File is too big! 1MB Max');
-    }
-
-    const { url } = await uploadToS3(file);
-
-    await setFieldValue('logo', url);
-  };
-
-  const color = useColorModeValue('white', 'gray.800');
 
   const onSubmit = (values: MerchantMeUpdateParams) => {
     const config = {
@@ -158,117 +128,83 @@ const ProfileView = (props: ProfileViewProps) => {
     onSubmit,
   });
 
-  const { handleSubmit, isValid, dirty, values, setFieldValue } = formik;
+  const { handleSubmit, isValid, dirty } = formik;
 
   const isDisabled = !isValid || isPending || !dirty;
 
   return (
-    <Center py={6}>
-      <Flex
-        maxW={['100%', '100%', '55rem']}
-        w={'full'}
-        gap={'6'}
-        py={'6'}
-        px={3}
-        direction={'column'}
-        justify={'center'}
-      >
+    <FormikProvider value={formik}>
+      <Center py={6}>
         <Flex
+          maxW={['100%', '100%', '55rem']}
           w={'full'}
-          gap={3}
+          gap={'6'}
+          py={'6'}
+          px={3}
           direction={'column'}
-          alignContent={'center'}
-          alignItems={'center'}
-          justifyContent={'center'}
+          justify={'center'}
         >
-          <HStack>
-            <Avatar
-              size={'2xl'}
-              icon={<HiUser size={'4rem'} />}
-              src={values.logo}
-              color={'gray.700'}
-              bg={color}
-              border="4px solid"
-              borderColor="gray.800"
-              cursor={'pointer'}
-              onClick={() => document.getElementById('logo-input')?.click()}
-            />
-            <FormControl id="logo" isRequired>
-              <InputFile id={'logo-input'} name="logo" display={'none'} onChange={handleFileChange} />
-            </FormControl>
-          </HStack>
-          <Text>{merchant.email}</Text>
-        </Flex>
-        <FormikProvider value={formik}>
+          <Flex
+            w={'full'}
+            gap={3}
+            direction={'column'}
+            alignContent={'center'}
+            alignItems={'center'}
+            justifyContent={'center'}
+          >
+            <HStack>
+              <InputAvatar name="logo" icon={<HiUser size={'4rem'} />} />
+            </HStack>
+            <Text>{merchant.email}</Text>
+          </Flex>
           <Stack spacing={5}>
             <HStack>
-              <FormControl id="name" isRequired>
-                <InputField
-                  name="name"
-                  label="Merchant Name:"
-                  placeholder="Merchant Name"
-                  defaultValue={merchant.name}
-                />
-              </FormControl>
-              <FormControl id="phoneNumber" isRequired>
-                <InputField
-                  name="phoneNumber"
-                  label="Phone Number:"
-                  placeholder="+5548999999999"
-                  defaultValue={merchant.phoneNumber}
-                />
-              </FormControl>
-            </HStack>
-            <FormControl id="description" isRequired>
+              <InputField name="name" label="Merchant Name:" placeholder="Merchant Name" defaultValue={merchant.name} />
               <InputField
-                name="description"
-                label="Description:"
-                placeholder="What about is your Merchant"
+                name="phoneNumber"
+                label="Phone Number:"
+                placeholder="+5548999999999"
                 defaultValue={merchant.phoneNumber}
               />
-            </FormControl>
-            <FormControl id="biography" isRequired>
-              <InputArea
-                name="biography"
-                label="Biography:"
-                placeholder="A short description for your company"
-                defaultValue={merchant.biography ?? ''}
-              />
-            </FormControl>
-            <HStack>
-              <FormControl id="instagramAccount" isRequired>
-                <InputField
-                  name="instagramAccount"
-                  label="Instagram Username:"
-                  placeholder="Your instagram username"
-                  defaultValue={merchant.instagramAccount ?? ''}
-                />
-              </FormControl>
-              <FormControl id="facebookAccount" isRequired>
-                <InputField
-                  name="facebookAccount"
-                  label="Facebook Username:"
-                  placeholder="Your facebook username"
-                  defaultValue={merchant.facebookAccount ?? ''}
-                />
-              </FormControl>
-              <FormControl id="twitterAccount" isRequired>
-                <InputField
-                  name="twitterAccount"
-                  label="Twitter Username:"
-                  placeholder="Your twitter username"
-                  defaultValue={merchant.twitterAccount ?? ''}
-                />
-              </FormControl>
             </HStack>
-            <FormControl id="website" isRequired>
+            <InputField
+              name="description"
+              label="Description:"
+              placeholder="What about is your Merchant"
+              defaultValue={merchant.phoneNumber}
+            />
+            <InputArea
+              name="biography"
+              label="Biography:"
+              placeholder="A short description for your company"
+              defaultValue={merchant.biography ?? ''}
+            />
+            <HStack>
               <InputField
-                name="website"
-                label="Website:"
-                placeholder="https://yourwebsite.com"
-                defaultValue={merchant.website ?? ''}
+                name="instagramAccount"
+                label="Instagram Username:"
+                placeholder="Your instagram username"
+                defaultValue={merchant.instagramAccount ?? ''}
               />
-            </FormControl>
+              <InputField
+                name="facebookAccount"
+                label="Facebook Username:"
+                placeholder="Your facebook username"
+                defaultValue={merchant.facebookAccount ?? ''}
+              />
+              <InputField
+                name="twitterAccount"
+                label="Twitter Username:"
+                placeholder="Your twitter username"
+                defaultValue={merchant.twitterAccount ?? ''}
+              />
+            </HStack>
+            <InputField
+              name="website"
+              label="Website:"
+              placeholder="https://yourwebsite.com"
+              defaultValue={merchant.website ?? ''}
+            />
             <Button
               size="lg"
               text="Update informations"
@@ -278,9 +214,9 @@ const ProfileView = (props: ProfileViewProps) => {
               onClick={() => handleSubmit()}
             />
           </Stack>
-        </FormikProvider>
-      </Flex>
-    </Center>
+        </Flex>
+      </Center>
+    </FormikProvider>
   );
 };
 

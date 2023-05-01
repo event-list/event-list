@@ -26,7 +26,7 @@ import { HiUser } from 'react-icons/hi';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
-import { Button, InputField, InputFile, TextDecorated } from '@event-list/ui';
+import { Button, InputAvatar, InputField, InputFile, TextDecorated } from '@event-list/ui';
 
 import { SignUp } from './SignUpMutation';
 import type { SignUpMutation, SignUpMutation$data } from '../../../__generated__/SignUpMutation.graphql';
@@ -181,71 +181,49 @@ export default function SignUpView() {
               </Stack>
               <Box as={'form'} mt={10}>
                 <Stack spacing={4}>
-                  <FormControl id="email" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      name="email"
-                      label="Email:"
-                      placeholder="user@email.com"
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                      color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
-                    />
-                  </FormControl>
-                  <FormControl id="password" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      type="password"
-                      name="password"
-                      label="Password:"
-                      placeholder="********"
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                      color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
-                    />
-                  </FormControl>
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    name="email"
+                    label="Email:"
+                    placeholder="user@email.com"
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    type="password"
+                    name="password"
+                    label="Password:"
+                    placeholder="********"
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
                   <HStack>
-                    <FormControl id="name" isRequired>
-                      <InputField
-                        labelProps={{ color: 'gray.700' }}
-                        bg={'gray.100'}
-                        label={'Merchant Name:'}
-                        border={0}
-                        color={'gray.700'}
-                        name="name"
-                        placeholder="Merchant Name"
-                        _placeholder={{
-                          color: 'gray.400',
-                        }}
-                      />
-                    </FormControl>
-                    <FormControl id="phoneNumber" isRequired>
-                      <InputField
-                        labelProps={{ color: 'gray.700' }}
-                        name="phoneNumber"
-                        label="Phone Number:"
-                        placeholder="+5548999999999"
-                        _placeholder={{
-                          color: 'gray.400',
-                        }}
-                        color={'gray.700'}
-                        bg={'gray.100'}
-                        border={0}
-                      />
-                    </FormControl>
-                  </HStack>
-                  <FormControl id="description" isRequired>
                     <InputField
                       labelProps={{ color: 'gray.700' }}
-                      name="description"
-                      label="Description:"
-                      placeholder="What about is your label?"
+                      bg={'gray.100'}
+                      label={'Merchant Name:'}
+                      border={0}
+                      color={'gray.700'}
+                      name="name"
+                      placeholder="Merchant Name"
+                      _placeholder={{
+                        color: 'gray.400',
+                      }}
+                    />
+                    <InputField
+                      labelProps={{ color: 'gray.700' }}
+                      name="phoneNumber"
+                      label="Phone Number:"
+                      placeholder="+5548999999999"
                       _placeholder={{
                         color: 'gray.400',
                       }}
@@ -253,37 +231,20 @@ export default function SignUpView() {
                       bg={'gray.100'}
                       border={0}
                     />
-                  </FormControl>
-                  <Box>
-                    <FormControl id="logo" isRequired>
-                      <InputFile
-                        labelProps={{ color: 'gray.700' }}
-                        color={'gray.700'}
-                        id={'logo-input'}
-                        name="logo"
-                        label="Logo:"
-                        display={'none'}
-                        onChange={handleFileChange}
-                      />
-                    </FormControl>
-                    <Avatar
-                      size={'xl'}
-                      icon={
-                        isLoadingImage ? (
-                          <CircularProgress isIndeterminate color={'#E53E3E'} />
-                        ) : (
-                          <HiUser size={'4rem'} />
-                        )
-                      }
-                      src={values.logo}
-                      color={'gray.700'}
-                      bgColor={'transparent'}
-                      border="4px solid"
-                      borderColor="gray.800"
-                      cursor={'pointer'}
-                      onClick={() => document.getElementById('logo-input')?.click()}
-                    />
-                  </Box>
+                  </HStack>
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    name="description"
+                    label="Description:"
+                    placeholder="What about is your label?"
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
+                  <InputAvatar name="logo" label="Logo:" icon={<HiUser size={'4rem'} />} />
                 </Stack>
                 <Button
                   size="lg"

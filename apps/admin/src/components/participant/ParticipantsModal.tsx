@@ -124,7 +124,10 @@ const ParticipantsModal = ({
 
   const isDisabled = !isValid || isPending || !dirty;
 
-  const options = event.batches.map((batch) => ({ value: batch.title, label: batch.title }));
+  const options = event.batches.map((batch) => ({
+    value: batch.title,
+    label: batch.title,
+  }));
 
   return (
     <Box>
@@ -137,19 +140,15 @@ const ParticipantsModal = ({
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl id="names" isRequired>
-                <InputArea name="names" label="Names:" placeholder="Write the names separed by lines" />
-              </FormControl>
-              <FormControl id="batch" isRequired mt={8}>
-                <InputSelect
-                  name="batch"
-                  label="Batch:"
-                  options={options}
-                  _placeholder={{
-                    color: 'gray.400',
-                  }}
-                />
-              </FormControl>
+              <InputArea name="names" label="Names:" placeholder="Write the names separed by lines" />
+              <InputSelect
+                name="batch"
+                label="Batch:"
+                options={options}
+                _placeholder={{
+                  color: 'gray.400',
+                }}
+              />
             </ModalBody>
             <ModalFooter display={'flex'} justifyContent={'space-between'}>
               <Button onClick={onClose} text={'Close'} isSubmitting={false} />

@@ -145,35 +145,31 @@ export default function SignInView() {
               </Stack>
               <Box as="form" mt={10}>
                 <Stack spacing={6}>
-                  <FormControl id="email" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      name="email"
-                      label={t('Email')!}
-                      placeholder={t('User@emailcom')!}
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                      color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
-                    />
-                  </FormControl>
-                  <FormControl id="password" isRequired>
-                    <InputField
-                      labelProps={{ color: 'gray.700' }}
-                      type="password"
-                      name="password"
-                      label={t('Password')!}
-                      placeholder="*******"
-                      _placeholder={{
-                        color: 'gray.400',
-                      }}
-                      color={'gray.700'}
-                      bg={'gray.100'}
-                      border={0}
-                    />
-                  </FormControl>
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    name="email"
+                    label={t('Email')!}
+                    placeholder={t('User@emailcom')!}
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
+                  <InputField
+                    labelProps={{ color: 'gray.700' }}
+                    type="password"
+                    name="password"
+                    label={t('Password')!}
+                    placeholder="*******"
+                    _placeholder={{
+                      color: 'gray.400',
+                    }}
+                    color={'gray.700'}
+                    bg={'gray.100'}
+                    border={0}
+                  />
                 </Stack>
                 <Button
                   size="lg"

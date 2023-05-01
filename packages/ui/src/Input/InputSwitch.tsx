@@ -1,4 +1,4 @@
-import { Switch, Text } from '@chakra-ui/react';
+import { Switch, Text, FormControl } from '@chakra-ui/react';
 import type { SwitchProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 
@@ -11,7 +11,7 @@ type InputSwitchProps = {
 } & SwitchProps;
 
 const InputSwitch = (props: InputSwitchProps) => {
-  const { name = '', label = null, ...restProps } = props;
+  const { name = '', label = null, isRequired = true, ...restProps } = props;
   const [field, meta, helpers] = useField(name);
 
   const hasError = meta?.touched;
@@ -53,7 +53,7 @@ const InputSwitch = (props: InputSwitchProps) => {
   };
 
   return (
-    <>
+    <FormControl id={name} isRequired={isRequired} mb="3">
       {label && <TextFormLabel mt={'2'} label={label} {...props.labelProps} />}
       <Switch
         name={name}
@@ -68,7 +68,7 @@ const InputSwitch = (props: InputSwitchProps) => {
           {meta.error}
         </Text>
       ) : null}
-    </>
+    </FormControl>
   );
 };
 
