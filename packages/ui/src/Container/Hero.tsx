@@ -2,15 +2,13 @@ import { Stack, Text } from '@chakra-ui/react';
 
 import { TextDecorated } from '@event-list/ui';
 
-const ContainerPage = ({
-  title,
-  description,
-  children,
-}: {
+type HeroProps = {
   title: string;
   description?: string;
   children: React.ReactNode;
-}) => {
+};
+
+const Hero = ({ title, description, children }: HeroProps) => {
   return (
     <Stack spacing={8}>
       <Stack>
@@ -24,4 +22,4 @@ const ContainerPage = ({
   );
 };
 
-export default ContainerPage;
+export default Hero;

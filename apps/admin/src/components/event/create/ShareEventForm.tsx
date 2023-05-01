@@ -13,7 +13,6 @@ import {
   Text,
   useDisclosure,
   useToast,
-  CircularProgress,
 } from '@chakra-ui/react';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -21,12 +20,10 @@ import { useS3Upload } from 'next-s3-upload';
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { BsFillTrashFill, BsPlusCircleFill } from 'react-icons/bs';
-import { RiFolderUploadFill } from 'react-icons/ri';
 import { useMutation } from 'react-relay';
 import * as yup from 'yup';
 
 import {
-  InputFile,
   InputArea,
   InputField,
   Button,
@@ -34,7 +31,7 @@ import {
   InputDate,
   InputAge,
   InputPrice,
-  ContainerPage,
+  Hero,
   TextFormLabel,
   TextDecorated,
   InputSwitch,
@@ -74,29 +71,12 @@ const ShareEventSchema = yup.object({
 const googleMapsApiToken = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 export default function ShareEventForm() {
-  const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const { uploadToS3 } = useS3Upload();
   const router = useRouter();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
   const [EventShareEvent, isPending] = useMutation<ShareEventMutation>(ShareEvent);
-
-  const handleFileChange = async (event) => {
-    const file: File = event.target.files[0];
-    if (!file) return;
-
-    if (file.size > 1048576) {
-      alert('File is too big! 1MB Max');
-    }
-
-    setIsLoadingImage(true);
-    const { url } = await uploadToS3(file);
-    setIsLoadingImage(false);
-
-    await setFieldValue('flyer', url);
-  };
 
   const onSubmit = (values: ShareEventParams) => {
     const config = {
@@ -185,7 +165,7 @@ export default function ShareEventForm() {
 
   return (
     <FormikProvider value={formik}>
-      <ContainerPage
+      <Hero
         title={'Share an Event'}
         description={
           'Fill in all the fields and share your event in the best way. Only a few fields can be edited later, check all data before sharing, such as date, price and batches.'
@@ -399,7 +379,7 @@ export default function ShareEventForm() {
             </Stack>
           </Box>
         </Stack>
-      </ContainerPage>
+      </Hero>
     </FormikProvider>
   );
 }

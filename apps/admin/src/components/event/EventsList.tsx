@@ -15,7 +15,7 @@ import Link from 'next/link';
 import InfiniteScroll from 'react-infinite-scroller';
 import { graphql, usePaginationFragment } from 'react-relay';
 
-import { ContainerPage, TextDecorated, Tooltip } from '@event-list/ui';
+import { Hero, TextDecorated, Tooltip } from '@event-list/ui';
 
 import { EventRow } from './table/EventRow';
 import type { EventsListFragment_query$key } from '../../../__generated__/EventsListFragment_query.graphql';
@@ -87,7 +87,7 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
       }
       useWindow
     >
-      <ContainerPage
+      <Hero
         title={'My events'}
         description={
           'All your events in one place. View the guest list, edit your information, add names, this is where you take control of your event'
@@ -121,7 +121,7 @@ export default function EventsList(props: { fragmentKey: EventsListFragment_quer
             </TextDecorated>
           )}
         </TableContainer>
-      </ContainerPage>
+      </Hero>
     </InfiniteScroll>
   );
 }
