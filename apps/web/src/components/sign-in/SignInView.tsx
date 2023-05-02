@@ -93,7 +93,12 @@ export default function SignInView() {
     onSubmit,
   });
 
-  const { handleSubmit, isValid, dirty } = formik;
+  const { handleSubmit, isValid, dirty, errors } = formik;
+
+  console.log('errors', errors);
+  console.log('isValid', isValid);
+  console.log('isPending', isPending);
+  console.log('dirty', dirty);
 
   const isDisabled = !isValid || isPending || !dirty;
 
