@@ -4,7 +4,7 @@ import { TextDecorated } from '@event-list/ui';
 
 type HeroProps = {
   title: string;
-  description?: string;
+  description: string;
   children: React.ReactNode;
 };
 
