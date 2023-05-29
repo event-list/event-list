@@ -39,7 +39,7 @@
     "react-to-print": "^2.14.12",
     "relay-runtime": "main",
     "timestamp-to-date": "^1.1.0",
-    "yup": "^0.32.11"
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",
