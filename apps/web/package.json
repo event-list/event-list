@@ -59,7 +59,7 @@
     "jest-transformer-svg": "^2.0.0",
     "relay-compiler": "main",
     "relay-test-utils": "^14.1.0",
-    "typescript": "4.9.4",
+    "typescript": "5.1.3",
     "@types/react-infinite-scroller": "^1.2.1"
   }
 }
